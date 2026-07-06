@@ -15,7 +15,6 @@ public:
 	~Application() = default;
 	void run();
 	void update(double dt);
-	void render(double alpha);
 
 
 private:

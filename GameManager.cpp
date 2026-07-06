@@ -7,7 +7,7 @@ GameManager::GameManager()
 void GameManager::init()
 {
 	LevelLoader loader;
-	glm::vec2 spawn = loader.loadLevel("assets/levels/level1.txt", m_physics, 64.0f);
+	glm::vec2 spawn = loader.loadLevel("assets/levels/level1.txt", m_physicsMgr, 64.0f);
 
 	// Create a dynamic entity (AoS) and register with physics system
 	Entity ent;
@@ -16,7 +16,7 @@ void GameManager::init()
 	ent.collider.size = ent.transform.size;
 	ent.body.velocity = glm::vec2(50.0f, 0.0f); // px/s to the right
 	ent.body.gravityScale = 1.0f;
-	m_playerEntity = m_physics.addEntity(ent);
+	m_playerEntity = m_physicsMgr.addEntity(ent);
 
 	// Add a ground static body so the dynamic entity can collide and rest on it
 	StaticBody ground;
@@ -24,11 +24,11 @@ void GameManager::init()
 	ground.transform.size = glm::vec2(800.0f, 50.0f); // wide ground
 	ground.collider.size = ground.transform.size;
 	ground.collider.offset = glm::vec2(0.0f, 0.0f);
-	m_physics.addStaticBody(ground);
+	m_physicsMgr.addStaticBody(ground);
 }
 void GameManager::handleInput(const InputManager& input)
 {
-	Entity& p = m_physics.getEntity(m_playerEntity);
+	Entity& p = m_physicsMgr.getEntity(m_playerEntity);
 
 	bool left = input.isDown(GLFW_KEY_A) || input.isDown(GLFW_KEY_LEFT);
 	bool right = input.isDown(GLFW_KEY_D) || input.isDown(GLFW_KEY_RIGHT);
@@ -44,9 +44,27 @@ void GameManager::handleInput(const InputManager& input)
 	}
 
 }
+void GameManager::render(Renderer2D& renderer, Atlas& atlas, double alpha) 
+{
+	// Draw static bodies first (debug colored quads)
+	const auto& statics = m_physicsMgr.getStaticBodies();
+	for (const auto& s : statics)
+	{
+		// draw as green debug quad
+		renderer.drawQuad(s.transform.position, s.transform.size, glm::vec4(0.2f, 0.8f, 0.2f, 1.0f));
+	}
+	const auto& ents = m_physicsMgr.getEntities();
+	if (!ents.empty())
+	{
+		for (const auto& e : ents)
+		{
+			renderer.drawQuad(e.transform.position, e.transform.size, atlas.getSprite("hero"), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+		}
+	}
+}
 void GameManager::update(double dt)
 {
 
 	// Let physics system handle full update for this entity (including collisions) via updateAll
-	m_physics.updateAll(dt);
+	m_physicsMgr.updateAll(dt);
 }

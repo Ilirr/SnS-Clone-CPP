@@ -11,32 +11,6 @@ Application::Application()
 	// initialize game manager (loads level, registers entities)
 	m_game.init();
 }
-void Application::update(double dt)
-{
-
-}
-
-void Application::render(double alpha)
-{
-	if (renderer && m_atlas)
-	{
-		// Draw static bodies first (debug colored quads)
-		const auto& statics = m_game.getStaticBodies();
-		for (const auto& s : statics)
-		{
-			// draw as green debug quad
-			renderer->drawQuad(s.transform.position, s.transform.size, glm::vec4(0.2f, 0.8f, 0.2f, 1.0f));
-		}
-		const auto& ents = m_game.getEntities();
-		if (!ents.empty())
-		{
-			for (const auto& e : ents)
-			{
-				renderer->drawQuad(e.transform.position, e.transform.size, m_atlas->getSprite("hero"), color);
-			}
-		}
-	}
-}
 void Application::initGraphics()
 {
 	m_atlas = std::make_unique<Atlas>("assets/textures/hero.png");
@@ -93,9 +67,9 @@ void Application::run()
 
 		if (renderer)
 		{
-			renderer->begin();
-			render(alpha);
-			renderer->end();
+		renderer->begin();
+		m_game.render(*renderer, *m_atlas, alpha);
+		renderer->end();
 		}
 		window->swapBuffers();
 		window->pollEvents();
