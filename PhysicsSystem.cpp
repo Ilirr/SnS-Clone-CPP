@@ -1,4 +1,3 @@
-#pragma once
 #include "PhysicsSystem.h"
 #include <algorithm>
 #include <iostream>

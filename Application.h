@@ -4,8 +4,8 @@
 #include "glm/glm.hpp"
 #include "memory"
 #include "Atlas.h"
-#include "PhysicsSystem.h"
 #include "Input.h"
+#include "GameManager.h"
 
 class Application
 {
@@ -27,9 +27,8 @@ private:
 
 	std::unique_ptr<Atlas> m_atlas;
 
-	PhysicsSystem m_physics;
+	GameManager m_game;
 	std::unique_ptr<InputManager> m_input;
-	int m_playerEntity = -1;
 	const double m_fixedDelta = 1.0 / 60.0; 
 
 

@@ -19,6 +19,9 @@ struct RigidBody
     glm::vec2 velocity = { 0.0f, 0.0f };
     float gravityScale = 1.0f;
     bool isGrounded = false;
+    // movement parameters per-entity
+    float moveSpeed = 150.0f; // px/s
+    float jumpImpulse = -400.0f; // negative = up
 };
 
 // Simple Entity bundling (Array-of-Structs style)

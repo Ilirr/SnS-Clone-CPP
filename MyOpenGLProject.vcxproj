@@ -146,7 +146,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Atlas.cpp" />
+    <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="Application.cpp" />
@@ -161,7 +163,9 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Atlas.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="GameManager.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer2D.h" />
