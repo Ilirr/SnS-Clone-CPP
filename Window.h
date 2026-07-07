@@ -2,7 +2,7 @@
 #include <string>
 #include <functional>
 
-// Forward declare GLFW type to avoid pulling GLFW/GL headers into consumers
+// Forward declare avoid pulling GLFW/GL headers into others
 struct GLFWwindow;
 
 class Window
@@ -19,7 +19,6 @@ public:
 	void swapBuffers();
 	void pollEvents();
 	void processInput();
-	// Query whether a key is currently pressed (GLFW key codes)
 	bool isKeyDown(int key) const;
 
 	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);

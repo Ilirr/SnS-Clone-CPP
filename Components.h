@@ -29,7 +29,7 @@ struct RigidBody
     float gravityScale = 1.0f;
     bool isGrounded = false;
 
-    float moveSpeed = 150.0f;
+    float moveSpeed = 150.0f; 
     float jumpImpulse = -400.0f; // negative = up
 };
 

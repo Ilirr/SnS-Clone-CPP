@@ -109,13 +109,12 @@ void Renderer2D::init()
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), reinterpret_cast<void*>(offsetof(QuadVertex, texCoord)));
 
-    // unbind VAO to avoid accidental modification
+    // unbind VAO 
     glBindVertexArray(0);
 
 }
 void Renderer2D::begin(double alpha)
 {
-
     shader->use();
     // Pass the current view matrix to the shader. Use external camera if set,
     // otherwise fall back to the internal default camera.
@@ -140,7 +139,6 @@ void Renderer2D::begin(double alpha)
 }
 void Renderer2D::end()
 {
-    // flush any pending CPU-side vertices to the GPU and draw
     flush();
     glBindVertexArray(0);
 }
@@ -193,7 +191,6 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
         flush();
     }
 
-    // If the incoming texture differs from the currently bound texture, flush and bind it
     const Texture* incomingTexture = &tex;
     if (incomingTexture != m_CurrentTexture)
     {
@@ -202,10 +199,6 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
         if (m_CurrentTexture)
             m_CurrentTexture->bind(0);
     }
-
-    // 2. Populating the CPU Array
-    // We access the memory directly using the pointer, set the values, 
-    // and then use the ++ operator to jump to the next empty slot.
 
     // Vertex 0 (Top Left)
     m_QuadBufferPtr->position = { position.x, position.y };
@@ -231,7 +224,6 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
     m_QuadBufferPtr->texCoord = { 0.0f, 1.0f };
     m_QuadBufferPtr++;
 
-    // 3. Update the tracker
     // 1 quad = 2 triangles = 6 indices
     m_IndexCount += 6;
 }
@@ -244,9 +236,6 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
     {
         flush();
     }
-
-    // Note: begin() binds a 1x1 white texture to unit 0 by default. This drawQuad
-    // uses whatever is currently bound and does not attempt to switch textures.
 
     // Top-left
     m_QuadBufferPtr->position = { position.x, position.y };
@@ -287,7 +276,6 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
     const Texture* incomingTexture = &subTex.getTexture();
     if (incomingTexture != m_CurrentTexture)
     {
-        // Draw everything we've queued up so far using the old texture!
         flush();
 
         // Update our tracker to the new texture
@@ -297,7 +285,6 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
         m_CurrentTexture->bind(0);
     }
 
-    // 3. Populate the CPU Array (The rest remains exactly the same!)
     const glm::vec2* uv = subTex.getTexCoords();
     // Vertex 0 (Top Left)
     m_QuadBufferPtr->position = { position.x, position.y };

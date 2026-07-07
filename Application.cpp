@@ -16,12 +16,7 @@ Application::Application()
 	initGraphics();
 	m_game->init();
 }
-Application::~Application()
-{
-	// Out-of-line destructor ensures unique_ptr deleters are instantiated
-	// where GameManager is a complete type and avoids multiple-definition.
-}
-
+Application::~Application(){}
 void Application::initGraphics()
 {
 	renderer = std::make_unique<Renderer2D>();

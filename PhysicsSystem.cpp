@@ -6,7 +6,6 @@ PhysicsSystem::PhysicsSystem()
 {
 
 }
-
 bool PhysicsSystem::checkAABB(const Transform& tA, const Collider& cA, const Transform& tB, const Collider& cB)
 {
 	// Compute world-space AABB for A
@@ -22,7 +21,6 @@ bool PhysicsSystem::checkAABB(const Transform& tA, const Collider& cA, const Tra
 	bool overlapY = (aMin.y <= bMax.y) && (aMax.y >= bMin.y);
 	return overlapX && overlapY;
 }
-
 void PhysicsSystem::updateEntity(Transform& transform, Collider& collider, RigidBody& body, double dt)
 {
 	// Simple semi-implicit Euler integration

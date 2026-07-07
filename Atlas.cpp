@@ -27,8 +27,6 @@ SubTexture2D Atlas::getSprite(const std::string& name) const
 	else {
 		std::cerr << "Warning: Sprite '" << name << "' not found in atlas!\n";
 
-		// Returning the very first sprite in the dictionary, or a designated 
-		// "error" subtexture is a common practice here.
 		return SubTexture2D(*m_Texture, glm::vec4(0, 0, 1, 1));
 	}
 

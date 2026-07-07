@@ -8,7 +8,6 @@ InputManager::InputManager(Window* window)
 
 void InputManager::update()
 {
-	// copy current to prev and read new current
 	m_prev = m_curr;
 	for (int k = 0; k < MaxKeys; ++k)
 	{
