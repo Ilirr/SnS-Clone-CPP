@@ -4,6 +4,8 @@
 struct Transform
 {
     glm::vec2 position = { 0.0f, 0.0f };
+    // previous position used for render interpolation
+    glm::vec2 prevPosition = { 0.0f, 0.0f };
     glm::vec2 size = { 64.0f, 64.0f };
     float rotation = 0.0f;
 };

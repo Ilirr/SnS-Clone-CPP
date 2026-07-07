@@ -89,6 +89,8 @@ int PhysicsSystem::addEntity(const Entity& e)
 {
 	m_entities.push_back(e);
 	m_prevGrounded.push_back(static_cast<char>(e.body.isGrounded));
+	// initialize previous position to current so interpolation has a valid base
+	m_entities.back().transform.prevPosition = m_entities.back().transform.position;
 	return static_cast<int>(m_entities.size() - 1);
 }
 
@@ -101,6 +103,8 @@ void PhysicsSystem::updateAll(double dt)
 		char prev = (i < m_prevGrounded.size()) ? m_prevGrounded[i] : 0;
 		// reset grounded flag each frame
 		e.body.isGrounded = false;
+		// store previous position for render interpolation
+		e.transform.prevPosition = e.transform.position;
 		updateEntity(e.transform, e.collider, e.body, dt);
 
 		// if grounded state changed, log for debugging

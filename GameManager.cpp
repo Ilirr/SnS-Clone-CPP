@@ -58,7 +58,9 @@ void GameManager::render(Renderer2D& renderer, Atlas& atlas, double alpha)
 	{
 		for (const auto& e : ents)
 		{
-			renderer.drawQuad(e.transform.position, e.transform.size, atlas.getSprite("hero"), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+			// Interpolate between previous and current position for smooth rendering
+			glm::vec2 interpPos = e.transform.prevPosition + (e.transform.position - e.transform.prevPosition) * static_cast<float>(alpha);
+			renderer.drawQuad(interpPos, e.transform.size, atlas.getSprite("hero"), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
 		}
 	}
 }

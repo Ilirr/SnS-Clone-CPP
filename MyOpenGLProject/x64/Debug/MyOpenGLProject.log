@@ -1,5 +1,0 @@
-﻿  PhysicsSystem.cpp
-  main.cpp
-C:\Users\Ilir\source\repos\MyOpenGLProject\src\main.cpp(56,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  Generating Code...
-  MyOpenGLProject.vcxproj -> C:\Users\Ilir\source\repos\MyOpenGLProject\x64\Debug\MyOpenGLProject.exe
