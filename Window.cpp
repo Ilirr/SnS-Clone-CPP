@@ -1,4 +1,6 @@
 #include <iostream>
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include "Window.h"
 Window::Window(int width, int height, const char* title) : m_width(width), m_height(height), m_title(title), m_window(nullptr)
 {

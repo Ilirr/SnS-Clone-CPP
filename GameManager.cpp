@@ -1,5 +1,8 @@
 #include "GameManager.h"
+#include "LevelLoader.h"
+#include "Input.h"
 #include <GLFW/glfw3.h>
+#include <glm/gtc/matrix_transform.hpp>
 GameManager::GameManager()
 {
 
@@ -51,6 +54,14 @@ void GameManager::render(Renderer2D& renderer, Atlas& atlas, double alpha)
 
 void GameManager::update(double dt)
 {
+	// Record camera previous position for interpolation
+	m_camera.setPrevPosition(m_camera.getPosition());
+
 	m_physicsMgr.updateAll(dt);
+
+	Entity& p = m_physicsMgr.getEntity(m_playerEntity);
+	float camX = p.transform.position.x - 400.0f;
+	float camY = p.transform.position.y - 300.0f;
+	m_camera.setPosition(glm::vec2(camX, camY));
 }
 	

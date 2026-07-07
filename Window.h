@@ -1,8 +1,9 @@
 #pragma once
 #include <string>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
 #include <functional>
+
+// Forward declare GLFW type to avoid pulling GLFW/GL headers into consumers
+struct GLFWwindow;
 
 class Window
 {

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include <glm/glm.hpp>
-#include "PhysicsSystem.h" 
+class PhysicsSystem;
 
 class LevelLoader
 {

@@ -2,16 +2,22 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <memory>
-#include "Shader.h"
-#include "Texture.h"
+class Shader;
+class Texture;
+#include "Camera2D.h"
 class SubTexture2D;
 class Renderer2D
 {
 public:
 	Renderer2D();
 	~Renderer2D();
+	// Attach an external camera; if not set the internal default camera is used
+	void setCamera(const Camera2D* camera) { m_Camera = camera; }
+	// Access the internal default camera (useful if no external camera is provided)
+	Camera2D& getCamera() { return m_DefaultCamera; }
 	void onResize(int width, int height);
-	void begin();
+	// Begin a frame; pass interpolation alpha (0..1) to allow camera interpolation
+	void begin(double alpha);
 	void end();
 	void drawQuad(const glm::vec2& position, const glm::vec2& size, const Texture& tex, const glm::vec4& color);
 	void drawQuad(const glm::vec2& position, const glm::vec2& size, const SubTexture2D& subTex, const glm::vec4& color);
@@ -40,6 +46,10 @@ private:
 	QuadVertex* m_QuadBufferBase = nullptr;
 	QuadVertex* m_QuadBufferPtr = nullptr;
 	const Texture* m_CurrentTexture = nullptr;
+
+	// Camera support: either an external camera pointer or a default internal one
+	const Camera2D* m_Camera = nullptr;
+	Camera2D m_DefaultCamera;
 
 
 };

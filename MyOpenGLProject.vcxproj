@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Atlas.h" />
+    <ClInclude Include="Camera2D.h" />
     <ClInclude Include="Components.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Input.h" />

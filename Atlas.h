@@ -2,15 +2,15 @@
 #include <string>
 #include <unordered_map>
 #include <memory>
-#include "Texture.h"
 #include "SubTexture2D.h"
 
+class Texture;
 class Atlas
 {
 public:
 
 	Atlas(const std::string& texturePath);
-	
+	~Atlas();
 	void addSprite(const std::string& name, float x, float y, float width, float height);
 
 	SubTexture2D getSprite(const std::string& name) const;

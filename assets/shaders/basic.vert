@@ -8,10 +8,11 @@ out vec4 vColor;
 out vec2 vTexCoord;
 
 uniform mat4 u_Projection;
+uniform mat4 u_View;
 
 void main()
 {
     vColor = aColor;
     vTexCoord = aTexCoord;
-    gl_Position = u_Projection * vec4(aPosition, 0.0, 1.0);
+    gl_Position = u_Projection * u_View * vec4(aPosition, 0.0, 1.0);
 }

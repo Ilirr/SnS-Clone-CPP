@@ -1,4 +1,5 @@
 #include "Atlas.h"
+#include "Texture.h"
 #include <iostream>
 
 Atlas::Atlas(const std::string& texturePath)
@@ -6,6 +7,7 @@ Atlas::Atlas(const std::string& texturePath)
 
 	m_Texture = std::make_unique<Texture>(texturePath);
 }
+Atlas::~Atlas() = default;
 void Atlas::addSprite(const std::string& name, float x, float y, float width, float height)
 {
 	// Interpret parameters as pixel rectangle: (x,y) = top-left pixel, width/height in pixels

@@ -113,9 +113,18 @@ void Renderer2D::init()
     glBindVertexArray(0);
 
 }
-void Renderer2D::begin()
+void Renderer2D::begin(double alpha)
 {
+
     shader->use();
+    // Pass the current view matrix to the shader. Use external camera if set,
+    // otherwise fall back to the internal default camera.
+    glm::mat4 view;
+    if (m_Camera)
+        view = m_Camera->getViewMatrixInterpolated(alpha);
+    else
+        view = m_DefaultCamera.getViewMatrixInterpolated(alpha);
+    shader->mat4("u_View", view);
     glBindVertexArray(m_VAO);
     // bind the fallback white texture to unit 0 by default so untextured draws
     // sample white and produce solid colors in the shader
