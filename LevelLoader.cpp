@@ -2,7 +2,7 @@
 #include "PhysicsSystem.h"
 #include <fstream>
 #include <iostream>
-
+#include <JSON/json.hpp>
 glm::vec2 LevelLoader::loadLevel(const std::string& filePath, PhysicsSystem& physics, float tileSize)
 {
     std::ifstream file(filePath);
@@ -47,5 +47,52 @@ glm::vec2 LevelLoader::loadLevel(const std::string& filePath, PhysicsSystem& phy
     }
 
     file.close();
+    return playerSpawn;
+}
+
+
+using json = nlohmann::json;
+
+glm::vec2 LevelLoader::loadLDtk(const std::string& filePath, PhysicsSystem& physics)
+{
+    // 1. Create the default spawn coordinate at the very top
+    glm::vec2 playerSpawn(0.0f, 0.0f);
+
+    std::ifstream file(filePath);
+    if (!file.is_open()) {
+        std::cerr << "Failed to open LDtk file!\n";
+        // FIX #1: Return the default vector instead of a blank 'return;'
+        return playerSpawn;
+    }
+
+    json ldtkData = json::parse(file);
+    auto level = ldtkData["levels"][0];
+
+    for (const auto& layer : level["layerInstances"])
+    {
+        if (layer["__identifier"] == "Tiles")
+        {
+            float gridSize = layer["__gridSize"];
+
+            for (const auto& tile : layer["gridTiles"])
+            {
+                float px = tile["px"][0];
+                float py = tile["px"][1];
+
+                StaticBody block;
+                block.transform.position = glm::vec2(px, py);
+                block.transform.size = glm::vec2(gridSize, gridSize);
+                block.collider.size = glm::vec2(gridSize, gridSize);
+
+                // Assuming you map your IDs here!
+
+                physics.addStaticBody(block);
+            }
+        }
+        // (Later on, you can add an 'else if' here to read your LDtk "Entities" layer 
+        // to actually update that playerSpawn variable!)
+    }
+
+    // FIX #2: Fulfill the promise and return the coordinate at the end of the function!
     return playerSpawn;
 }

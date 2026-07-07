@@ -9,7 +9,7 @@ RendererSystem::RendererSystem()
 }
 void RendererSystem::renderScene(const PhysicsSystem& physicsMgr, Renderer2D& renderer, Atlas& atlas, double alpha)
 {
-	
+
 	const auto& statics = physicsMgr.getStaticBodies();
 	for (const auto& s : statics)
 	{

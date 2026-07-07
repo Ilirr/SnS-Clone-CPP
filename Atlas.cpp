@@ -22,7 +22,7 @@ SubTexture2D Atlas::getSprite(const std::string& name) const
 	auto sprite = m_Sprites.find(name);
 	if (sprite != m_Sprites.end())
 	{
-		return sprite->second;
+		return sprite->second;	
 	}
 	else {
 		std::cerr << "Warning: Sprite '" << name << "' not found in atlas!\n";

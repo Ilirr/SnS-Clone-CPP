@@ -40,6 +40,9 @@
     <Filter Include="Game Headers">
       <UniqueIdentifier>{a45a3009-e002-4ee4-abb0-aedc29baeea8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="assets\levels">
+      <UniqueIdentifier>{e2145153-9061-4b76-bd1f-04cf6243a078}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -139,10 +142,18 @@
     <None Include="assets\shaders\basic.vert">
       <Filter>assets\shaders</Filter>
     </None>
+    <None Include="assets\levels\hello.ldtk">
+      <Filter>assets\levels</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\hero.png">
       <Filter>assets\textures</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="assets\levels\levels1.txt">
+      <Filter>assets\levels</Filter>
+    </Text>
   </ItemGroup>
 </Project>

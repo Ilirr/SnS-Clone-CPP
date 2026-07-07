@@ -10,8 +10,9 @@ GameManager::GameManager()
 void GameManager::init()
 {
 	LevelLoader loader;
-	glm::vec2 spawn = loader.loadLevel("assets/levels/level1.txt", m_physicsMgr, 64.0f);
+	//glm::vec2 spawn = loader.loadLevel("assets/levels/levels1.txt", m_physicsMgr, 64.0f);
 
+	glm::vec2 spawn = LevelLoader::loadLDtk("assets/levels/hello.ldtk", m_physicsMgr);
 	Entity ent;
 	ent.transform.position = glm::vec2(100.0f, 100.0f);
 	ent.transform.size = glm::vec2(64.0f, 64.0f);
