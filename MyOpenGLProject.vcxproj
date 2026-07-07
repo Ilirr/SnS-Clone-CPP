@@ -150,6 +150,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="RendererSystem.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Renderer2D.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="PhysicsSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer2D.h" />
+    <ClInclude Include="RendererSystem.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SubTexture2D.h" />
     <ClInclude Include="Texture.h" />

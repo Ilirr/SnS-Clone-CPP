@@ -7,6 +7,7 @@
 #include "Input.h"
 #include "GameManager.h"
 
+class RendererSystem;
 class Application
 {
 

@@ -17,19 +17,18 @@ void Application::initGraphics()
 	m_atlas->addSprite("hero", 0, 0, 64, 64);
 	renderer = std::make_unique<Renderer2D>();
 
-	// Map out your sprites (you only do this once at startup!)
-	// E.g., The hero is at pixel (0,0) and is 64x64 pixels big
 	if (window && window->isValid())
 	{
-		// Forward window resize events to the renderer
 		window->setResizeCallback([this](int w, int h) {
 			if (renderer)
 			{
 				renderer->onResize(w, h);
 			}
 			});
-		// Call once now to set initial projection/viewport
-		if (renderer) renderer->onResize(window->getWidth(), window->getHeight());
+		if (renderer)
+		{
+			renderer->onResize(window->getWidth(), window->getHeight());
+		}
 	}
 
 }
@@ -55,6 +54,7 @@ void Application::run()
 		window->processInput();
 		m_input->update();
 		m_game.handleInput(*m_input);
+		
 		while (accumulator >= dt)
 		{
 			m_game.update(dt);
@@ -67,9 +67,9 @@ void Application::run()
 
 		if (renderer)
 		{
-		renderer->begin();
-		m_game.render(*renderer, *m_atlas, alpha);
-		renderer->end();
+			renderer->begin();
+			m_game.render(*renderer, *m_atlas, alpha);
+			renderer->end();
 		}
 		window->swapBuffers();
 		window->pollEvents();

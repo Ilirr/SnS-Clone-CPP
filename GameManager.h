@@ -4,6 +4,7 @@
 #include "PhysicsSystem.h"
 #include "Renderer2D.h"
 #include "Atlas.h"
+#include "RendererSystem.h"
 class GameManager
 {
 public:
@@ -12,11 +13,11 @@ public:
 	void update(double dt);
 	void handleInput(const InputManager& input);
 	void render(Renderer2D& renderer, Atlas& atlas, double alpha);
-	// Expose entity/static queries for rendering
-	const std::vector<Entity>& getEntities() const { return m_physicsMgr.getEntities(); }
-	const std::vector<StaticBody>& getStaticBodies() const { return m_physicsMgr.getStaticBodies(); }
+
 
 private:
 	PhysicsSystem m_physicsMgr;
+	RendererSystem m_rendererMgr;
+
 	int m_playerEntity = -1;
 };

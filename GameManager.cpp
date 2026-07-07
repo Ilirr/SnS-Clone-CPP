@@ -44,29 +44,13 @@ void GameManager::handleInput(const InputManager& input)
 	}
 
 }
-void GameManager::render(Renderer2D& renderer, Atlas& atlas, double alpha) 
+void GameManager::render(Renderer2D& renderer, Atlas& atlas, double alpha)
 {
-	// Draw static bodies first (debug colored quads)
-	const auto& statics = m_physicsMgr.getStaticBodies();
-	for (const auto& s : statics)
-	{
-		// draw as green debug quad
-		renderer.drawQuad(s.transform.position, s.transform.size, glm::vec4(0.2f, 0.8f, 0.2f, 1.0f));
-	}
-	const auto& ents = m_physicsMgr.getEntities();
-	if (!ents.empty())
-	{
-		for (const auto& e : ents)
-		{
-			// Interpolate between previous and current position for smooth rendering
-			glm::vec2 interpPos = e.transform.prevPosition + (e.transform.position - e.transform.prevPosition) * static_cast<float>(alpha);
-			renderer.drawQuad(interpPos, e.transform.size, atlas.getSprite("hero"), glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
-		}
-	}
+	m_rendererMgr.renderScene(m_physicsMgr, renderer, atlas, alpha);
 }
+
 void GameManager::update(double dt)
 {
-
-	// Let physics system handle full update for this entity (including collisions) via updateAll
 	m_physicsMgr.updateAll(dt);
 }
+	
