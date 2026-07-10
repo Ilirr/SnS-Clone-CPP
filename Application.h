@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 #include <glm/glm.hpp>
-// Forward declarations to reduce header dependencies
+
 class Window;
 class Renderer2D;
 class Texture;

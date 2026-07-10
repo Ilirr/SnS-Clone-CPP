@@ -2,7 +2,6 @@
 #include <string>
 #include <functional>
 
-// Forward declare avoid pulling GLFW/GL headers into others
 struct GLFWwindow;
 
 class Window

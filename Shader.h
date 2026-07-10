@@ -19,7 +19,6 @@ public:
 
 	void setInt(const std::string& name, int value) const;
 
-
 private:
 	GLuint ID = 0;
 	void checkCompileErrors(GLuint shader, const std::string& type);

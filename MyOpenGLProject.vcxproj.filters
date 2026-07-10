@@ -22,26 +22,26 @@
     <Filter Include="assets\textures">
       <UniqueIdentifier>{2185a60b-9d07-4a03-9be7-f05630bb739a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Physics">
-      <UniqueIdentifier>{56ef05f0-8064-4ee3-9e51-1b86401005e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game">
-      <UniqueIdentifier>{ec4e6db1-2c69-414a-8ddb-e7ca7a920204}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{520bd200-bd8c-4a75-9ca4-81865e1f90e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics Headers">
-      <UniqueIdentifier>{f5b785d0-d786-48ed-95fd-9bb9857a2d70}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Physics Headers">
-      <UniqueIdentifier>{df33008b-adea-4276-b3ef-1d0f4f10192d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Headers">
-      <UniqueIdentifier>{a45a3009-e002-4ee4-abb0-aedc29baeea8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="assets\levels">
       <UniqueIdentifier>{e2145153-9061-4b76-bd1f-04cf6243a078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Headers">
+      <UniqueIdentifier>{a45a3009-e002-4ee4-abb0-aedc29baeea8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics Headers">
+      <UniqueIdentifier>{f5b785d0-d786-48ed-95fd-9bb9857a2d70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics Headers">
+      <UniqueIdentifier>{df33008b-adea-4276-b3ef-1d0f4f10192d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{ec4e6db1-2c69-414a-8ddb-e7ca7a920204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{520bd200-bd8c-4a75-9ca4-81865e1f90e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{56ef05f0-8064-4ee3-9e51-1b86401005e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -58,34 +58,37 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Physics</Filter>
+      <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Atlas.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Renderer2D.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="RendererSystem.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="SubTexture2D.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="Texture.cpp">
-      <Filter>Graphics</Filter>
+      <Filter>Source Files\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="GameManager.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="LevelLoader.cpp">
-      <Filter>Game</Filter>
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\glad.c">
-      <Filter>Game</Filter>
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,40 +102,49 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Atlas.h">
-      <Filter>Graphics Headers</Filter>
+      <Filter>Header Files\Graphics Headers</Filter>
     </ClInclude>
     <ClInclude Include="Camera2D.h">
-      <Filter>Graphics Headers</Filter>
+      <Filter>Header Files\Graphics Headers</Filter>
     </ClInclude>
     <ClInclude Include="Renderer2D.h">
-      <Filter>Graphics Headers</Filter>
+      <Filter>Header Files\Graphics Headers</Filter>
     </ClInclude>
     <ClInclude Include="RendererSystem.h">
-      <Filter>Graphics Headers</Filter>
+      <Filter>Header Files\Graphics Headers</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Graphics Headers</Filter>
+      <Filter>Header Files\Graphics Headers</Filter>
     </ClInclude>
     <ClInclude Include="SubTexture2D.h">
-      <Filter>Graphics Headers</Filter>
+      <Filter>Header Files\Graphics Headers</Filter>
     </ClInclude>
     <ClInclude Include="Texture.h">
-      <Filter>Graphics Headers</Filter>
+      <Filter>Header Files\Graphics Headers</Filter>
     </ClInclude>
     <ClInclude Include="Components.h">
-      <Filter>Physics Headers</Filter>
+      <Filter>Header Files\Physics Headers</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsSystem.h">
-      <Filter>Physics Headers</Filter>
+      <Filter>Header Files\Physics Headers</Filter>
     </ClInclude>
     <ClInclude Include="GameManager.h">
-      <Filter>Game Headers</Filter>
+      <Filter>Header Files\Game Headers</Filter>
     </ClInclude>
     <ClInclude Include="LevelLoader.h">
-      <Filter>Game Headers</Filter>
+      <Filter>Header Files\Game Headers</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Game Headers</Filter>
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityID.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

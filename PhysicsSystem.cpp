@@ -1,12 +1,13 @@
 #include "PhysicsSystem.h"
 #include <algorithm>
 #include <iostream>
+#include <cassert>
 
 PhysicsSystem::PhysicsSystem()
 {
 
 }
-bool PhysicsSystem::checkAABB(const Transform& tA, const Collider& cA, const Transform& tB, const Collider& cB)
+bool PhysicsSystem::checkAABB(const TransformComponent& tA, const ColliderComponent& cA, const TransformComponent& tB, const ColliderComponent& cB)
 {
 	// Compute world-space AABB for A
 	glm::vec2 aMin = tA.position + cA.offset;
@@ -21,25 +22,28 @@ bool PhysicsSystem::checkAABB(const Transform& tA, const Collider& cA, const Tra
 	bool overlapY = (aMin.y <= bMax.y) && (aMax.y >= bMin.y);
 	return overlapX && overlapY;
 }
-void PhysicsSystem::updateEntity(Transform& transform, Collider& collider, RigidBody& body, double dt)
+void PhysicsSystem::updateEntity(TransformComponent& TransformComponent, ColliderComponent& ColliderComponent, RigidbodyComponent& body, double dt)
 {
 	// Simple semi-implicit Euler integration
 	const glm::vec2 gravity = glm::vec2(0.0f, 981.0f); // px/s^2
 	body.velocity += gravity * body.gravityScale * static_cast<float>(dt);
-	transform.position += body.velocity * static_cast<float>(dt);
+	TransformComponent.position += body.velocity * static_cast<float>(dt);
 
-	// Resolve against static bodies (naive single-step positional correction)
-	for (size_t i = 0; i < m_staticBodies.size(); ++i)
+	// Resolve against static bodies from the Scene (naive single-step positional correction)
+	if (m_scene)
 	{
-		const Transform& sT = m_staticBodies[i].transform;
-		const Collider& sC = m_staticBodies[i].collider;
+		const auto& statics = m_scene->getStaticBodies();
+		for (size_t i = 0; i < statics.size(); ++i)
+		{
+			const TransformComponent& sT = statics[i].TransformComponent;
+			const ColliderComponent& sC = statics[i].ColliderComponent;
 
-		if (!checkAABB(transform, collider, sT, sC))
-			continue;
+			if (!checkAABB(TransformComponent, ColliderComponent, sT, sC))
+				continue;
 
 		// Compute world-space mins/maxs
-		glm::vec2 aMin = transform.position + collider.offset;
-		glm::vec2 aMax = aMin + collider.size;
+		glm::vec2 aMin = TransformComponent.position + ColliderComponent.offset;
+		glm::vec2 aMax = aMin + ColliderComponent.size;
 		glm::vec2 bMin = sT.position + sC.offset;
 		glm::vec2 bMax = bMin + sC.size;
 
@@ -68,9 +72,9 @@ void PhysicsSystem::updateEntity(Transform& transform, Collider& collider, Rigid
 		}
 
 		// Apply positional correction to move A out of penetration
-		transform.position += correction;
+		TransformComponent.position += correction;
 
-		// Simple velocity correction: remove component of velocity into the collider
+		// Simple velocity correction: remove component of velocity into the ColliderComponent
 		float vDot = glm::dot(body.velocity, normal);
 		if (vDot < 0.0f)
 		{
@@ -81,48 +85,50 @@ void PhysicsSystem::updateEntity(Transform& transform, Collider& collider, Rigid
 		if (normal.y < 0.0f)
 			body.isGrounded = true;
 	}
-}
-
-int PhysicsSystem::addEntity(const Entity& e)
-{
-	m_entities.push_back(e);
-	m_prevGrounded.push_back(static_cast<char>(e.body.isGrounded));
-	// initialize previous position to current so interpolation has a valid base
-	m_entities.back().transform.prevPosition = m_entities.back().transform.position;
-	return static_cast<int>(m_entities.size() - 1);
-}
-
-void PhysicsSystem::updateAll(double dt)
-{
-	for (size_t i = 0; i < m_entities.size(); ++i)
-	{
-		Entity& e = m_entities[i];
-		// remember previous grounded state
-		char prev = (i < m_prevGrounded.size()) ? m_prevGrounded[i] : 0;
-		// reset grounded flag each frame
-		e.body.isGrounded = false;
-		// store previous position for render interpolation
-		e.transform.prevPosition = e.transform.position;
-		updateEntity(e.transform, e.collider, e.body, dt);
-
-		// if grounded state changed, log for debugging
-		char now = e.body.isGrounded ? 1 : 0;
-		if (now != prev)
-		{
-			std::cerr << "Entity " << i << " grounded=" << (now ? "true" : "false")
-				<< " pos=(" << e.transform.position.x << "," << e.transform.position.y << ")\n";
-		}
-		if (i < m_prevGrounded.size()) m_prevGrounded[i] = now;
-		else m_prevGrounded.push_back(now);
 	}
 }
 
-void PhysicsSystem::addStaticBody(const StaticBody& body)
+// Entity creation is handled by Scene; PhysicsSystem listens for entity lifecycle events.
+
+void PhysicsSystem::updateAll(double dt)
 {
-	m_staticBodies.push_back(body);
+	if (!m_scene) return;
+	auto& TransformComponents = m_scene->getTransformComponents();
+	auto& ColliderComponents = m_scene->getColliderComponents();
+	auto& bodies = m_scene->getRigidBodies();
+
+	size_t count = TransformComponents.size();
+	for (size_t i = 0; i < count; ++i)
+	{
+		TransformComponent& t = TransformComponents[i];
+		ColliderComponent& c = ColliderComponents[i];
+		RigidbodyComponent& b = bodies[i];
+		// reset grounded flag each frame
+		b.isGrounded = false;
+		// store previous position for render interpolation
+		t.prevPosition = t.position;
+		updateEntity(t, c, b, dt);
+		// no previous-grounded bookkeeping or logging here
+	}
 }
 
-void PhysicsSystem::clearStaticBodies()
+// SceneListener callbacks
+void PhysicsSystem::onEntityCreated(const EntityID& /*id*/)
 {
-	m_staticBodies.clear();
+	// no-op: we don't track previous grounded state anymore
+}
+
+void PhysicsSystem::onEntityDestroyed(const EntityID& /*id*/)
+{
+	// no-op
+}
+
+void PhysicsSystem::onAttach(Scene* scene)
+{
+	m_scene = scene;
+}
+
+void PhysicsSystem::onDetach()
+{
+	m_scene = nullptr;
 }

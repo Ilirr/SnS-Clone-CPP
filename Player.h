@@ -2,7 +2,7 @@
 #include "Components.h"
 
 struct Player {
-	Transform transform;
-	Collider collider;
-	RigidBody body;
+	TransformComponent m_transformComponent;
+	ColliderComponent m_colliderComponent;
+	RigidbodyComponent m_rigidbodyComponent;
 };

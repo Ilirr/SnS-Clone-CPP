@@ -2,8 +2,8 @@
 #include <iostream>
 #include <array>
 #include <cstddef>
-#include "Shader.h"
 #include "glm/gtc/matrix_transform.hpp"
+#include "Shader.h"
 #include "SubTexture2D.h"
 #include "Atlas.h"
 
@@ -50,19 +50,6 @@ void Renderer2D::init()
     shader->use();
     shader->setInt("u_Texture", 0); // ensure shader samples from texture unit 0
     shader->mat4("u_Projection", projection); 
-
-    // create a 1x1 white fallback texture so untextured quads sample white
-    {
-        unsigned char whitePixel[4] = { 255, 255, 255, 255 };
-        glGenTextures(1, &m_WhiteTexture);
-        glBindTexture(GL_TEXTURE_2D, m_WhiteTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, whitePixel);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glBindTexture(GL_TEXTURE_2D, 0);
-    }
 
     // Generate the repeating Index pattern on the CPU
     uint32_t* indices = new uint32_t[MaxIndices];
@@ -123,15 +110,10 @@ void Renderer2D::begin(double alpha)
         view = m_Camera->getViewMatrixInterpolated(alpha);
     else
         view = m_DefaultCamera.getViewMatrixInterpolated(alpha);
+
     shader->mat4("u_View", view);
     glBindVertexArray(m_VAO);
-    // bind the fallback white texture to unit 0 by default so untextured draws
-    // sample white and produce solid colors in the shader
-    if (m_WhiteTexture)
-    {
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, m_WhiteTexture);
-    }
+   
     m_CurrentTexture = nullptr;  // On a new frame, clear tracked texture so the first draw will bind its texture
     // Reset CPU staging pointers/counts for a fresh batch
     m_QuadBufferPtr = m_QuadBufferBase;

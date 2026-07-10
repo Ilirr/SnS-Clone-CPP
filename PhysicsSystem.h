@@ -1,32 +1,31 @@
 #pragma once
 #include "Components.h"
+#include "EntityID.h"
+#include "Scene.h"
 #include <vector>
-class PhysicsSystem
+
+class PhysicsSystem : public SceneListener
 {
 public:
 	PhysicsSystem();
-	// Integrate a single entity's rigidbody into its transform (no collisions)
-	void updateEntity(Transform& transform, Collider& collider, RigidBody& body, double dt);
-	bool checkAABB(const Transform& tA, const Collider& cA, const Transform& tB, const Collider& cB);
 
-	// Static collider management (use StaticBody to bundle transform+collider)
-	void addStaticBody(const StaticBody& body);
-	void clearStaticBodies();
+	void updateEntity(TransformComponent& TransformComponent, ColliderComponent& ColliderComponent, RigidbodyComponent& body, double dt);
+	bool checkAABB(const TransformComponent& tA, const ColliderComponent& cA, const TransformComponent& tB, const ColliderComponent& cB);
 
-	// Dynamic entity storage (AoS)
-	int addEntity(const Entity& e);
-	const std::vector<Entity>& getEntities() const { return m_entities; }
-	const std::vector<StaticBody>& getStaticBodies() const { return m_staticBodies; }
+	const std::vector<Entity>& getEntities() const {
+		static const std::vector<Entity> empty;
+		return m_scene ? m_scene->getAllEntities() : empty;
+	}
 
-	Entity& getEntity(int id) { return m_entities[id]; }
+	void onAttach(Scene* scene) override;
+	void onDetach() override;
+
+	// SceneListener overrides
+	void onEntityCreated(const EntityID& id) override;
+	void onEntityDestroyed(const EntityID& id) override;
 
 	void updateAll(double dt);
 
-
 private:
-	std::vector<StaticBody> m_staticBodies;
-	std::vector<Entity> m_entities;
-	// previous grounded state per-entity for debug toggles
-	std::vector<char> m_prevGrounded;
-
+	Scene* m_scene = nullptr;
 };

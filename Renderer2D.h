@@ -2,9 +2,10 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <memory>
+#include "Camera2D.h"
+
 class Shader;
 class Texture;
-#include "Camera2D.h"
 class SubTexture2D;
 class Renderer2D
 {
@@ -16,12 +17,10 @@ public:
 	// Access the internal default camera (useful if no external camera is provided)
 	Camera2D& getCamera() { return m_DefaultCamera; }
 	void onResize(int width, int height);
-	// Begin a frame; pass interpolation alpha (0..1) to allow camera interpolation
 	void begin(double alpha);
 	void end();
 	void drawQuad(const glm::vec2& position, const glm::vec2& size, const Texture& tex, const glm::vec4& color);
 	void drawQuad(const glm::vec2& position, const glm::vec2& size, const SubTexture2D& subTex, const glm::vec4& color);
-	// Draw an untextured quad using the currently bound texture (usually the white fallback)
 	void drawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color);
 	void flush();
 private:
