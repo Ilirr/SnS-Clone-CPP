@@ -26,5 +26,4 @@ private:
 
 	Camera2D m_camera;
 
-	EntityID m_playerEntity = { -1, 0 };
 };

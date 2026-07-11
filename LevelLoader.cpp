@@ -31,18 +31,28 @@ void LevelLoader::loadLevel(const std::string& filePath, PhysicsSystem& physics,
 
             if (tile == '#')
             {
-
+                EntityID tileEntity = scene.createEntity();
+                TransformComponent transform;
+                transform.position = { worldX, worldY };
+                transform.prevPosition = transform.position;
+                transform.size = { tileSize, tileSize };
+                scene.getEntityManager().addComponent(tileEntity, transform);
+                scene.getEntityManager().addComponent(tileEntity, ColliderComponent{ { tileSize, tileSize } });
             }
             else if (tile == 'P')
             {
                 playerSpawn = glm::vec2(worldX, worldY);
-                // create player entity at this location
                 EntityID playerEntity = scene.createEntity();
-
-                scene.addComponent(playerEntity, TagComponent{ "Player" });
-                scene.addComponent(playerEntity, TransformComponent{ playerSpawn, glm::vec2(tileSize, tileSize) });
-                scene.addComponent(playerEntity, RigidbodyComponent{ glm::vec2(0.0f, 0.0f), 1.0f });
-                scene.createEntity();
+                TransformComponent transform;
+                transform.position = playerSpawn;
+                transform.prevPosition = playerSpawn;
+                transform.size = { tileSize, tileSize };
+                scene.getEntityManager().addComponent(playerEntity, transform);
+                scene.getEntityManager().addComponent(playerEntity, SpriteComponent{ "hero", glm::vec4(1.0f) });
+                scene.getEntityManager().addComponent(playerEntity, RigidbodyComponent{});
+                scene.getEntityManager().addComponent(playerEntity, ColliderComponent{ { tileSize, tileSize } });
+                scene.getEntityManager().addComponent(playerEntity, TagComponent{ "Player" });
+                scene.setPlayerEntity(playerEntity);
             }
         }
         row++;

@@ -6,8 +6,12 @@
 RendererSystem::RendererSystem(){}
 void RendererSystem::renderScene(const Scene& scene, Renderer2D& renderer, Atlas& atlas, double alpha)
 {
-	for (const auto& entity : scene.getAllEntities())
+	for (const auto& entity : scene.getActiveEntities())
 	{
-		renderer.drawQuad(entity.m_transformComponent.position, entity.m_transformComponent.size, glm::vec4(0.2f, 0.8f, 0.2f, 1.0f));
+		auto transform = scene.getTransform(entity);
+		if (transform) 
+		{
+			renderer.drawQuad(transform->position, transform->size, atlas.getTexture(), glm::vec4(1.0f));
+		}
 	}
 }

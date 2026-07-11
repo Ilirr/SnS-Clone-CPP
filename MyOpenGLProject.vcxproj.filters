@@ -43,6 +43,9 @@
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{56ef05f0-8064-4ee3-9e51-1b86401005e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entity Headers">
+      <UniqueIdentifier>{4fd6b973-62e2-4766-a81b-e6e6ed5470bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -88,6 +91,9 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -137,14 +143,17 @@
     <ClInclude Include="Player.h">
       <Filter>Header Files\Game Headers</Filter>
     </ClInclude>
-    <ClInclude Include="EntityID.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Entity Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityID.h">
+      <Filter>Header Files\Entity Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityManager.h">
+      <Filter>Header Files\Entity Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

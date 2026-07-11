@@ -10,10 +10,11 @@ Atlas::Atlas(const std::string& texturePath)
 Atlas::~Atlas() = default;
 void Atlas::addSprite(const std::string& name, float x, float y, float width, float height)
 {
-	// Interpret parameters as pixel rectangle: (x,y) = top-left pixel, width/height in pixels
 	glm::vec2 minPx = glm::vec2(x, y);
 	glm::vec2 maxPx = glm::vec2(x + width, y + height);
+
 	SubTexture2D subTex = SubTexture2D::CreateFromPixels(*m_Texture, minPx, maxPx);
+
 	m_Sprites.emplace(name, std::move(subTex));
 
 }

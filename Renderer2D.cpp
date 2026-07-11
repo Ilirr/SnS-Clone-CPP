@@ -209,43 +209,6 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
     // 1 quad = 2 triangles = 6 indices
     m_IndexCount += 6;
 }
-
-void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
-{
-    // Safety: ensure space
-    size_t currentVertexCount = static_cast<size_t>(m_QuadBufferPtr - m_QuadBufferBase);
-    if (currentVertexCount + 4 > MaxVertices || m_IndexCount + 6 > MaxIndices)
-    {
-        flush();
-    }
-
-    // Top-left
-    m_QuadBufferPtr->position = { position.x, position.y };
-    m_QuadBufferPtr->color = color;
-    m_QuadBufferPtr->texCoord = { 0.0f, 0.0f };
-    m_QuadBufferPtr++;
-
-    // Top-right
-    m_QuadBufferPtr->position = { position.x + size.x, position.y };
-    m_QuadBufferPtr->color = color;
-    m_QuadBufferPtr->texCoord = { 1.0f, 0.0f };
-    m_QuadBufferPtr++;
-
-    // Bottom-right
-    m_QuadBufferPtr->position = { position.x + size.x, position.y + size.y };
-    m_QuadBufferPtr->color = color;
-    m_QuadBufferPtr->texCoord = { 1.0f, 1.0f };
-    m_QuadBufferPtr++;
-
-    // Bottom-left
-    m_QuadBufferPtr->position = { position.x, position.y + size.y };
-    m_QuadBufferPtr->color = color;
-    m_QuadBufferPtr->texCoord = { 0.0f, 1.0f };
-    m_QuadBufferPtr++;
-
-    m_IndexCount += 6;
-}
-
 void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const SubTexture2D& subTex, const glm::vec4& color)
 {
     // Safety valve: ensure space

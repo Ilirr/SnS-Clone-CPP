@@ -146,6 +146,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Atlas.cpp" />
+    <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="Atlas.h" />
     <ClInclude Include="Camera2D.h" />
     <ClInclude Include="Components.h" />
+    <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityID.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameManager.h" />

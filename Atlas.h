@@ -8,7 +8,6 @@ class Texture;
 class Atlas
 {
 public:
-
 	Atlas(const std::string& texturePath);
 	~Atlas();
 	void addSprite(const std::string& name, float x, float y, float width, float height);

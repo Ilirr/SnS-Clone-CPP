@@ -1,11 +1,10 @@
 #include "Scene.h"
-
-Scene::Scene(){}
+#include <algorithm>
 
 EntityID Scene::createEntity()
 {
 	EntityID id = m_entityMgr.createEntity();
-	// notify listeners
+
 	for (auto* l : m_listeners)
 	{
 		if (l)
@@ -13,7 +12,8 @@ EntityID Scene::createEntity()
 			l->onEntityCreated(id);
 		}
 	}
-
+	m_activeEntities.push_back(id);
+	return id;
 }
 void Scene::addListener(SceneListener* l)
 {
@@ -23,9 +23,14 @@ void Scene::addListener(SceneListener* l)
 		m_listeners.push_back(l);
 	}
 }
-void Scene::destroyEntity(const EntityID& id)
+void Scene::destroyEntity(EntityID& id)
 {
-	if (!valid(id)) return;
+	if (std::find(m_activeEntities.begin(), m_activeEntities.end(), id) == m_activeEntities.end())
+	{
+		return;
+	}
+
+	m_entityMgr.destroyEntity(id);
 	for (auto* l : m_listeners)
 	{
 		if (l)
@@ -33,5 +38,10 @@ void Scene::destroyEntity(const EntityID& id)
 			l->onEntityDestroyed(id);
 		}
 	}
-	m_entityMgr.destroyEntity(id);
+	m_activeEntities.erase(std::remove(m_activeEntities.begin(), m_activeEntities.end(), id), m_activeEntities.end());
+	if (m_playerEntity == id)
+	{
+		m_playerEntity = {};
+	}
+
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-
 class Scene;
 class PhysicsSystem;
 class Renderer2D;

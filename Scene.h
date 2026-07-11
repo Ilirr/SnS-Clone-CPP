@@ -23,32 +23,41 @@ public:
 	Scene() = default;
 
 	EntityID createEntity();
-	void destroyEntity(EntityID entity);
 
-	TransformComponent& getTransform(EntityID entity);
+	void destroyEntity(EntityID& entity);
+
+	void addListener(SceneListener* l);
+
+	void removeListener(SceneListener* l);
 
 	const std::vector<EntityID>& getActiveEntities() const { return m_activeEntities; };
 
-	EntityManager m_entityMgr;
-	std::vector<SceneListener*> m_listeners;
-	void addListener(SceneListener* l);
-	void removeListener(SceneListener* l);
+	// non-const accessors
+	TransformComponent* getTransform(EntityID entity) { return m_entityMgr.getTransform(entity); }
+	RigidbodyComponent* getRigidbody(EntityID entity) { return m_entityMgr.getRigidbody(entity); }
+	TagComponent* getTag(EntityID entity) { return m_entityMgr.getTag(entity); }
+	SpriteComponent* getSprite(EntityID entity) { return m_entityMgr.getSprite(entity); }
+	ColliderComponent* getCollider(EntityID entity) { return m_entityMgr.getCollider(entity); }
 
+	// const accessors
+	const TransformComponent* getTransform(EntityID entity) const { return m_entityMgr.getTransform(entity); }
+	const RigidbodyComponent* getRigidbody(EntityID entity) const { return m_entityMgr.getRigidbody(entity); }
+	const TagComponent* getTag(EntityID entity) const { return m_entityMgr.getTag(entity); }
+	const SpriteComponent* getSprite(EntityID entity) const { return m_entityMgr.getSprite(entity); }
+	const ColliderComponent* getCollider(EntityID entity) const { return m_entityMgr.getCollider(entity); }
 
-	void addComponent(EntityID entity, const TransformComponent& TransformComponent);
-
-	void addComponent(EntityID entity, const SpriteComponent& sprite);
-
-	void addComponent(EntityID entity, const RigidbodyComponent& rigidbody);
-
-	void addComponent(EntityID entity, const TagComponent& tag);
+	EntityManager& getEntityManager() { return m_entityMgr; }
+	const EntityManager& getEntityManager() const { return m_entityMgr; }
+	EntityID getPlayerEntity() const { return m_playerEntity; }
+	void setPlayerEntity(const EntityID& entity) { m_playerEntity = entity; }
 
 private: 
-	uint32_t m_nextEntityId = 0;
+
 	std::vector<EntityID> m_activeEntities;
 
-	std::unordered_map<EntityID, TransformComponent> m_TransformComponents;
-	std::unordered_map<EntityID, SpriteComponent> m_sprites;
-	std::unordered_map<EntityID, RigidbodyComponent> m_rigidBodies;
+	EntityManager m_entityMgr;
+	EntityID m_playerEntity;
+
+	std::vector<SceneListener*> m_listeners;
 
 };
