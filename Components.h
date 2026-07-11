@@ -12,8 +12,9 @@ struct TransformComponent
 
 struct SpriteComponent
 {
-    std::string spriteName = "";
     glm::vec4 colorTint = { 1.0f, 1.0f, 1.0f, 1.0f };
+    int spriteID = -1;
+
 };
 
 struct ColliderComponent

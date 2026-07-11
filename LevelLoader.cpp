@@ -1,9 +1,10 @@
 #include "LevelLoader.h"
-#include "PhysicsSystem.h"
-#include "EntityManager.h"
+#include "Scene.h"
+#include "Atlas.h"
 #include <fstream>
 #include <iostream>
-void LevelLoader::loadLevel(const std::string& filePath, PhysicsSystem& physics, Scene& scene, float tileSize)
+
+void LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atlas& atlas, float tileSize)
 {
     std::ifstream file(filePath);
     
@@ -17,7 +18,6 @@ void LevelLoader::loadLevel(const std::string& filePath, PhysicsSystem& physics,
     std::string line;
     int row = 0;
     glm::vec2 playerSpawn(0.0f, 0.0f);
-    // no return value; create entities directly into EntityManager
 
     while (std::getline(file, line))
     {
@@ -25,7 +25,6 @@ void LevelLoader::loadLevel(const std::string& filePath, PhysicsSystem& physics,
         {
             char tile = line[col];
 
-            // Convert grid coordinates (row/col) into world coordinates (pixels)
             float worldX = col * tileSize;
             float worldY = row * tileSize;
 
@@ -33,11 +32,17 @@ void LevelLoader::loadLevel(const std::string& filePath, PhysicsSystem& physics,
             {
                 EntityID tileEntity = scene.createEntity();
                 TransformComponent transform;
+                SpriteComponent sprite;
+
                 transform.position = { worldX, worldY };
                 transform.prevPosition = transform.position;
                 transform.size = { tileSize, tileSize };
+                sprite.spriteID = atlas.getSpriteId("hero");
+
                 scene.getEntityManager().addComponent(tileEntity, transform);
                 scene.getEntityManager().addComponent(tileEntity, ColliderComponent{ { tileSize, tileSize } });
+                scene.getEntityManager().addComponent(tileEntity, sprite);
+
             }
             else if (tile == 'P')
             {
@@ -48,7 +53,9 @@ void LevelLoader::loadLevel(const std::string& filePath, PhysicsSystem& physics,
                 transform.prevPosition = playerSpawn;
                 transform.size = { tileSize, tileSize };
                 scene.getEntityManager().addComponent(playerEntity, transform);
-                scene.getEntityManager().addComponent(playerEntity, SpriteComponent{ "hero", glm::vec4(1.0f) });
+                SpriteComponent sprite;
+                sprite.spriteID = atlas.getSpriteId("hero");
+                scene.getEntityManager().addComponent(playerEntity, sprite);
                 scene.getEntityManager().addComponent(playerEntity, RigidbodyComponent{});
                 scene.getEntityManager().addComponent(playerEntity, ColliderComponent{ { tileSize, tileSize } });
                 scene.getEntityManager().addComponent(playerEntity, TagComponent{ "Player" });
@@ -61,6 +68,3 @@ void LevelLoader::loadLevel(const std::string& filePath, PhysicsSystem& physics,
     file.close();
     return;
 }
-
-
-// loadLDtk removed — user will supply their own loader implementation.

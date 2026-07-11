@@ -35,7 +35,8 @@ private:
 	GLuint m_VAO = 0;
 	GLuint m_VBO = 0;
 	GLuint m_EBO = 0;
-	GLuint m_WhiteTexture = 0;
+
+	GLuint m_WhiteTexture = 0; // A 1x1 white texture for untextured quads
 
 	static const size_t MaxQuads = 10000;
 	static const size_t MaxVertices = MaxQuads * 4;

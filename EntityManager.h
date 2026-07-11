@@ -13,13 +13,13 @@ public:
 
 	EntityID createEntity();
 
-	void destroyEntity(const EntityID& id);
+	void destroyEntity(EntityID id);
 
-	void addComponent(const EntityID& entity, const TransformComponent& transform);
-	void addComponent(const EntityID& entity, const SpriteComponent& sprite);
-	void addComponent(const EntityID& entity, const RigidbodyComponent& rigidbody);
-	void addComponent(const EntityID& entity, const TagComponent& tag);
-	void addComponent(const EntityID& entity, const ColliderComponent& collider);
+	void addComponent(EntityID entity, const TransformComponent& transform);
+	void addComponent(EntityID entity, const SpriteComponent& sprite);
+	void addComponent(EntityID entity, const RigidbodyComponent& rigidbody);
+	void addComponent(EntityID entity, const TagComponent& tag);
+	void addComponent(EntityID entity, const ColliderComponent& collider);
 
 	// non-const accessors
 	TransformComponent* getTransform(EntityID entity);
@@ -34,6 +34,8 @@ public:
 	const SpriteComponent* getSprite(EntityID entity) const;
 	const ColliderComponent* getCollider(EntityID entity) const;
 	const TagComponent* getTag(EntityID entity) const;
+
+	bool isEntityAlive(EntityID entity) const;
 
 
 private:

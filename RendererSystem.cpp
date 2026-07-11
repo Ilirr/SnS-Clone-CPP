@@ -9,9 +9,14 @@ void RendererSystem::renderScene(const Scene& scene, Renderer2D& renderer, Atlas
 	for (const auto& entity : scene.getActiveEntities())
 	{
 		auto transform = scene.getTransform(entity);
-		if (transform) 
+		auto sprite = scene.getSprite(entity);
+		if (transform && sprite && sprite->spriteID >= 0)
 		{
-			renderer.drawQuad(transform->position, transform->size, atlas.getTexture(), glm::vec4(1.0f));
+			glm::vec2 interpPos = transform->prevPosition + (transform->position - transform->prevPosition) * static_cast<float>(alpha);
+
+			SubTexture2D sub = atlas.getSpriteById(sprite->spriteID);
+			renderer.drawQuad(interpPos, transform->size, sub, sprite->colorTint);
+			
 		}
 	}
 }

@@ -10,11 +10,17 @@
 Application::Application()
 {
 	window = std::make_unique<Window>(800,600,"MyGame");
+
+	if (window && !window->isValid())
+	{
+		std::cerr << "Failed to create window!" << std::endl;
+		exit(EXIT_FAILURE);
+	}
 	m_input = std::make_unique<InputManager>(window.get());
 	m_game = std::make_unique<GameManager>();
 
 	initGraphics();
-	m_game->init();
+	m_game->init(*m_atlas);
 }
 Application::~Application(){}
 void Application::initGraphics()
@@ -39,6 +45,8 @@ void Application::initGraphics()
 		}
 	}
 
+	
+
 }
 void Application::run()
 {
@@ -59,6 +67,7 @@ void Application::run()
 		}
 		accumulator += frameTime;
 
+		window->pollEvents();
 		window->processInput();
 		m_input->update();
 		m_game->handleInput(*m_input);
@@ -80,6 +89,6 @@ void Application::run()
 			renderer->end();
 		}
 		window->swapBuffers();
-		window->pollEvents();
+
 	}
 }

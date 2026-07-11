@@ -1,6 +1,15 @@
 #include "EntityManager.h"
 #include <utility>
 
+bool EntityManager::isEntityAlive(EntityID entity) const
+{
+	if (entity.index < 0 || static_cast<size_t>(entity.index) >= m_generations.size())
+	{
+		return false;
+	}
+	return m_generations[entity.index] == entity.generation;
+}
+
 EntityID EntityManager::createEntity()
 {
 	if (!m_freeIndices.empty())
@@ -15,13 +24,12 @@ EntityID EntityManager::createEntity()
 	return { index, 0 };
 }
 
-void EntityManager::destroyEntity(const EntityID& id)
+void EntityManager::destroyEntity(EntityID id)
 {
 	if (id.index < 0 || static_cast<size_t>(id.index) >= m_generations.size() || m_generations[id.index] != id.generation)
 	{
 		return;
 	}
-
 	m_transforms.erase(id);
 	m_rigidbodies.erase(id);
 	m_sprites.erase(id);
@@ -31,26 +39,31 @@ void EntityManager::destroyEntity(const EntityID& id)
 	m_freeIndices.push_back(id.index);
 }
 
-void EntityManager::addComponent(const EntityID& entity, const TransformComponent& component)
+void EntityManager::addComponent(EntityID entity, const TransformComponent& component)
 {
+	if (!isEntityAlive(entity)) return;
 	m_transforms[entity] = component;
 }
-void EntityManager::addComponent(const EntityID& entity, const SpriteComponent& component)
+void EntityManager::addComponent(EntityID entity, const SpriteComponent& component)
 {
+	if (!isEntityAlive(entity)) return;
 	m_sprites[entity] = component;
 }
-void EntityManager::addComponent(const EntityID& entity, const RigidbodyComponent& component)
+void EntityManager::addComponent(EntityID entity, const RigidbodyComponent& component)
 {
+	if (!isEntityAlive(entity)) return;
 	m_rigidbodies[entity] = component;
 
 }
-void EntityManager::addComponent(const EntityID& entity, const TagComponent& component)
+void EntityManager::addComponent(EntityID entity, const TagComponent& component)
 {
+	if (!isEntityAlive(entity)) return;
 	m_tags[entity] = component;
 
 }
-void EntityManager::addComponent(const EntityID& entity, const ColliderComponent& component)
+void EntityManager::addComponent(EntityID entity, const ColliderComponent& component)
 {
+	if (!isEntityAlive(entity)) return;
 	m_colliders[entity] = component;
 }
 const TransformComponent* EntityManager::getTransform(EntityID entity) const
@@ -65,30 +78,39 @@ const TransformComponent* EntityManager::getTransform(EntityID entity) const
 
 TransformComponent* EntityManager::getTransform(EntityID entity)
 {
+	if (!isEntityAlive(entity)) return nullptr;
 	return const_cast<TransformComponent*>(std::as_const(*this).getTransform(entity));
 }
 
 RigidbodyComponent* EntityManager::getRigidbody(EntityID entity)
 {
+	if (!isEntityAlive(entity)) return nullptr;
 	return const_cast<RigidbodyComponent*>(std::as_const(*this).getRigidbody(entity));
 }
 
 SpriteComponent* EntityManager::getSprite(EntityID entity)
 {
+	if (!isEntityAlive(entity)) return nullptr;
 	return const_cast<SpriteComponent*>(std::as_const(*this).getSprite(entity));
 }
 
 TagComponent* EntityManager::getTag(EntityID entity)
 {
+	if (!isEntityAlive(entity)) return nullptr;
+
 	return const_cast<TagComponent*>(std::as_const(*this).getTag(entity));
 }
 
 ColliderComponent* EntityManager::getCollider(EntityID entity)
 {
+	if (!isEntityAlive(entity)) return nullptr;
+
 	return const_cast<ColliderComponent*>(std::as_const(*this).getCollider(entity));
 }
 const RigidbodyComponent* EntityManager::getRigidbody(EntityID entity) const
 {
+	if (!isEntityAlive(entity)) return nullptr;
+
 	auto it = m_rigidbodies.find(entity);
 	if (it != m_rigidbodies.end())
 	{
@@ -98,6 +120,8 @@ const RigidbodyComponent* EntityManager::getRigidbody(EntityID entity) const
 }
 const SpriteComponent* EntityManager::getSprite(EntityID entity) const
 {
+	if (!isEntityAlive(entity)) return nullptr;
+
 	auto it = m_sprites.find(entity);
 	if (it != m_sprites.end())
 	{
@@ -107,6 +131,8 @@ const SpriteComponent* EntityManager::getSprite(EntityID entity) const
 }
 const TagComponent* EntityManager::getTag(EntityID entity) const
 {
+	if (!isEntityAlive(entity)) return nullptr;
+
 	auto it = m_tags.find(entity);
 	if (it != m_tags.end())
 	{
@@ -116,6 +142,8 @@ const TagComponent* EntityManager::getTag(EntityID entity) const
 }
 const ColliderComponent* EntityManager::getCollider(EntityID entity) const
 {
+	if (!isEntityAlive(entity)) return nullptr;
+
 	auto it = m_colliders.find(entity);
 	if (it != m_colliders.end())
 	{

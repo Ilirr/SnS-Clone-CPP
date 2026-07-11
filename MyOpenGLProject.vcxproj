@@ -167,14 +167,12 @@
     <ClInclude Include="Atlas.h" />
     <ClInclude Include="Camera2D.h" />
     <ClInclude Include="Components.h" />
-    <ClInclude Include="Entity.h" />
     <ClInclude Include="EntityID.h" />
     <ClInclude Include="EntityManager.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="PhysicsSystem.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="Renderer2D.h" />
     <ClInclude Include="RendererSystem.h" />
     <ClInclude Include="Scene.h" />

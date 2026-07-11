@@ -13,8 +13,8 @@ public:
 	virtual ~SceneListener() = default;
 	virtual void onAttach(class Scene* scene) = 0;
 	virtual void onDetach() = 0;
-	virtual void onEntityCreated(const EntityID& id) = 0;
-	virtual void onEntityDestroyed(const EntityID& id) = 0;
+	virtual void onEntityCreated(EntityID id) = 0;
+	virtual void onEntityDestroyed(EntityID id) = 0;
 };
 
 class Scene
@@ -24,13 +24,21 @@ public:
 
 	EntityID createEntity();
 
-	void destroyEntity(EntityID& entity);
+	void destroyEntity(EntityID entity);
 
 	void addListener(SceneListener* l);
 
 	void removeListener(SceneListener* l);
 
+	void setPlayerEntity(EntityID entity) { m_playerEntity = entity; }
+
 	const std::vector<EntityID>& getActiveEntities() const { return m_activeEntities; };
+
+	const EntityManager& getEntityManager() const { return m_entityMgr; }
+
+	EntityManager& getEntityManager() { return m_entityMgr; }
+
+	EntityID getPlayerEntity() const { return m_playerEntity; }
 
 	// non-const accessors
 	TransformComponent* getTransform(EntityID entity) { return m_entityMgr.getTransform(entity); }
@@ -46,10 +54,6 @@ public:
 	const SpriteComponent* getSprite(EntityID entity) const { return m_entityMgr.getSprite(entity); }
 	const ColliderComponent* getCollider(EntityID entity) const { return m_entityMgr.getCollider(entity); }
 
-	EntityManager& getEntityManager() { return m_entityMgr; }
-	const EntityManager& getEntityManager() const { return m_entityMgr; }
-	EntityID getPlayerEntity() const { return m_playerEntity; }
-	void setPlayerEntity(const EntityID& entity) { m_playerEntity = entity; }
 
 private: 
 

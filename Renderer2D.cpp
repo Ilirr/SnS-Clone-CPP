@@ -26,9 +26,10 @@ Renderer2D::~Renderer2D()
     glDeleteVertexArrays(1, &m_VAO);
     glDeleteBuffers(1, &m_VBO);
     glDeleteBuffers(1, &m_EBO);
-    if (m_WhiteTexture) {
-        glDeleteTextures(1, &m_WhiteTexture);
-        m_WhiteTexture = 0;
+    if (m_WhiteTexture)
+    {
+		glDeleteTextures(1, &m_WhiteTexture);
+		m_WhiteTexture = 0;
     }
 }
 void Renderer2D::init()
@@ -148,12 +149,13 @@ void Renderer2D::flush()
 }
 void Renderer2D::onResize(int width, int height)
 {
-    if (!shader) return;
+    if (!shader || width <= 0 || height <= 0) return;
 
     glViewport(0, 0, width, height);
     
     const float virtualW = 800.0f, virtualH = 600.0f;
     float windowAspect = float(width) / float(height);
+
     float virtualAspect = virtualW / virtualH;
     float viewW = virtualW, viewH = virtualH;
     if (windowAspect > virtualAspect) viewW = virtualH * windowAspect;

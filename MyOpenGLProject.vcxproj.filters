@@ -128,9 +128,6 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files\Graphics Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Components.h">
-      <Filter>Header Files\Physics Headers</Filter>
-    </ClInclude>
     <ClInclude Include="PhysicsSystem.h">
       <Filter>Header Files\Physics Headers</Filter>
     </ClInclude>
@@ -140,20 +137,17 @@
     <ClInclude Include="LevelLoader.h">
       <Filter>Header Files\Game Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\Game Headers</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files\Entity Headers</Filter>
     </ClInclude>
     <ClInclude Include="EntityID.h">
       <Filter>Header Files\Entity Headers</Filter>
     </ClInclude>
     <ClInclude Include="EntityManager.h">
       <Filter>Header Files\Entity Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>Header Files\Game Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

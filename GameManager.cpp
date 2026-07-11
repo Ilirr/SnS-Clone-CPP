@@ -1,16 +1,18 @@
 #include "GameManager.h"
 #include "LevelLoader.h"
 #include "Input.h"
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
-#include <glm/gtc/matrix_transform.hpp>
+#include "Atlas.h"
+
 GameManager::GameManager(){}
-void GameManager::init()
+void GameManager::init(Atlas& atlas)
 {
 	LevelLoader loader;
 
 	m_scene.addListener(&m_physicsMgr);
 
-	loader.loadLevel("assets/levels/levels1.txt", m_physicsMgr, m_scene, 64.0f);
+	loader.loadLevel("assets/levels/levels1.txt", m_scene, atlas, 64.0f);
 
 }
 void GameManager::handleInput(const InputManager& input)
@@ -60,14 +62,14 @@ void GameManager::update(double dt)
 	m_physicsMgr.updateAll(dt);
 
 	const EntityID p = m_scene.getPlayerEntity();
-	if (p.isValid()) {
-		auto p_transform = m_scene.getTransform(p);
-		if (p_transform) 
-		{
-			float camX = p_transform->position.x - 400.0f;
-			float camY = p_transform->position.y - 300.0f;
-			m_camera.setPosition(glm::vec2(camX, camY));
-		}
+	auto p_transform = m_scene.getTransform(p);
+
+	if (m_scene.getEntityManager().isEntityAlive(p) && p_transform)
+	{
+		float camX = p_transform->position.x - 400.0f;
+		float camY = p_transform->position.y - 300.0f;
+		m_camera.setPosition(glm::vec2(camX, camY));
+		
 	}
 }
 	

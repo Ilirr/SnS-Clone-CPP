@@ -9,15 +9,15 @@ class PhysicsSystem : public SceneListener
 public:
 	PhysicsSystem();
 
-	void updateEntity(EntityID& entity, double dt);
-	bool checkAABB(const EntityID& tA, const EntityID& tB);
+	void updateEntity(EntityID entity, double dt);
+	bool checkAABB(EntityID tA, EntityID tB);
 
 	void onAttach(Scene* scene) override;
 	void onDetach() override;
 
 	// SceneListener overrides
-	void onEntityCreated(const EntityID& id) override;
-	void onEntityDestroyed(const EntityID& id) override;
+	void onEntityCreated(EntityID id) override;
+	void onEntityDestroyed(EntityID id) override;
 
 	void updateAll(double dt);
 

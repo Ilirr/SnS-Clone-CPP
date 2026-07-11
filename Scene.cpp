@@ -23,7 +23,7 @@ void Scene::addListener(SceneListener* l)
 		m_listeners.push_back(l);
 	}
 }
-void Scene::destroyEntity(EntityID& id)
+void Scene::destroyEntity(EntityID id)
 {
 	if (std::find(m_activeEntities.begin(), m_activeEntities.end(), id) == m_activeEntities.end())
 	{

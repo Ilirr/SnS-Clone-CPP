@@ -7,7 +7,7 @@ PhysicsSystem::PhysicsSystem()
 {
 
 }
-bool PhysicsSystem::checkAABB(const EntityID& entityA, const EntityID& entityB)
+bool PhysicsSystem::checkAABB(EntityID entityA, EntityID entityB)
 {
 	const TransformComponent* tA = m_scene->getTransform(entityA);
 	const ColliderComponent* cA = m_scene->getCollider(entityA);
@@ -29,7 +29,7 @@ bool PhysicsSystem::checkAABB(const EntityID& entityA, const EntityID& entityB)
 	bool overlapY = (aMin.y <= bMax.y) && (aMax.y >= bMin.y);
 	return overlapX && overlapY;
 }
-void PhysicsSystem::updateEntity(EntityID& entity, double dt)
+void PhysicsSystem::updateEntity(EntityID entity, double dt)
 {
 	if (!m_scene)
 	{
@@ -48,7 +48,7 @@ void PhysicsSystem::updateEntity(EntityID& entity, double dt)
 	body->velocity += gravity * body->gravityScale * static_cast<float>(dt);
 	transform->position += body->velocity * static_cast<float>(dt);
 
-	for (const EntityID& other : m_scene->getActiveEntities())
+	for (EntityID other : m_scene->getActiveEntities())
 	{
 		if (other == entity)
 		{
@@ -104,11 +104,11 @@ void PhysicsSystem::updateAll(double dt)
 		updateEntity(entity, dt);
 	}
 }
-void PhysicsSystem::onEntityCreated(const EntityID&)
+void PhysicsSystem::onEntityCreated(EntityID id)
 {
 	
 }
-void PhysicsSystem::onEntityDestroyed(const EntityID&)
+void PhysicsSystem::onEntityDestroyed(EntityID id)
 {
 
 }
