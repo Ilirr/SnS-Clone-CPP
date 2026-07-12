@@ -36,3 +36,27 @@ struct TagComponent
 {
 	std::string tag = "";
 };
+struct WeaponDefinition
+{
+    int weaponID = -1;
+    int spriteID = -1;
+    int damage = 10;
+    float attackDuration = 0.5f;
+};
+enum class WeaponType
+{
+    None,
+    Sword,
+    Spear
+};
+struct WeaponState {
+    bool isAttacking = false;
+    float attackDuration = 0.5f; 
+    float attackTimer = 0.0f;
+};
+struct WeaponComponent
+{
+    WeaponType type = WeaponType::None;
+    WeaponState state;
+    WeaponDefinition definition;
+};

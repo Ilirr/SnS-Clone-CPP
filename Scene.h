@@ -32,20 +32,17 @@ public:
 
 	void setPlayerEntity(EntityID entity) { m_playerEntity = entity; }
 
-	const std::vector<EntityID>& getActiveEntities() const { return m_activeEntities; };
-
-	const EntityManager& getEntityManager() const { return m_entityMgr; }
-
-	EntityManager& getEntityManager() { return m_entityMgr; }
-
-	EntityID getPlayerEntity() const { return m_playerEntity; }
-
 	// non-const accessors
 	TransformComponent* getTransform(EntityID entity) { return m_entityMgr.getTransform(entity); }
 	RigidbodyComponent* getRigidbody(EntityID entity) { return m_entityMgr.getRigidbody(entity); }
 	TagComponent* getTag(EntityID entity) { return m_entityMgr.getTag(entity); }
 	SpriteComponent* getSprite(EntityID entity) { return m_entityMgr.getSprite(entity); }
 	ColliderComponent* getCollider(EntityID entity) { return m_entityMgr.getCollider(entity); }
+	WeaponComponent* getWeapon(EntityID entity) { return m_entityMgr.getWeapon(entity); }
+
+	EntityManager& getEntityManager() { return m_entityMgr; }
+
+	EntityID getPlayerEntity() const { return m_playerEntity; }
 
 	// const accessors
 	const TransformComponent* getTransform(EntityID entity) const { return m_entityMgr.getTransform(entity); }
@@ -53,7 +50,11 @@ public:
 	const TagComponent* getTag(EntityID entity) const { return m_entityMgr.getTag(entity); }
 	const SpriteComponent* getSprite(EntityID entity) const { return m_entityMgr.getSprite(entity); }
 	const ColliderComponent* getCollider(EntityID entity) const { return m_entityMgr.getCollider(entity); }
+	const WeaponComponent* getWeapon(EntityID entity) const { return m_entityMgr.getWeapon(entity); }
 
+	const std::vector<EntityID>& getActiveEntities() const { return m_activeEntities; };
+
+	const EntityManager& getEntityManager() const { return m_entityMgr; }
 
 private: 
 

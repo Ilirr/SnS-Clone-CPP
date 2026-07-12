@@ -15,18 +15,22 @@ public:
 
 	void destroyEntity(EntityID id);
 
+	bool isEntityAlive(EntityID entity) const;
+
 	void addComponent(EntityID entity, const TransformComponent& transform);
-	void addComponent(EntityID entity, const SpriteComponent& sprite);
 	void addComponent(EntityID entity, const RigidbodyComponent& rigidbody);
-	void addComponent(EntityID entity, const TagComponent& tag);
+	void addComponent(EntityID entity, const SpriteComponent& sprite);
 	void addComponent(EntityID entity, const ColliderComponent& collider);
+	void addComponent(EntityID entity, const TagComponent& tag);
+	void addComponent(EntityID entity, const WeaponComponent& weapon);
 
 	// non-const accessors
 	TransformComponent* getTransform(EntityID entity);
 	RigidbodyComponent* getRigidbody(EntityID entity);
 	SpriteComponent* getSprite(EntityID entity);
-	TagComponent* getTag(EntityID entity);
 	ColliderComponent* getCollider(EntityID entity);
+	TagComponent* getTag(EntityID entity);
+	WeaponComponent* getWeapon(EntityID entity);
 
 	// const accessors
 	const TransformComponent* getTransform(EntityID entity) const;
@@ -34,9 +38,7 @@ public:
 	const SpriteComponent* getSprite(EntityID entity) const;
 	const ColliderComponent* getCollider(EntityID entity) const;
 	const TagComponent* getTag(EntityID entity) const;
-
-	bool isEntityAlive(EntityID entity) const;
-
+	const WeaponComponent* getWeapon(EntityID entity) const;
 
 private:
 
@@ -48,4 +50,5 @@ private:
 	std::unordered_map<EntityID, SpriteComponent, EntityIDHash> m_sprites;
 	std::unordered_map<EntityID, ColliderComponent, EntityIDHash> m_colliders;
 	std::unordered_map<EntityID, TagComponent, EntityIDHash> m_tags;
+	std::unordered_map<EntityID, WeaponComponent, EntityIDHash> m_weapons;
 };

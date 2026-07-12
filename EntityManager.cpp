@@ -35,10 +35,15 @@ void EntityManager::destroyEntity(EntityID id)
 	m_sprites.erase(id);
 	m_colliders.erase(id);
 	m_tags.erase(id);
+	m_weapons.erase(id);
 	++m_generations[id.index];
 	m_freeIndices.push_back(id.index);
 }
-
+void EntityManager::addComponent(EntityID entity, const WeaponComponent& component)
+{
+	if (!isEntityAlive(entity)) return;
+	m_weapons[entity] = component;
+}
 void EntityManager::addComponent(EntityID entity, const TransformComponent& component)
 {
 	if (!isEntityAlive(entity)) return;
@@ -66,16 +71,11 @@ void EntityManager::addComponent(EntityID entity, const ColliderComponent& compo
 	if (!isEntityAlive(entity)) return;
 	m_colliders[entity] = component;
 }
-const TransformComponent* EntityManager::getTransform(EntityID entity) const
+WeaponComponent* EntityManager::getWeapon(EntityID entity)
 {
-	auto it = m_transforms.find(entity);
-	if (it != m_transforms.end())
-	{
-		return &it->second;
-	}
-	return nullptr;
+	if (!isEntityAlive(entity)) return nullptr;
+	return const_cast<WeaponComponent*>(std::as_const(*this).getWeapon(entity));
 }
-
 TransformComponent* EntityManager::getTransform(EntityID entity)
 {
 	if (!isEntityAlive(entity)) return nullptr;
@@ -106,6 +106,26 @@ ColliderComponent* EntityManager::getCollider(EntityID entity)
 	if (!isEntityAlive(entity)) return nullptr;
 
 	return const_cast<ColliderComponent*>(std::as_const(*this).getCollider(entity));
+}
+const WeaponComponent* EntityManager::getWeapon(EntityID entity) const
+{
+	if (!isEntityAlive(entity)) return nullptr;
+	auto it = m_weapons.find(entity);
+	if (it != m_weapons.end())
+	{
+		return &it->second;
+	}
+	return nullptr;
+}
+const TransformComponent* EntityManager::getTransform(EntityID entity) const
+{
+	if (!isEntityAlive(entity)) return nullptr;
+	auto it = m_transforms.find(entity);
+	if (it != m_transforms.end())
+	{
+		return &it->second;
+	}
+	return nullptr;
 }
 const RigidbodyComponent* EntityManager::getRigidbody(EntityID entity) const
 {
