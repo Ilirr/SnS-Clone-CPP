@@ -35,31 +35,27 @@ void WeaponRegistry::initForEntity(Scene& scene, EntityID owner, WeaponType type
 	TransformComponent* ownerTransform = scene.getTransform(owner);
 	if (!ownerTransform) return;
 
-	// Create visual weapon entity
 	EntityID weaponEnt = scene.createEntity();
 
-	// Setup weapon transform relative to owner
 	TransformComponent weaponTransform;
 	weaponTransform.size = ownerTransform->size * 0.5f;
 	weaponTransform.position.x = ownerTransform->position.x + ownerTransform->size.x - (weaponTransform.size.x * 0.5f);
 	weaponTransform.position.y = ownerTransform->position.y + (ownerTransform->size.y * 0.5f) - (weaponTransform.size.y * 0.5f);
 	weaponTransform.prevPosition = weaponTransform.position;
 
-	// Setup weapon component on owner
 	WeaponComponent weaponComp;
 	weaponComp.type = type;
 	weaponComp.definition = get(type);
 	weaponComp.weaponEntity = weaponEnt;
 	weaponComp.state.attackDuration = weaponComp.definition.attackDuration;
 
-	// Setup sprite for visual weapon entity
 	SpriteComponent weaponSprite;
 	weaponSprite.spriteID = weaponComp.definition.spriteID;
+
 	// If the owner already has a sprite, match its flip state
 	auto ownerSprite = scene.getSprite(owner);
 	if (ownerSprite) weaponSprite.flipX = ownerSprite->flipX;
 
-	// Add components to scene
 	scene.getEntityManager().addComponent(weaponEnt, weaponTransform);
 	scene.getEntityManager().addComponent(weaponEnt, weaponSprite);
 	scene.getEntityManager().addComponent(weaponEnt, TagComponent{ "Weapon" });
