@@ -1,6 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <string>
+#include "EntityID.h"
 
 struct TransformComponent
 {
@@ -14,6 +15,7 @@ struct SpriteComponent
 {
     glm::vec4 colorTint = { 1.0f, 1.0f, 1.0f, 1.0f };
     int spriteID = -1;
+    bool flipX = false;
 
 };
 
@@ -59,4 +61,5 @@ struct WeaponComponent
     WeaponType type = WeaponType::None;
     WeaponState state;
     WeaponDefinition definition;
+    EntityID weaponEntity; // entity id of the separate weapon visual entity (if any)
 };

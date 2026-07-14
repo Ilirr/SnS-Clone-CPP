@@ -15,8 +15,10 @@ void RendererSystem::renderScene(const Scene& scene, Renderer2D& renderer, Atlas
 			glm::vec2 interpPos = transform->prevPosition + (transform->position - transform->prevPosition) * static_cast<float>(alpha);
 
 			SubTexture2D sub = atlas.getSpriteById(sprite->spriteID);
-			renderer.drawQuad(interpPos, transform->size, sub, sprite->colorTint);
-			
+
+			// Weapon visuals are synchronized in WeaponSystem; renderer only reads flip
+
+			renderer.drawQuad(interpPos, transform->size, sub, sprite->colorTint, sprite->flipX);
 		}
 	}
 }

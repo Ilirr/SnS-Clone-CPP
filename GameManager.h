@@ -3,6 +3,7 @@
 #include "RendererSystem.h"
 #include "Camera2D.h"
 #include "Scene.h"
+#include "WeaponSystem.h"
 
 
 class InputManager;
@@ -23,6 +24,7 @@ public:
 private:
 	PhysicsSystem m_physicsMgr;
 	RendererSystem m_rendererMgr;
+	WeaponSystem m_weaponMgr;
 	Scene m_scene;
 
 	Camera2D m_camera;

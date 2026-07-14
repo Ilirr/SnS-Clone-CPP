@@ -20,7 +20,8 @@ public:
 	void begin(double alpha);
 	void end();
 	void drawQuad(const glm::vec2& position, const glm::vec2& size, const Texture& tex, const glm::vec4& color);
-	void drawQuad(const glm::vec2& position, const glm::vec2& size, const SubTexture2D& subTex, const glm::vec4& color);
+	// flipX controls horizontal flipping of the subtexture's UVs
+	void drawQuad(const glm::vec2& position, const glm::vec2& size, const SubTexture2D& subTex, const glm::vec4& color, bool flipX = false);
 	void flush();
 private:
 	void init();

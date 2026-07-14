@@ -28,7 +28,7 @@ void Application::initGraphics()
 	renderer = std::make_unique<Renderer2D>();
 	m_atlas = std::make_unique<Atlas>("assets/textures/hero.png");
 	m_atlas->addSprite("hero", 0, 0, 64, 64);
-
+	m_atlas->addSprite("sword", 64, 0, 64, 64);
 	renderer->setCamera(&m_game->getCamera());
 	
 	if (window && window->isValid())

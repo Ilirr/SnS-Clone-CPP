@@ -211,7 +211,7 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
     // 1 quad = 2 triangles = 6 indices
     m_IndexCount += 6;
 }
-void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const SubTexture2D& subTex, const glm::vec4& color)
+void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const SubTexture2D& subTex, const glm::vec4& color, bool flipX)
 {
     // Safety valve: ensure space
     size_t currentVertexCount = static_cast<size_t>(m_QuadBufferPtr - m_QuadBufferBase);
@@ -233,28 +233,34 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
     }
 
     const glm::vec2* uv = subTex.getTexCoords();
+    // When flipped horizontally we swap the left and right UVs
+    const glm::vec2 uv0 = flipX ? uv[1] : uv[0]; // Top Left
+    const glm::vec2 uv1 = flipX ? uv[0] : uv[1]; // Top Right
+    const glm::vec2 uv2 = flipX ? uv[3] : uv[2]; // Bottom Right
+    const glm::vec2 uv3 = flipX ? uv[2] : uv[3]; // Bottom Left
+
     // Vertex 0 (Top Left)
     m_QuadBufferPtr->position = { position.x, position.y };
     m_QuadBufferPtr->color = color;
-    m_QuadBufferPtr->texCoord = uv[0];
+    m_QuadBufferPtr->texCoord = uv0;
     m_QuadBufferPtr++;
 
     // Vertex 1 (Top Right)
     m_QuadBufferPtr->position = { position.x + size.x, position.y };
     m_QuadBufferPtr->color = color;
-    m_QuadBufferPtr->texCoord = uv[1];
+    m_QuadBufferPtr->texCoord = uv1;
     m_QuadBufferPtr++;
 
     // Vertex 2 (Bottom Right)
     m_QuadBufferPtr->position = { position.x + size.x, position.y + size.y };
     m_QuadBufferPtr->color = color;
-    m_QuadBufferPtr->texCoord = uv[2];
+    m_QuadBufferPtr->texCoord = uv2;
     m_QuadBufferPtr++;
 
     // Vertex 3 (Bottom Left)
     m_QuadBufferPtr->position = { position.x, position.y + size.y };
     m_QuadBufferPtr->color = color;
-    m_QuadBufferPtr->texCoord = uv[3];
+    m_QuadBufferPtr->texCoord = uv3;
     m_QuadBufferPtr++;
 
     m_IndexCount += 6;

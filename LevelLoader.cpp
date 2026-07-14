@@ -1,6 +1,7 @@
 #include "LevelLoader.h"
 #include "Scene.h"
 #include "Atlas.h"
+#include "WeaponRegistry.h"
 #include <fstream>
 #include <iostream>
 
@@ -49,16 +50,20 @@ void LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atlas& at
                 playerSpawn = glm::vec2(worldX, worldY);
                 EntityID playerEntity = scene.createEntity();
                 TransformComponent transform;
+                SpriteComponent sprite;
                 transform.position = playerSpawn;
                 transform.prevPosition = playerSpawn;
                 transform.size = { tileSize, tileSize };
-                scene.getEntityManager().addComponent(playerEntity, transform);
-                SpriteComponent sprite;
                 sprite.spriteID = atlas.getSpriteId("hero");
+                
+                scene.getEntityManager().addComponent(playerEntity, transform);
                 scene.getEntityManager().addComponent(playerEntity, sprite);
                 scene.getEntityManager().addComponent(playerEntity, RigidbodyComponent{});
                 scene.getEntityManager().addComponent(playerEntity, ColliderComponent{ { tileSize, tileSize } });
                 scene.getEntityManager().addComponent(playerEntity, TagComponent{ "Player" });
+
+                WeaponRegistry::initForEntity(scene, playerEntity, WeaponType::Sword);
+
                 scene.setPlayerEntity(playerEntity);
             }
         }
