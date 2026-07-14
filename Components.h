@@ -24,6 +24,8 @@ struct ColliderComponent
     glm::vec2 size = { 0.0f, 0.0f };
     glm::vec2 offset = { 0.0f, 0.0f };
     bool isSolid = true;
+    // Optional owner entity: when set, collisions against the owner can be ignored by the physics system
+    EntityID owner = EntityID();
 };
 struct RigidbodyComponent
 {

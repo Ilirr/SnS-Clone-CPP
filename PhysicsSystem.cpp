@@ -57,7 +57,19 @@ void PhysicsSystem::updateEntity(EntityID entity, double dt)
 
 		const TransformComponent* otherTransform = m_scene->getTransform(other);
 		const ColliderComponent* otherCollider = m_scene->getCollider(other);
-		if (!otherTransform || !otherCollider || !otherCollider->isSolid || !checkAABB(entity, other))
+		if (!otherTransform || !otherCollider || !otherCollider->isSolid)
+		{
+			continue;
+		}
+
+		// Ignore collisions between an entity and the owner's collider (e.g., weapon vs its owner)
+		if ((collider->owner.isValid() && collider->owner == other) ||
+			(otherCollider->owner.isValid() && otherCollider->owner == entity))
+		{
+			continue;
+		}
+
+		if (!checkAABB(entity, other))
 		{
 			continue;
 		}

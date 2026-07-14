@@ -52,12 +52,17 @@ void WeaponRegistry::initForEntity(Scene& scene, EntityID owner, WeaponType type
 	SpriteComponent weaponSprite;
 	weaponSprite.spriteID = weaponComp.definition.spriteID;
 
+	ColliderComponent weaponCollider;
+	weaponCollider.size = weaponTransform.size;
+	weaponCollider.owner = owner;
+
 	// If the owner already has a sprite, match its flip state
 	auto ownerSprite = scene.getSprite(owner);
 	if (ownerSprite) weaponSprite.flipX = ownerSprite->flipX;
 
 	scene.getEntityManager().addComponent(weaponEnt, weaponTransform);
 	scene.getEntityManager().addComponent(weaponEnt, weaponSprite);
+	scene.getEntityManager().addComponent(weaponEnt, weaponCollider);
 	scene.getEntityManager().addComponent(weaponEnt, TagComponent{ "Weapon" });
 	scene.getEntityManager().addComponent(owner, weaponComp);
 }

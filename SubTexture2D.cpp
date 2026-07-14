@@ -5,7 +5,6 @@ SubTexture2D::SubTexture2D(const Texture& texture, const glm::vec4& uv)
 	: m_Texture(&texture), m_UV(uv)
 {
 	float u0 = uv.x; float v0 = uv.y; float u1 = uv.z; float v1 = uv.w;
-	// fill texcoords in order: top-left, top-right, bottom-right, bottom-left
 	m_TexCoords[0] = { u0, v0 };
 	m_TexCoords[1] = { u1, v0 };
 	m_TexCoords[2] = { u1, v1 };
