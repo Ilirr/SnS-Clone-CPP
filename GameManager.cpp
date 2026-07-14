@@ -27,8 +27,6 @@ void GameManager::handleInput(const InputManager& input)
 	{
 		return;
 	}
-
-	// When F is pressed, dump all components currently attached to the player to console
 	if (input.wasPressed(GLFW_KEY_F))
 	{
 		std::cout << "Player components:\n";
@@ -42,10 +40,21 @@ void GameManager::handleInput(const InputManager& input)
 		{
 			std::cout << " - WeaponComponent\n";
 
-
-			//also get the type of weapon
 			auto weapon = mgr.getWeapon(p);
 			weapon->type == WeaponType::Sword ? std::cout << "   - WeaponType: Sword\n" : std::cout << "   - WeaponType: Other\n";
+
+			auto weaponEntity = weapon->weaponEntity;
+			ColliderComponent* weaponCollider = mgr.getCollider(weaponEntity);
+			
+			if (weaponCollider)
+			{
+				std::cout << "   - Weapon has ColliderComponent\n";
+			}
+			else
+			{
+				std::cout << "   - Weapon does NOT have ColliderComponent\n";
+			}
+
 		}
 			
 	}

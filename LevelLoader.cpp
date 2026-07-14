@@ -66,6 +66,22 @@ void LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atlas& at
 
                 scene.setPlayerEntity(playerEntity);
             }
+			else if (tile == 'E')
+			{
+				EntityID enemyEntity = scene.createEntity();
+				TransformComponent transform;
+				SpriteComponent sprite;
+				transform.position = { worldX, worldY };
+				transform.prevPosition = transform.position;
+				transform.size = { tileSize, tileSize };
+				sprite.spriteID = atlas.getSpriteId("hero");
+				scene.getEntityManager().addComponent(enemyEntity, transform);
+				scene.getEntityManager().addComponent(enemyEntity, sprite);
+				scene.getEntityManager().addComponent(enemyEntity, RigidbodyComponent{});
+				scene.getEntityManager().addComponent(enemyEntity, ColliderComponent{ { tileSize, tileSize } });
+				scene.getEntityManager().addComponent(enemyEntity, TagComponent{ "Enemy" });
+				WeaponRegistry::initForEntity(scene, enemyEntity, WeaponType::Sword);
+			}
         }
         row++;
     }
