@@ -36,6 +36,7 @@ void EntityManager::destroyEntity(EntityID id)
 	m_colliders.erase(id);
 	m_tags.erase(id);
 	m_weapons.erase(id);
+	m_intents.erase(id);
 	++m_generations[id.index];
 	m_freeIndices.push_back(id.index);
 }

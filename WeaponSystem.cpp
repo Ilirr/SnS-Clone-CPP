@@ -3,6 +3,7 @@
 
 void WeaponSystem::update(Scene& scene, float deltaTime)
 {
+	// This makes weapon follow the owner entity's position and size, and updates the weapon's state based on its current state and the elapsed time.
 	for (const auto& entity : scene.getActiveEntities())
 	{
 		auto weapon = scene.getWeapon(entity);
@@ -12,17 +13,17 @@ void WeaponSystem::update(Scene& scene, float deltaTime)
 
 		auto ownerTransform = scene.getTransform(entity);
 
-		if (!weapon->weaponEntity.isValid() || !ownerTransform) return;
+		if (!weapon->weaponEntity.isValid() || !ownerTransform) continue;
 
-		auto wTransform = scene.getTransform(weapon->weaponEntity);
+		auto weaponTransform = scene.getTransform(weapon->weaponEntity);
 
-		if (!wTransform) return;
+		if (!weaponTransform) continue;
 
-		wTransform->prevPosition = wTransform->position;
+		weaponTransform->prevPosition = weaponTransform->position;
 
 		glm::vec2 weaponSize = glm::vec2(ownerTransform->size.y * 0.5f, ownerTransform->size.y * 0.5f);
 
-		wTransform->size = weaponSize;
+		weaponTransform->size = weaponSize;
 
 		auto ownerSprite = scene.getSprite(entity);
 		auto wSprite = scene.getSprite(weapon->weaponEntity);
@@ -30,15 +31,13 @@ void WeaponSystem::update(Scene& scene, float deltaTime)
 
 		if (isFlipped)
 		{
-			wTransform->position.x = ownerTransform->position.x - (weaponSize.x * 0.5f);
+			weaponTransform->position.x = ownerTransform->position.x - (weaponSize.x * 0.5f);
 		}
 		else
 		{
-			wTransform->position.x = ownerTransform->position.x + ownerTransform->size.x - (weaponSize.x * 0.5f);
+			weaponTransform->position.x = ownerTransform->position.x + ownerTransform->size.x - (weaponSize.x * 0.5f);
 		}
-		wTransform->position.y = ownerTransform->position.y + (ownerTransform->size.y * 0.5f) - (weaponSize.y * 0.5f);
-
-		// Match weapon sprite flip to owner
+		weaponTransform->position.y = ownerTransform->position.y + (ownerTransform->size.y * 0.5f) - (weaponSize.y * 0.5f);
 
 		if (wSprite && ownerSprite)
 		{
