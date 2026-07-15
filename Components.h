@@ -72,3 +72,9 @@ struct IntentComponent
 	bool attack = false;
 	glm::vec2 moveDirection = { 0.0f, 0.0f };
 };
+struct LivingComponent
+{
+	int health = 100;
+	int maxHealth = 100;
+	bool isInvincible = false;
+};

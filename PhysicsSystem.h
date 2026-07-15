@@ -2,6 +2,7 @@
 #include "Components.h"
 #include "EntityID.h"
 #include "Scene.h"
+#include "SpatialHashGrid.h"
 #include <vector>
 
 class PhysicsSystem : public SceneListener
@@ -20,7 +21,18 @@ public:
 	void onEntityDestroyed(EntityID id) override;
 
 	void updateAll(double dt);
+	void renderDebugOverlay(class Renderer2D& renderer) const;
 
 private:
+	AABB getWorldAABB(EntityID entity) const;
+	void rebuildStaticGrid();
+	void rebuildDynamicGrid();
+	void resolveCandidates(EntityID entity, const std::vector<EntityID>& candidates);
+
 	Scene* m_scene = nullptr;
+	SpatialHashGrid m_staticGrid{ 64.0f };
+	SpatialHashGrid m_dynamicGrid{ 64.0f };
+	std::vector<EntityID> m_staticCandidates;
+	std::vector<EntityID> m_dynamicCandidates;
+	bool m_staticGridDirty = true;
 };

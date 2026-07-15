@@ -2,6 +2,7 @@
 #include "LevelLoader.h"
 #include "Input.h"
 #include "Atlas.h"
+#include <GLFW/glfw3.h>
 
 GameManager::GameManager(){}
 void GameManager::init(Atlas& atlas)
@@ -19,10 +20,18 @@ void GameManager::init(Atlas& atlas)
 void GameManager::handleInput(const InputManager& input)
 {
 	m_playerInputSystem.update(m_scene, input);
+	if (input.wasPressed(GLFW_KEY_F3))
+	{
+		m_showSpatialGrid = !m_showSpatialGrid;
+	}
 }
 void GameManager::render(Renderer2D& renderer, Atlas& atlas, double alpha)
 { 
 	m_rendererMgr.renderScene(m_scene, renderer, atlas, alpha);
+	if (m_showSpatialGrid)
+	{
+		m_physicsMgr.renderDebugOverlay(renderer);
+	}
 }
 
 void GameManager::update(double dt)

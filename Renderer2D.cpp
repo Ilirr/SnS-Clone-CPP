@@ -1,4 +1,5 @@
 #include "Renderer2D.h"
+#include <algorithm>
 #include <iostream>
 #include <array>
 #include <cstddef>
@@ -40,6 +41,13 @@ void Renderer2D::init()
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glGenTextures(1, &m_WhiteTexture);
+    glBindTexture(GL_TEXTURE_2D, m_WhiteTexture);
+    const unsigned int whitePixel = 0xffffffff;
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 1, 1, 0, GL_RGBA, GL_UNSIGNED_BYTE, &whitePixel);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
     shader = std::make_unique<Shader>("assets/shaders/basic.vert", "assets/shaders/basic.frag");
 
@@ -116,6 +124,7 @@ void Renderer2D::begin(double alpha)
     glBindVertexArray(m_VAO);
    
     m_CurrentTexture = nullptr;  // On a new frame, clear tracked texture so the first draw will bind its texture
+    m_UsingWhiteTexture = false;
     // Reset CPU staging pointers/counts for a fresh batch
     m_QuadBufferPtr = m_QuadBufferBase;
     m_IndexCount = 0;
@@ -182,6 +191,7 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
         m_CurrentTexture = incomingTexture;
         if (m_CurrentTexture)
             m_CurrentTexture->bind(0);
+        m_UsingWhiteTexture = false;
     }
 
     // Vertex 0 (Top Left)
@@ -211,6 +221,53 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
     // 1 quad = 2 triangles = 6 indices
     m_IndexCount += 6;
 }
+
+void Renderer2D::drawRectOutline(const glm::vec2& position, const glm::vec2& size, float thickness, const glm::vec4& color)
+{
+    if (thickness <= 0.0f || size.x <= 0.0f || size.y <= 0.0f)
+    {
+        return;
+    }
+
+    const float horizontalThickness = std::min(thickness, size.y);
+    const float verticalThickness = std::min(thickness, size.x);
+    const auto drawSolidQuad = [this, &color](const glm::vec2& quadPosition, const glm::vec2& quadSize)
+    {
+        if (static_cast<size_t>(m_QuadBufferPtr - m_QuadBufferBase) + 4 > MaxVertices || m_IndexCount + 6 > MaxIndices)
+        {
+            flush();
+        }
+
+        if (m_CurrentTexture != nullptr)
+        {
+            flush();
+            m_CurrentTexture = nullptr;
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, m_WhiteTexture);
+        }
+
+        const glm::vec2 positions[] = {
+            quadPosition,
+            { quadPosition.x + quadSize.x, quadPosition.y },
+            { quadPosition.x + quadSize.x, quadPosition.y + quadSize.y },
+            { quadPosition.x, quadPosition.y + quadSize.y }
+        };
+        const glm::vec2 uvs[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
+        for (int i = 0; i < 4; ++i)
+        {
+            m_QuadBufferPtr->position = positions[i];
+            m_QuadBufferPtr->color = color;
+            m_QuadBufferPtr->texCoord = uvs[i];
+            ++m_QuadBufferPtr;
+        }
+        m_IndexCount += 6;
+    };
+
+    drawSolidQuad(position, { size.x, horizontalThickness });
+    drawSolidQuad({ position.x, position.y + size.y - horizontalThickness }, { size.x, horizontalThickness });
+    drawSolidQuad(position, { verticalThickness, size.y });
+    drawSolidQuad({ position.x + size.x - verticalThickness, position.y }, { verticalThickness, size.y });
+}
 void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, const SubTexture2D& subTex, const glm::vec4& color, bool flipX)
 {
     // Safety valve: ensure space
@@ -230,6 +287,7 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
 
         // Bind the new texture to the GPU
         m_CurrentTexture->bind(0);
+        m_UsingWhiteTexture = false;
     }
 
     const glm::vec2* uv = subTex.getTexCoords();

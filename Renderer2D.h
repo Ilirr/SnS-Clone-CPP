@@ -22,6 +22,7 @@ public:
 	void drawQuad(const glm::vec2& position, const glm::vec2& size, const Texture& tex, const glm::vec4& color);
 	// flipX controls horizontal flipping of the subtexture's UVs
 	void drawQuad(const glm::vec2& position, const glm::vec2& size, const SubTexture2D& subTex, const glm::vec4& color, bool flipX = false);
+	void drawRectOutline(const glm::vec2& position, const glm::vec2& size, float thickness, const glm::vec4& color);
 	void flush();
 private:
 	void init();
@@ -46,6 +47,7 @@ private:
 	QuadVertex* m_QuadBufferBase = nullptr;
 	QuadVertex* m_QuadBufferPtr = nullptr;
 	const Texture* m_CurrentTexture = nullptr;
+	bool m_UsingWhiteTexture = false;
 
 	// Camera support: either an external camera pointer or a default internal one
 	const Camera2D* m_Camera = nullptr;

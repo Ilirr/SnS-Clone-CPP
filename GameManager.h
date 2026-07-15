@@ -31,5 +31,6 @@ private:
 	ActionSystem m_actionMgr;
 	PlayerInputSystem m_playerInputSystem;
 	Camera2D m_camera;
+	bool m_showSpatialGrid = false;
 
 };

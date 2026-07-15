@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <cstddef>
+#include <functional>
 
 struct EntityID
 {
@@ -17,6 +18,8 @@ struct EntityIDHash
 {
 	std::size_t operator()(EntityID id) const noexcept
 	{
-		return (static_cast<std::size_t>(static_cast<uint32_t>(id.index)) << 32) ^ id.generation;
+		const std::size_t indexHash = std::hash<int>{}(id.index);
+		const std::size_t generationHash = std::hash<uint32_t>{}(id.generation);
+		return indexHash ^ (generationHash + 0x9e3779b9u + (indexHash << 6) + (indexHash >> 2));
 	}
 };
