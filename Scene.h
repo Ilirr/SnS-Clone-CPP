@@ -30,6 +30,9 @@ public:
 
 	void removeListener(SceneListener* l);
 
+	// Remove all entities and notify listeners (used for level reload)
+	void clear();
+
 	void setPlayerEntity(EntityID entity) { m_playerEntity = entity; }
 
 	// non-const accessors

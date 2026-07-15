@@ -102,6 +102,9 @@
     <ClCompile Include="PlayerInputSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SpatialHashGrid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -181,6 +184,7 @@
     <None Include="assets\levels\hello.ldtk">
       <Filter>assets\levels</Filter>
     </None>
+    <None Include=".github\copilot-instructions.md" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\hero.png">
