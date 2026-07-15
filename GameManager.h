@@ -4,8 +4,7 @@
 #include "Camera2D.h"
 #include "Scene.h"
 #include "WeaponSystem.h"
-
-
+#include "ActionSystem.h"
 class InputManager;
 class Renderer2D;
 class Atlas;
@@ -26,7 +25,7 @@ private:
 	RendererSystem m_rendererMgr;
 	WeaponSystem m_weaponMgr;
 	Scene m_scene;
-
+	ActionSystem m_actionMgr;
 	Camera2D m_camera;
 
 };

@@ -53,15 +53,22 @@ enum class WeaponType
     Sword,
     Spear
 };
-struct WeaponState {
-    bool isAttacking = false;
-    float attackDuration = 0.5f; 
-    float attackTimer = 0.0f;
+enum class WeaponState {
+    Idle,
+    Attacking
 };
 struct WeaponComponent
 {
     WeaponType type = WeaponType::None;
-    WeaponState state;
+    WeaponState state = WeaponState::Idle;
     WeaponDefinition definition;
     EntityID weaponEntity; // entity id of the separate weapon visual entity (if any)
+    float attackDuration = 0.5f;
+    float attackTimer = 0.0f;
+};
+struct IntentComponent
+{
+	bool jump = false;
+	bool attack = false;
+	glm::vec2 moveDirection = { 0.0f, 0.0f };
 };

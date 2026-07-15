@@ -145,6 +145,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionSystem.cpp" />
     <ClCompile Include="Atlas.cpp" />
     <ClCompile Include="EntityManager.cpp" />
     <ClCompile Include="GameManager.cpp" />
@@ -165,6 +166,7 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionSystem.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Atlas.h" />
     <ClInclude Include="Camera2D.h" />

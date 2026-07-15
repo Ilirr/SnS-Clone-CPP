@@ -71,6 +71,11 @@ void EntityManager::addComponent(EntityID entity, const ColliderComponent& compo
 	if (!isEntityAlive(entity)) return;
 	m_colliders[entity] = component;
 }
+void EntityManager::addComponent(EntityID entity, const IntentComponent& intent)
+{
+	if (!isEntityAlive(entity)) return;
+	m_intents[entity] = intent;
+}
 WeaponComponent* EntityManager::getWeapon(EntityID entity)
 {
 	if (!isEntityAlive(entity)) return nullptr;
@@ -106,6 +111,11 @@ ColliderComponent* EntityManager::getCollider(EntityID entity)
 	if (!isEntityAlive(entity)) return nullptr;
 
 	return const_cast<ColliderComponent*>(std::as_const(*this).getCollider(entity));
+}
+IntentComponent* EntityManager::getIntent(EntityID entity)
+{
+	if (!isEntityAlive(entity)) return nullptr;
+	return const_cast<IntentComponent*>(std::as_const(*this).getIntent(entity));
 }
 const WeaponComponent* EntityManager::getWeapon(EntityID entity) const
 {
@@ -166,6 +176,16 @@ const ColliderComponent* EntityManager::getCollider(EntityID entity) const
 
 	auto it = m_colliders.find(entity);
 	if (it != m_colliders.end())
+	{
+		return &it->second;
+	}
+	return nullptr;
+}
+const IntentComponent* EntityManager::getIntent(EntityID entity) const
+{
+	if (!isEntityAlive(entity)) return nullptr;
+	auto it = m_intents.find(entity);
+	if (it != m_intents.end())
 	{
 		return &it->second;
 	}

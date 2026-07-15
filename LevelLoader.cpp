@@ -58,6 +58,8 @@ void LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atlas& at
                 
                 scene.getEntityManager().addComponent(playerEntity, transform);
                 scene.getEntityManager().addComponent(playerEntity, sprite);
+                // Add intent component so input/actions can be applied to this entity
+                scene.getEntityManager().addComponent(playerEntity, IntentComponent{});
                 scene.getEntityManager().addComponent(playerEntity, RigidbodyComponent{});
                 scene.getEntityManager().addComponent(playerEntity, ColliderComponent{ { tileSize, tileSize } });
                 scene.getEntityManager().addComponent(playerEntity, TagComponent{ "Player" });
@@ -77,6 +79,8 @@ void LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atlas& at
 				sprite.spriteID = atlas.getSpriteId("hero");
 				scene.getEntityManager().addComponent(enemyEntity, transform);
 				scene.getEntityManager().addComponent(enemyEntity, sprite);
+                // Add intent component for enemies as well (so ActionSystem can safely query intent)
+                scene.getEntityManager().addComponent(enemyEntity, IntentComponent{});
 				scene.getEntityManager().addComponent(enemyEntity, RigidbodyComponent{});
 				scene.getEntityManager().addComponent(enemyEntity, ColliderComponent{ { tileSize, tileSize } });
 				scene.getEntityManager().addComponent(enemyEntity, TagComponent{ "Enemy" });

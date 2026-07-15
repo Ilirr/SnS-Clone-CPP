@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
 class Window;
-
 class InputManager
 {
 public:

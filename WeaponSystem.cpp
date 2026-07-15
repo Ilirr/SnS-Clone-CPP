@@ -48,13 +48,19 @@ void WeaponSystem::update(Scene& scene, float deltaTime)
 }
 void WeaponSystem::updateWeaponState(WeaponComponent& weapon, float deltaTime)
 {
-	if (weapon.state.isAttacking)
+
+	switch (weapon.state)
 	{
-		weapon.state.attackTimer += deltaTime;
-		if (weapon.state.attackTimer >= weapon.state.attackDuration)
-		{
-			weapon.state.isAttacking = false;
-			weapon.state.attackTimer = 0.0f;
-		}
+		case WeaponState::Idle:
+			break;
+
+		case WeaponState::Attacking:
+			weapon.attackTimer += deltaTime;
+			if (weapon.attackTimer >= weapon.attackDuration)
+			{
+				weapon.state = WeaponState::Idle;
+				weapon.attackTimer = 0.0f;
+			}
+			break;
 	}
 }

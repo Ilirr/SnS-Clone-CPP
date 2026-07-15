@@ -44,9 +44,6 @@ void Application::initGraphics()
 			renderer->onResize(window->getWidth(), window->getHeight());
 		}
 	}
-
-	
-
 }
 void Application::run()
 {
@@ -71,7 +68,6 @@ void Application::run()
 		window->processInput();
 		m_input->update();
 		m_game->handleInput(*m_input);
-		
 		while (accumulator >= dt)
 		{
 			m_game->update(dt);

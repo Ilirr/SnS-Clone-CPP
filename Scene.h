@@ -39,9 +39,8 @@ public:
 	SpriteComponent* getSprite(EntityID entity) { return m_entityMgr.getSprite(entity); }
 	ColliderComponent* getCollider(EntityID entity) { return m_entityMgr.getCollider(entity); }
 	WeaponComponent* getWeapon(EntityID entity) { return m_entityMgr.getWeapon(entity); }
-
+	IntentComponent* getIntent(EntityID entity) { return m_entityMgr.getIntent(entity); }
 	EntityManager& getEntityManager() { return m_entityMgr; }
-
 	EntityID getPlayerEntity() const { return m_playerEntity; }
 
 	// const accessors
@@ -51,9 +50,8 @@ public:
 	const SpriteComponent* getSprite(EntityID entity) const { return m_entityMgr.getSprite(entity); }
 	const ColliderComponent* getCollider(EntityID entity) const { return m_entityMgr.getCollider(entity); }
 	const WeaponComponent* getWeapon(EntityID entity) const { return m_entityMgr.getWeapon(entity); }
-
+	const IntentComponent* getIntent(EntityID entity) const { return m_entityMgr.getIntent(entity); }
 	const std::vector<EntityID>& getActiveEntities() const { return m_activeEntities; };
-
 	const EntityManager& getEntityManager() const { return m_entityMgr; }
 
 private: 

@@ -1,6 +1,5 @@
 #include "Input.h"
 #include "Window.h"
-
 InputManager::InputManager(Window* window)
 	: m_window(window), m_prev(MaxKeys), m_curr(MaxKeys)
 {

@@ -31,17 +31,11 @@
     <Filter Include="Header Files\Graphics Headers">
       <UniqueIdentifier>{f5b785d0-d786-48ed-95fd-9bb9857a2d70}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Physics Headers">
-      <UniqueIdentifier>{df33008b-adea-4276-b3ef-1d0f4f10192d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{ec4e6db1-2c69-414a-8ddb-e7ca7a920204}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{520bd200-bd8c-4a75-9ca4-81865e1f90e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Physics">
-      <UniqueIdentifier>{56ef05f0-8064-4ee3-9e51-1b86401005e2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Entity Headers">
       <UniqueIdentifier>{4fd6b973-62e2-4766-a81b-e6e6ed5470bf}</UniqueIdentifier>
@@ -59,9 +53,6 @@
     </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Atlas.cpp">
       <Filter>Source Files\Graphics</Filter>
@@ -102,6 +93,12 @@
     <ClCompile Include="WeaponRegistry.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="ActionSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Window.h">
@@ -134,9 +131,6 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files\Graphics Headers</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsSystem.h">
-      <Filter>Header Files\Physics Headers</Filter>
-    </ClInclude>
     <ClInclude Include="GameManager.h">
       <Filter>Header Files\Game Headers</Filter>
     </ClInclude>
@@ -160,6 +154,12 @@
     </ClInclude>
     <ClInclude Include="WeaponRegistry.h">
       <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsSystem.h">
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionSystem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

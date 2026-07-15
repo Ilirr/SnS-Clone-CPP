@@ -23,22 +23,23 @@ public:
 	void addComponent(EntityID entity, const ColliderComponent& collider);
 	void addComponent(EntityID entity, const TagComponent& tag);
 	void addComponent(EntityID entity, const WeaponComponent& weapon);
+	void addComponent(EntityID entity, const IntentComponent& intent);
 
-	// non-const accessors
 	TransformComponent* getTransform(EntityID entity);
 	RigidbodyComponent* getRigidbody(EntityID entity);
 	SpriteComponent* getSprite(EntityID entity);
 	ColliderComponent* getCollider(EntityID entity);
 	TagComponent* getTag(EntityID entity);
 	WeaponComponent* getWeapon(EntityID entity);
+	IntentComponent* getIntent(EntityID entity);
 
-	// const accessors
 	const TransformComponent* getTransform(EntityID entity) const;
 	const RigidbodyComponent* getRigidbody(EntityID entity) const;
 	const SpriteComponent* getSprite(EntityID entity) const;
 	const ColliderComponent* getCollider(EntityID entity) const;
 	const TagComponent* getTag(EntityID entity) const;
 	const WeaponComponent* getWeapon(EntityID entity) const;
+	const IntentComponent* getIntent(EntityID entity) const;
 
 private:
 
@@ -51,4 +52,5 @@ private:
 	std::unordered_map<EntityID, ColliderComponent, EntityIDHash> m_colliders;
 	std::unordered_map<EntityID, TagComponent, EntityIDHash> m_tags;
 	std::unordered_map<EntityID, WeaponComponent, EntityIDHash> m_weapons;
+	std::unordered_map<EntityID, IntentComponent, EntityIDHash> m_intents;
 };

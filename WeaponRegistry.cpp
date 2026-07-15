@@ -9,7 +9,6 @@ void WeaponRegistry::init(const Atlas& atlas)
 {
 	s_defs.clear();
 
-	// Sword - use the hero sprite for now (will replace with actual sword sprite later)
 	WeaponDefinition sword;
 	sword.weaponID = 1;
 	sword.spriteID = atlas.getSpriteId("hero");
@@ -17,7 +16,6 @@ void WeaponRegistry::init(const Atlas& atlas)
 	sword.attackDuration = 0.5f;
 	s_defs[WeaponType::Sword] = sword;
 
-	// Spear
 	WeaponDefinition spear;
 	spear.weaponID = 2;
 	spear.spriteID = atlas.getSpriteId("spear");
@@ -25,8 +23,6 @@ void WeaponRegistry::init(const Atlas& atlas)
 	spear.attackDuration = 0.6f;
 	s_defs[WeaponType::Spear] = spear;
 
-	// You can add more weapons here. If atlas doesn't contain the sprite name,
-	// spriteID will be -1 which is handled by rendering code.
 }
 
 void WeaponRegistry::initForEntity(Scene& scene, EntityID owner, WeaponType type)
@@ -47,7 +43,7 @@ void WeaponRegistry::initForEntity(Scene& scene, EntityID owner, WeaponType type
 	weaponComp.type = type;
 	weaponComp.definition = get(type);
 	weaponComp.weaponEntity = weaponEnt;
-	weaponComp.state.attackDuration = weaponComp.definition.attackDuration;
+	weaponComp.attackDuration = weaponComp.definition.attackDuration;
 
 	SpriteComponent weaponSprite;
 	weaponSprite.spriteID = weaponComp.definition.spriteID;
@@ -56,7 +52,6 @@ void WeaponRegistry::initForEntity(Scene& scene, EntityID owner, WeaponType type
 	weaponCollider.size = weaponTransform.size;
 	weaponCollider.owner = owner;
 
-	// If the owner already has a sprite, match its flip state
 	auto ownerSprite = scene.getSprite(owner);
 	if (ownerSprite) weaponSprite.flipX = ownerSprite->flipX;
 
