@@ -5,7 +5,7 @@
 #include <fstream>
 #include <iostream>
 
-void LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atlas& atlas, float tileSize)
+void LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atlas& atlas, const WeaponRegistry& weaponRegistry, float tileSize)
 {
     std::ifstream file(filePath);
     
@@ -64,7 +64,7 @@ void LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atlas& at
                 scene.getEntityManager().addComponent(playerEntity, ColliderComponent{ { tileSize, tileSize } });
                 scene.getEntityManager().addComponent(playerEntity, TagComponent{ "Player" });
 
-                WeaponRegistry::initForEntity(scene, playerEntity, WeaponType::Sword);
+                weaponRegistry.initForEntity(scene, playerEntity, WeaponType::Sword);
 
                 scene.setPlayerEntity(playerEntity);
             }
@@ -84,7 +84,7 @@ void LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atlas& at
 				scene.getEntityManager().addComponent(enemyEntity, RigidbodyComponent{});
 				scene.getEntityManager().addComponent(enemyEntity, ColliderComponent{ { tileSize, tileSize } });
 				scene.getEntityManager().addComponent(enemyEntity, TagComponent{ "Enemy" });
-				WeaponRegistry::initForEntity(scene, enemyEntity, WeaponType::Sword);
+                weaponRegistry.initForEntity(scene, enemyEntity, WeaponType::Sword);
 			}
         }
         row++;

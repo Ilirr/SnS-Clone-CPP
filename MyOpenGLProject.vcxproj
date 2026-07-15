@@ -152,6 +152,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
+    <ClCompile Include="PlayerInputSystem.cpp" />
     <ClCompile Include="RendererSystem.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="src\glad.c" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="PhysicsSystem.h" />
+    <ClInclude Include="PlayerInputSystem.h" />
     <ClInclude Include="Renderer2D.h" />
     <ClInclude Include="RendererSystem.h" />
     <ClInclude Include="Scene.h" />

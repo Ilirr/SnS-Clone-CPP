@@ -11,12 +11,12 @@ struct WeaponTypeHash
 class WeaponRegistry
 {
 public:
-	static void init(const Atlas& atlas);
-	static void initForEntity(class Scene& scene, EntityID owner, WeaponType type);
-	static const WeaponDefinition& get(WeaponType type);
-	static bool has(WeaponType type);
+	void init(const Atlas& atlas);
+	void initForEntity(class Scene& scene, EntityID owner, WeaponType type) const;
+	const WeaponDefinition& get(WeaponType type) const;
+	bool has(WeaponType type) const;
 
 private:
-	static std::unordered_map<WeaponType, WeaponDefinition, WeaponTypeHash> s_defs;
-	static WeaponDefinition s_default;
+	std::unordered_map<WeaponType, WeaponDefinition, WeaponTypeHash> m_definitions;
+	WeaponDefinition m_default;
 };

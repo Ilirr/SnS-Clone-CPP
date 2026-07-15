@@ -2,30 +2,27 @@
 #include "Scene.h"
 #include <utility>
 
-std::unordered_map<WeaponType, WeaponDefinition, WeaponTypeHash> WeaponRegistry::s_defs;
-WeaponDefinition WeaponRegistry::s_default;
-
 void WeaponRegistry::init(const Atlas& atlas)
 {
-	s_defs.clear();
+	m_definitions.clear();
 
 	WeaponDefinition sword;
 	sword.weaponID = 1;
 	sword.spriteID = atlas.getSpriteId("hero");
 	sword.damage = 12;
 	sword.attackDuration = 0.5f;
-	s_defs[WeaponType::Sword] = sword;
+	m_definitions[WeaponType::Sword] = sword;
 
 	WeaponDefinition spear;
 	spear.weaponID = 2;
 	spear.spriteID = atlas.getSpriteId("spear");
 	spear.damage = 10;
 	spear.attackDuration = 0.6f;
-	s_defs[WeaponType::Spear] = spear;
+	m_definitions[WeaponType::Spear] = spear;
 
 }
 
-void WeaponRegistry::initForEntity(Scene& scene, EntityID owner, WeaponType type)
+void WeaponRegistry::initForEntity(Scene& scene, EntityID owner, WeaponType type) const
 {
 	// Guard: owner must have a transform
 	TransformComponent* ownerTransform = scene.getTransform(owner);
@@ -62,14 +59,14 @@ void WeaponRegistry::initForEntity(Scene& scene, EntityID owner, WeaponType type
 	scene.getEntityManager().addComponent(owner, weaponComp);
 }
 
-const WeaponDefinition& WeaponRegistry::get(WeaponType type)
+const WeaponDefinition& WeaponRegistry::get(WeaponType type) const
 {
-	auto it = s_defs.find(type);
-	if (it != s_defs.end()) return it->second;
-	return s_default;
+	auto it = m_definitions.find(type);
+	if (it != m_definitions.end()) return it->second;
+	return m_default;
 }
 
-bool WeaponRegistry::has(WeaponType type)
+bool WeaponRegistry::has(WeaponType type) const
 {
-	return s_defs.find(type) != s_defs.end();
+	return m_definitions.find(type) != m_definitions.end();
 }
