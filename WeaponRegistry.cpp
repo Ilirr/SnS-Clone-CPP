@@ -47,6 +47,7 @@ void WeaponRegistry::initForEntity(Scene& scene, EntityID owner, WeaponType type
 		weaponTransform.size.x * 0.5f,
 		weaponTransform.size.y * 0.5f - weaponCollider.size.y * 0.5f
 	};
+	weaponCollider.isSolid = false;
 	weaponCollider.owner = owner;
 
 	auto ownerSprite = scene.getSprite(owner);

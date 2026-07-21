@@ -196,7 +196,11 @@ glm::vec2 LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atla
         const Json* enemy = findEntity(level, "EnemyA");
         if (enemy)
         {
-            addVisualEntity(*enemy, scene, atlas, "EnemyA");
+            const EntityID enemyEntity = addVisualEntity(*enemy, scene, atlas, "Player");
+            scene.getEntityManager().addComponent(enemyEntity, IntentComponent{});
+            scene.getEntityManager().addComponent(enemyEntity, RigidbodyComponent{});
+            scene.getEntityManager().addComponent(enemyEntity, ColliderComponent{ { 20.0f, 38.0f } });
+            weaponRegistry.initForEntity(scene, enemyEntity, WeaponType::Sword);
         }
         return levelSize;
     }

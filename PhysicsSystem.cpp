@@ -86,9 +86,7 @@ void PhysicsSystem::resolveCandidates(
 			continue;
 		}
 
-		if ((collider->owner.isValid() && collider->owner == other) ||
-			(otherCollider->owner.isValid() && otherCollider->owner == entity) ||
-			!checkAABB(entity, other))
+		if ((collider->owner.isValid() && collider->owner == other) || (otherCollider->owner.isValid() && otherCollider->owner == entity) || !checkAABB(entity, other))
 		{
 			continue;
 		}
