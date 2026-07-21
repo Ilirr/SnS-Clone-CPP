@@ -4,22 +4,41 @@
 
 Atlas::Atlas(const std::string& texturePath)
 {
-
-	m_Texture = std::make_unique<Texture>(texturePath);
+	m_Textures.push_back(std::make_unique<Texture>(texturePath));
 }
 Atlas::~Atlas() = default;
 int Atlas::addSprite(const std::string& name, float x, float y, float width, float height)
 {
-	if (!m_Texture || !m_Texture->isValid())
+	if (m_Textures.empty() || !m_Textures.front()->isValid())
 	{
 		std::cerr << "Cannot add sprite '" << name << "' because the atlas texture is invalid.\n";
 		return -1;
 	}
 
-	glm::vec2 minPx = glm::vec2(x, y);
-	glm::vec2 maxPx = glm::vec2(x + width, y + height);
+	const Texture& texture = *m_Textures.front();
+	SubTexture2D subTex = SubTexture2D::CreateFromPixels(
+		texture, { x, y }, { x + width, y + height });
 
-	SubTexture2D subTex = SubTexture2D::CreateFromPixels(*m_Texture, minPx, maxPx);
+	m_SpriteList.push_back(std::move(subTex));
+	int id = static_cast<int>(m_SpriteList.size() - 1);
+	m_SpriteNameToID[name] = id;
+	return id;
+}
+
+int Atlas::addSpriteFromTexture(const std::string& name, const std::string& texturePath,
+	float x, float y, float width, float height)
+{
+	auto texture = std::make_unique<Texture>(texturePath);
+	if (!texture->isValid())
+	{
+		std::cerr << "Cannot add sprite '" << name << "' because the texture is invalid.\n";
+		return -1;
+	}
+
+	Texture* texturePtr = texture.get();
+	m_Textures.push_back(std::move(texture));
+	SubTexture2D subTex = SubTexture2D::CreateFromPixels(
+		*texturePtr, { x, y }, { x + width, y + height });
 
 	m_SpriteList.push_back(std::move(subTex));
 	int id = static_cast<int>(m_SpriteList.size() - 1);
@@ -42,10 +61,10 @@ SubTexture2D Atlas::getSpriteById(int id) const
 	else
 	{
 		std::cerr << "Warning: Sprite ID " << id << " not found in atlas!\n";
-		return SubTexture2D(*m_Texture, glm::vec4(0, 0, 1, 1));
+		return SubTexture2D(*m_Textures.front(), glm::vec4(0, 0, 1, 1));
 	}
 }
 const Texture& Atlas::getTexture() const
 {
-	return *m_Texture;
+	return *m_Textures.front();
 }

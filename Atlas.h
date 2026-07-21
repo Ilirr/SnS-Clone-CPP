@@ -13,6 +13,8 @@ public:
 
 
 	int addSprite(const std::string& name, float x, float y, float width, float height);
+	int addSpriteFromTexture(const std::string& name, const std::string& texturePath,
+		float x, float y, float width, float height);
 	int getSpriteId(const std::string& name) const;
 
 	SubTexture2D getSpriteById(int id) const;
@@ -20,7 +22,7 @@ public:
 	const Texture& getTexture() const;
 
 private:
-	std::unique_ptr<Texture> m_Texture;
+	std::vector<std::unique_ptr<Texture>> m_Textures;
 
 	std::vector<SubTexture2D> m_SpriteList; // stable list of sprites for ID-based access
 

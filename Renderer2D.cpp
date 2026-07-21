@@ -51,13 +51,18 @@ void Renderer2D::init()
 
     shader = std::make_unique<Shader>("assets/shaders/basic.vert", "assets/shaders/basic.frag");
 
-    const float initialW = 800.0f;
-    const float initialH = 600.0f;
+    const float initialW = 320.0f;
+    const float initialH = 180.0f;
     glViewport(0, 0, static_cast<GLint>(initialW), static_cast<GLint>(initialH));
     glm::mat4 projection = glm::ortho(0.0f, initialW, initialH, 0.0f, -1.0f, 1.0f);
 
     shader->use();
-    shader->setInt("u_Texture", 0); // ensure shader samples from texture unit 0
+    int textureSamplers[MaxTextureSlots];
+    for (int i = 0; i < static_cast<int>(MaxTextureSlots); ++i)
+    {
+        textureSamplers[i] = i;
+    }
+    shader->setIntArray("u_Textures", textureSamplers, MaxTextureSlots);
     shader->mat4("u_Projection", projection); 
 
     // Generate the repeating Index pattern on the CPU
@@ -105,6 +110,9 @@ void Renderer2D::init()
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), reinterpret_cast<void*>(offsetof(QuadVertex, texCoord)));
 
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(QuadVertex), reinterpret_cast<void*>(offsetof(QuadVertex, texIndex)));
+
     // unbind VAO 
     glBindVertexArray(0);
 
@@ -123,8 +131,10 @@ void Renderer2D::begin(double alpha)
     shader->mat4("u_View", view);
     glBindVertexArray(m_VAO);
    
-    m_CurrentTexture = nullptr;  // On a new frame, clear tracked texture so the first draw will bind its texture
-    m_UsingWhiteTexture = false;
+    m_TextureSlotIndex = 1;
+    m_TextureSlots[0] = m_WhiteTexture;
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_WhiteTexture);
     // Reset CPU staging pointers/counts for a fresh batch
     m_QuadBufferPtr = m_QuadBufferBase;
     m_IndexCount = 0;
@@ -155,6 +165,30 @@ void Renderer2D::flush()
     // reset for next batch
     m_IndexCount = 0;
     m_QuadBufferPtr = m_QuadBufferBase;
+     m_TextureSlotIndex = 1;
+     m_TextureSlots[0] = m_WhiteTexture;
+}
+
+float Renderer2D::getTextureIndex(const Texture& texture)
+{
+    const GLuint textureID = texture.getID();
+    for (uint32_t i = 1; i < m_TextureSlotIndex; ++i)
+    {
+        if (m_TextureSlots[i] == textureID)
+        {
+            return static_cast<float>(i);
+        }
+    }
+
+    if (m_TextureSlotIndex >= MaxTextureSlots)
+    {
+        flush();
+    }
+
+    const uint32_t slot = m_TextureSlotIndex++;
+    m_TextureSlots[slot] = textureID;
+    texture.bind(slot);
+    return static_cast<float>(slot);
 }
 void Renderer2D::onResize(int width, int height)
 {
@@ -162,7 +196,7 @@ void Renderer2D::onResize(int width, int height)
 
     glViewport(0, 0, width, height);
     
-    const float virtualW = 800.0f, virtualH = 600.0f;
+    const float virtualW = 320.0f, virtualH = 180.0f;
     float windowAspect = float(width) / float(height);
 
     float virtualAspect = virtualW / virtualH;
@@ -184,38 +218,34 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
         flush();
     }
 
-    const Texture* incomingTexture = &tex;
-    if (incomingTexture != m_CurrentTexture)
-    {
-        flush();
-        m_CurrentTexture = incomingTexture;
-        if (m_CurrentTexture)
-            m_CurrentTexture->bind(0);
-        m_UsingWhiteTexture = false;
-    }
+    const float textureIndex = getTextureIndex(tex);
 
     // Vertex 0 (Top Left)
     m_QuadBufferPtr->position = { position.x, position.y };
     m_QuadBufferPtr->color = color;
     m_QuadBufferPtr->texCoord = { 0.0f, 0.0f };
+    m_QuadBufferPtr->texIndex = textureIndex;
     m_QuadBufferPtr++; // Jumps forward exactly sizeof(QuadVertex) bytes
 
     // Vertex 1 (Top Right)
     m_QuadBufferPtr->position = { position.x + size.x, position.y };
     m_QuadBufferPtr->color = color;
     m_QuadBufferPtr->texCoord = { 1.0f, 0.0f };
+    m_QuadBufferPtr->texIndex = textureIndex;
     m_QuadBufferPtr++;
 
     // Vertex 2 (Bottom Right)
     m_QuadBufferPtr->position = { position.x + size.x, position.y + size.y };
     m_QuadBufferPtr->color = color;
     m_QuadBufferPtr->texCoord = { 1.0f, 1.0f };
+    m_QuadBufferPtr->texIndex = textureIndex;
     m_QuadBufferPtr++;
 
     // Vertex 3 (Bottom Left)
     m_QuadBufferPtr->position = { position.x, position.y + size.y };
     m_QuadBufferPtr->color = color;
     m_QuadBufferPtr->texCoord = { 0.0f, 1.0f };
+    m_QuadBufferPtr->texIndex = textureIndex;
     m_QuadBufferPtr++;
 
     // 1 quad = 2 triangles = 6 indices
@@ -238,14 +268,6 @@ void Renderer2D::drawRectOutline(const glm::vec2& position, const glm::vec2& siz
             flush();
         }
 
-        if (m_CurrentTexture != nullptr)
-        {
-            flush();
-            m_CurrentTexture = nullptr;
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, m_WhiteTexture);
-        }
-
         const glm::vec2 positions[] = {
             quadPosition,
             { quadPosition.x + quadSize.x, quadPosition.y },
@@ -258,6 +280,7 @@ void Renderer2D::drawRectOutline(const glm::vec2& position, const glm::vec2& siz
             m_QuadBufferPtr->position = positions[i];
             m_QuadBufferPtr->color = color;
             m_QuadBufferPtr->texCoord = uvs[i];
+            m_QuadBufferPtr->texIndex = 0.0f;
             ++m_QuadBufferPtr;
         }
         m_IndexCount += 6;
@@ -277,18 +300,7 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
         flush();
 
     }
-    const Texture* incomingTexture = &subTex.getTexture();
-    if (incomingTexture != m_CurrentTexture)
-    {
-        flush();
-
-        // Update our tracker to the new texture
-        m_CurrentTexture = incomingTexture;
-
-        // Bind the new texture to the GPU
-        m_CurrentTexture->bind(0);
-        m_UsingWhiteTexture = false;
-    }
+    const float textureIndex = getTextureIndex(subTex.getTexture());
 
     const glm::vec2* uv = subTex.getTexCoords();
     // When flipped horizontally we swap the left and right UVs
@@ -301,24 +313,28 @@ void Renderer2D::drawQuad(const glm::vec2& position, const glm::vec2& size, cons
     m_QuadBufferPtr->position = { position.x, position.y };
     m_QuadBufferPtr->color = color;
     m_QuadBufferPtr->texCoord = uv0;
+    m_QuadBufferPtr->texIndex = textureIndex;
     m_QuadBufferPtr++;
 
     // Vertex 1 (Top Right)
     m_QuadBufferPtr->position = { position.x + size.x, position.y };
     m_QuadBufferPtr->color = color;
     m_QuadBufferPtr->texCoord = uv1;
+    m_QuadBufferPtr->texIndex = textureIndex;
     m_QuadBufferPtr++;
 
     // Vertex 2 (Bottom Right)
     m_QuadBufferPtr->position = { position.x + size.x, position.y + size.y };
     m_QuadBufferPtr->color = color;
     m_QuadBufferPtr->texCoord = uv2;
+    m_QuadBufferPtr->texIndex = textureIndex;
     m_QuadBufferPtr++;
 
     // Vertex 3 (Bottom Left)
     m_QuadBufferPtr->position = { position.x, position.y + size.y };
     m_QuadBufferPtr->color = color;
     m_QuadBufferPtr->texCoord = uv3;
+    m_QuadBufferPtr->texIndex = textureIndex;
     m_QuadBufferPtr++;
 
     m_IndexCount += 6;

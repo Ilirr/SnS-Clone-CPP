@@ -43,3 +43,6 @@ Debug/
 *.ilk
 *.tlog
 MyOpenGLProject/x64/Debug/
+*.png
+*.gif
+*.txt

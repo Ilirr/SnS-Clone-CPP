@@ -14,6 +14,7 @@ public:
 	void unbind();
 
 	bool isValid() const;
+	GLuint getID() const { return ID; }
 
 	int getWidth() const;
 	int getHeight() const;

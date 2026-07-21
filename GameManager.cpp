@@ -2,7 +2,9 @@
 #include "LevelLoader.h"
 #include "Input.h"
 #include "Atlas.h"
+#include "Texture.h"
 #include <GLFW/glfw3.h>
+#include <algorithm>
 
 GameManager::GameManager(){}
 void GameManager::init(Atlas& atlas)
@@ -11,10 +13,32 @@ void GameManager::init(Atlas& atlas)
 
 	m_scene.addListener(&m_physicsMgr);
 
-	// initialize weapon definitions (resolve sprite IDs using the atlas)
 	m_weaponRegistry.init(atlas);
 
-	loader.loadLevel("assets/levels/levels1.txt", m_scene, atlas, m_weaponRegistry, 64.0f);
+	EntityID backgroundEntity = m_scene.createEntity();
+	TransformComponent backgroundTransform;
+	backgroundTransform.size = { 320.0f, 180.0f };
+	backgroundTransform.prevPosition = backgroundTransform.position;
+	m_backgroundSize = backgroundTransform.size;
+
+	SpriteComponent backgroundSprite;
+	backgroundSprite.spriteID = atlas.getSpriteId("background");
+
+	m_scene.getEntityManager().addComponent(backgroundEntity, backgroundTransform);
+	m_scene.getEntityManager().addComponent(backgroundEntity, backgroundSprite);
+
+	const glm::vec2 levelSize = loader.loadLevel("assets/levels/final.ldtk", m_scene, atlas, m_weaponRegistry, 16.0f);
+	if (levelSize.x > 0.0f && levelSize.y > 0.0f)
+	{
+		m_backgroundSize = levelSize;
+		backgroundTransform.size = levelSize;
+		m_scene.getEntityManager().addComponent(backgroundEntity, backgroundTransform);
+	}
+	float maxCameraX = std::max(0.0f, m_backgroundSize.x - m_camera.getViewportWidth());
+	float maxCameraY = std::max(0.0f, m_backgroundSize.y - m_camera.getViewportHeight());
+
+	m_camera.setMaxCameraX(maxCameraX);
+	m_camera.setMaxCameraY(maxCameraY);
 
 }
 void GameManager::handleInput(const InputManager& input)
@@ -46,10 +70,15 @@ void GameManager::update(double dt)
 
 	if (m_scene.getEntityManager().isEntityAlive(p) && p_transform)
 	{
-		float camX = p_transform->position.x - 400.0f;
-		float camY = p_transform->position.y - 300.0f;
+
+		float camX = std::clamp(p_transform->position.x - m_camera.getViewportWidth() * 0.5f, 0.0f, m_camera.getMaxCameraX());
+		float camY = std::clamp(p_transform->position.y - m_camera.getViewportHeight() * 0.5f, 0.0f, m_camera.getMaxCameraY());
 		m_camera.setPosition(glm::vec2(camX, camY));
 		
+	}
+	else
+	{
+		return;
 	}
 }
 	

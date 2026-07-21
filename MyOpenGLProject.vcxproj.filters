@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="assets">
       <UniqueIdentifier>{db59237c-44a1-4d83-a303-43ec57de3a28}</UniqueIdentifier>
     </Filter>
@@ -39,6 +35,10 @@
     </Filter>
     <Filter Include="Header Files\Entity Headers">
       <UniqueIdentifier>{4fd6b973-62e2-4766-a81b-e6e6ed5470bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -181,19 +181,17 @@
     <None Include="assets\shaders\basic.vert">
       <Filter>assets\shaders</Filter>
     </None>
-    <None Include="assets\levels\hello.ldtk">
+    <None Include=".github\copilot-instructions.md" />
+    <None Include="assets\levels\final.ldtk">
       <Filter>assets\levels</Filter>
     </None>
-    <None Include=".github\copilot-instructions.md" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\hero.png">
       <Filter>assets\textures</Filter>
     </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="assets\levels\levels1.txt">
+    <Image Include="assets\levels\Free.png">
       <Filter>assets\levels</Filter>
-    </Text>
+    </Image>
   </ItemGroup>
 </Project>

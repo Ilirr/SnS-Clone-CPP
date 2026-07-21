@@ -18,6 +18,7 @@ public:
 	void vec4(const std::string& name, const glm::vec4& v) const;
 
 	void setInt(const std::string& name, int value) const;
+	void setIntArray(const std::string& name, const int* values, int count) const;
 
 private:
 	GLuint ID = 0;

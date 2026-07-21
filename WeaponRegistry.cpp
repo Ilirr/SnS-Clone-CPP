@@ -8,14 +8,12 @@ void WeaponRegistry::init(const Atlas& atlas)
 
 	WeaponDefinition sword;
 	sword.weaponID = 1;
-	sword.spriteID = atlas.getSpriteId("hero");
 	sword.damage = 12;
 	sword.attackDuration = 0.5f;
 	m_definitions[WeaponType::Sword] = sword;
 
 	WeaponDefinition spear;
 	spear.weaponID = 2;
-	spear.spriteID = atlas.getSpriteId("spear");
 	spear.damage = 10;
 	spear.attackDuration = 0.6f;
 	m_definitions[WeaponType::Spear] = spear;
@@ -42,18 +40,18 @@ void WeaponRegistry::initForEntity(Scene& scene, EntityID owner, WeaponType type
 	weaponComp.weaponEntity = weaponEnt;
 	weaponComp.attackDuration = weaponComp.definition.attackDuration;
 
-	SpriteComponent weaponSprite;
-	weaponSprite.spriteID = weaponComp.definition.spriteID;
 
 	ColliderComponent weaponCollider;
-	weaponCollider.size = weaponTransform.size;
+	weaponCollider.size = { 32.0f, 16.0f };
+	weaponCollider.offset = {
+		weaponTransform.size.x * 0.5f,
+		weaponTransform.size.y * 0.5f - weaponCollider.size.y * 0.5f
+	};
 	weaponCollider.owner = owner;
 
 	auto ownerSprite = scene.getSprite(owner);
-	if (ownerSprite) weaponSprite.flipX = ownerSprite->flipX;
 
 	scene.getEntityManager().addComponent(weaponEnt, weaponTransform);
-	scene.getEntityManager().addComponent(weaponEnt, weaponSprite);
 	scene.getEntityManager().addComponent(weaponEnt, weaponCollider);
 	scene.getEntityManager().addComponent(weaponEnt, TagComponent{ "Weapon" });
 	scene.getEntityManager().addComponent(owner, weaponComp);

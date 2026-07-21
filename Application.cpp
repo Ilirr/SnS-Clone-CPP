@@ -26,9 +26,14 @@ Application::~Application(){}
 void Application::initGraphics()
 {
 	renderer = std::make_unique<Renderer2D>();
-	m_atlas = std::make_unique<Atlas>("assets/textures/hero.png");
-	m_atlas->addSprite("hero", 0, 0, 64, 64);
-	m_atlas->addSprite("sword", 64, 0, 64, 64);
+	m_atlas = std::make_unique<Atlas>("assets/levels/moon.png");
+	m_atlas->addSprite(
+		"background",
+		0.0f,
+		0.0f,
+		static_cast<float>(m_atlas->getTexture().getWidth()),
+		static_cast<float>(m_atlas->getTexture().getHeight()));
+	m_atlas->addSpriteFromTexture("hero", "assets/levels/Hero.gif", 40.0f, 40.0f, 20.0f, 38.0f);
 	renderer->setCamera(&m_game->getCamera());
 	
 	if (window && window->isValid())

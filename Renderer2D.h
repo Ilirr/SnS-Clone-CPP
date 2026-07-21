@@ -2,6 +2,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <memory>
+#include <array>
 #include "Camera2D.h"
 
 class Shader;
@@ -26,11 +27,13 @@ public:
 	void flush();
 private:
 	void init();
+	float getTextureIndex(const Texture& texture);
 	struct QuadVertex
 	{
 		glm::vec2 position;
 		glm::vec4 color;
 		glm::vec2 texCoord;
+		float texIndex;
 	};
 	std::unique_ptr<Shader> shader;
 	std::unique_ptr<Texture> texture;
@@ -46,8 +49,9 @@ private:
 	uint32_t m_IndexCount = 0;
 	QuadVertex* m_QuadBufferBase = nullptr;
 	QuadVertex* m_QuadBufferPtr = nullptr;
-	const Texture* m_CurrentTexture = nullptr;
-	bool m_UsingWhiteTexture = false;
+	static constexpr uint32_t MaxTextureSlots = 16;
+	std::array<GLuint, MaxTextureSlots> m_TextureSlots{};
+	uint32_t m_TextureSlotIndex = 1;
 
 	// Camera support: either an external camera pointer or a default internal one
 	const Camera2D* m_Camera = nullptr;

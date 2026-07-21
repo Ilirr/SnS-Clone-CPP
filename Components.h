@@ -33,8 +33,8 @@ struct RigidbodyComponent
     float gravityScale = 1.0f;
     bool isGrounded = false;
 
-    float moveSpeed = 150.0f; 
-    float jumpImpulse = -400.0f; // negative = up
+    float moveSpeed = 100.0f; 
+    float jumpImpulse = -300.0f;
 };
 struct TagComponent
 {
@@ -43,7 +43,6 @@ struct TagComponent
 struct WeaponDefinition
 {
     int weaponID = -1;
-    int spriteID = -1;
     int damage = 10;
     float attackDuration = 0.5f;
 };
@@ -62,7 +61,7 @@ struct WeaponComponent
     WeaponType type = WeaponType::None;
     WeaponState state = WeaponState::Idle;
     WeaponDefinition definition;
-    EntityID weaponEntity; // entity id of the separate weapon visual entity (if any)
+    EntityID weaponEntity; 
     float attackDuration = 0.5f;
     float attackTimer = 0.0f;
 };

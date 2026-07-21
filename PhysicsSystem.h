@@ -16,7 +16,6 @@ public:
 	void onAttach(Scene* scene) override;
 	void onDetach() override;
 
-	// SceneListener overrides
 	void onEntityCreated(EntityID id) override;
 	void onEntityDestroyed(EntityID id) override;
 
@@ -30,8 +29,8 @@ private:
 	void resolveCandidates(EntityID entity, const std::vector<EntityID>& candidates);
 
 	Scene* m_scene = nullptr;
-	SpatialHashGrid m_staticGrid{ 64.0f };
-	SpatialHashGrid m_dynamicGrid{ 64.0f };
+	SpatialHashGrid m_staticGrid{ 16.0f };
+	SpatialHashGrid m_dynamicGrid{ 16.0f };
 	std::vector<EntityID> m_staticCandidates;
 	std::vector<EntityID> m_dynamicCandidates;
 	bool m_staticGridDirty = true;
