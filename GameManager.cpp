@@ -15,27 +15,11 @@ void GameManager::init(Atlas& atlas)
 
 	m_weaponRegistry.init(atlas);
 
-	EntityID backgroundEntity = m_scene.createEntity();
-	TransformComponent backgroundTransform;
-	backgroundTransform.size = { 320.0f, 180.0f };
-	backgroundTransform.prevPosition = backgroundTransform.position;
-	m_backgroundSize = backgroundTransform.size;
-
-	SpriteComponent backgroundSprite;
-	backgroundSprite.spriteID = atlas.getSpriteId("background");
-
-	m_scene.getEntityManager().addComponent(backgroundEntity, backgroundTransform);
-	m_scene.getEntityManager().addComponent(backgroundEntity, backgroundSprite);
-
 	const glm::vec2 levelSize = loader.loadLevel("assets/levels/final.ldtk", m_scene, atlas, m_weaponRegistry, 16.0f);
-	if (levelSize.x > 0.0f && levelSize.y > 0.0f)
-	{
-		m_backgroundSize = levelSize;
-		backgroundTransform.size = levelSize;
-		m_scene.getEntityManager().addComponent(backgroundEntity, backgroundTransform);
-	}
-	float maxCameraX = std::max(0.0f, m_backgroundSize.x - m_camera.getViewportWidth());
-	float maxCameraY = std::max(0.0f, m_backgroundSize.y - m_camera.getViewportHeight());
+	const glm::vec2 validLevelSize =
+		(levelSize.x > 0.0f && levelSize.y > 0.0f) ? levelSize : glm::vec2(0.0f);
+	float maxCameraX = std::max(0.0f, validLevelSize.x - m_camera.getViewportWidth());
+	float maxCameraY = std::max(0.0f, validLevelSize.y - m_camera.getViewportHeight());
 
 	m_camera.setMaxCameraX(maxCameraX);
 	m_camera.setMaxCameraY(maxCameraY);

@@ -118,6 +118,7 @@ EntityID addVisualEntity(const Json& entity, Scene& scene, Atlas& atlas, const s
     }
 
     const EntityID entityId = scene.createEntity();
+
     TransformComponent transform;
     transform.size = { entity.value("width", 20.0f), entity.value("height", 38.0f) };
     transform.position = anchor - glm::vec2(transform.size.x * 0.5f, transform.size.y);
@@ -125,7 +126,6 @@ EntityID addVisualEntity(const Json& entity, Scene& scene, Atlas& atlas, const s
 
     SpriteComponent sprite;
     sprite.spriteID = atlas.getSpriteId("hero");
-
 
     scene.getEntityManager().addComponent(entityId, transform);
     scene.getEntityManager().addComponent(entityId, sprite);
@@ -161,6 +161,18 @@ glm::vec2 LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atla
             std::cerr << "Invalid LDtk level dimensions: " << filePath << "\n";
             return {};
         }
+
+        const EntityID backgroundEntity = scene.createEntity();
+        TransformComponent backgroundTransform;
+        backgroundTransform.size = levelSize;
+        backgroundTransform.prevPosition = backgroundTransform.position;
+
+        SpriteComponent backgroundSprite;
+        backgroundSprite.spriteID = atlas.getSpriteId("background");
+
+        scene.getEntityManager().addComponent(backgroundEntity, backgroundTransform);
+        scene.getEntityManager().addComponent(backgroundEntity, backgroundSprite);
+
         addCollisionEntities(level, scene, tileSize);
 
         const Json* hero = findEntity(level, "Hero");
@@ -169,11 +181,6 @@ glm::vec2 LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atla
             std::cerr << "No Hero entity found in LDtk level: " << filePath << "\n";
             return {};
         }
-        if (hero)
-        {
-            std::cerr << "Found hero: " << filePath << "\n";
-        }
-          
         const EntityID playerEntity = addVisualEntity(*hero, scene, atlas, "Player");
         if (!playerEntity.isValid())
         {
@@ -191,7 +198,6 @@ glm::vec2 LevelLoader::loadLevel(const std::string& filePath, Scene& scene, Atla
         {
             addVisualEntity(*enemy, scene, atlas, "EnemyA");
         }
-
         return levelSize;
     }
     catch (const Json::parse_error& error)

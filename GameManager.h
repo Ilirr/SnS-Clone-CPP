@@ -31,7 +31,6 @@ private:
 	ActionSystem m_actionMgr;
 	PlayerInputSystem m_playerInputSystem;
 	Camera2D m_camera;
-	glm::vec2 m_backgroundSize = { 0.0f, 0.0f };
 	bool m_showSpatialGrid = false;
 
 };
