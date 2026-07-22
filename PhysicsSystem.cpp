@@ -7,7 +7,7 @@ PhysicsSystem::PhysicsSystem()
 
 }
 
-AABB PhysicsSystem::getWorldAABB(EntityID entity) const
+AABB PhysicsSystem::getAABB(EntityID entity) const
 {
 	const TransformComponent* transform = m_scene->getTransform(entity);
 	const ColliderComponent* collider = m_scene->getCollider(entity);
@@ -18,46 +18,6 @@ AABB PhysicsSystem::getWorldAABB(EntityID entity) const
 
 	const glm::vec2 min = transform->position + collider->offset;
 	return { min, min + collider->size };
-}
-
-void PhysicsSystem::rebuildStaticGrid()
-{
-	m_staticGrid.clear();
-
-	for (EntityID entity : m_scene->getActiveEntities())
-	{
-		const ColliderComponent* collider = m_scene->getCollider(entity);
-		if (!collider || !collider->isSolid || collider->owner.isValid() ||
-			m_scene->getRigidbody(entity) || !m_scene->getTransform(entity))
-		{
-			continue;
-		}
-
-		m_staticGrid.insert(entity, getWorldAABB(entity));
-	}
-
-	m_staticGridDirty = false;
-}
-
-void PhysicsSystem::rebuildDynamicGrid()
-{
-	m_dynamicGrid.clear();
-
-	for (EntityID entity : m_scene->getActiveEntities())
-	{
-		const ColliderComponent* collider = m_scene->getCollider(entity);
-		if (!collider || !m_scene->getTransform(entity))
-		{
-			continue;
-		}
-
-		if (!m_scene->getRigidbody(entity) && !collider->owner.isValid())
-		{
-			continue;
-		}
-
-		m_dynamicGrid.insert(entity, getWorldAABB(entity));
-	}
 }
 
 void PhysicsSystem::resolveCandidates(
@@ -158,24 +118,14 @@ void PhysicsSystem::updateEntity(EntityID entity, double dt)
 	body->velocity += gravity * body->gravityScale * static_cast<float>(dt);
 	transform->position += body->velocity * static_cast<float>(dt);
 
-	m_staticGrid.query(getWorldAABB(entity), m_staticCandidates);
 	resolveCandidates(entity, m_staticCandidates);
 
-	m_dynamicGrid.query(getWorldAABB(entity), m_dynamicCandidates);
 	resolveCandidates(entity, m_dynamicCandidates);
 
-	m_dynamicGrid.update(entity, getWorldAABB(entity));
 }
 void PhysicsSystem::updateAll(double dt)
 {
 	if (!m_scene) return;
-	if (m_staticGridDirty)
-	{
-		rebuildStaticGrid();
-	}
-
-	rebuildDynamicGrid();
-
 	for (EntityID entity : m_scene->getActiveEntities())
 	{
 		RigidbodyComponent* body = m_scene->getRigidbody(entity);
@@ -193,38 +143,23 @@ void PhysicsSystem::updateAll(double dt)
 
 void PhysicsSystem::renderDebugOverlay(Renderer2D& renderer) const
 {
-	const auto drawGrid = [&renderer](const SpatialHashGrid& grid, const glm::vec4& color)
-	{
-		const float cellSize = grid.getCellSize();
-		for (const GridCell& cell : grid.getOccupiedCells())
-		{
-			const glm::vec2 position = glm::vec2(cell.gridPosition) * cellSize;
-			renderer.drawRectOutline(position, { cellSize, cellSize }, 1.0f, color);
-		}
-	};
-
-	drawGrid(m_staticGrid, { 0.1f, 0.4f, 1.0f, 0.8f });
-	drawGrid(m_dynamicGrid, { 1.0f, 0.2f, 0.1f, 0.8f });
+	
 }
 void PhysicsSystem::onEntityCreated(EntityID id)
 {
-	m_staticGridDirty = true;
+
 }
 void PhysicsSystem::onEntityDestroyed(EntityID id)
 {
-	m_staticGrid.remove(id);
-	m_dynamicGrid.remove(id);
-	m_staticGridDirty = true;
+
 }
 void PhysicsSystem::onAttach(Scene* scene)
 {
 	m_scene = scene;
-	m_staticGridDirty = true;
 }
 
 void PhysicsSystem::onDetach()
 {
-	m_staticGrid.clear();
-	m_dynamicGrid.clear();
+
 	m_scene = nullptr;
 }

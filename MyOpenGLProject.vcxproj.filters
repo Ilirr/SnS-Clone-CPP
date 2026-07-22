@@ -40,6 +40,15 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Registry">
+      <UniqueIdentifier>{3cac31a9-1c25-462c-a53b-d13ea4f94559}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System/Managers">
+      <UniqueIdentifier>{f0a56561-74e0-4ca9-a801-806e3a8e80dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System/Managers">
+      <UniqueIdentifier>{75f8b3d7-0b0e-43ec-9bb4-89c52945e191}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Window.cpp">
@@ -60,9 +69,6 @@
     <ClCompile Include="Renderer2D.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="RendererSystem.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
@@ -72,50 +78,41 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="LevelLoader.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\glad.c">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponSystem.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
     <ClCompile Include="WeaponRegistry.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="ActionSystem.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\glad.c">
+      <Filter>Source Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WeaponSystem.cpp">
+      <Filter>Source Files\System/Managers</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Source Files\Game</Filter>
+      <Filter>Source Files\System/Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="GameManager.cpp">
+      <Filter>Source Files\System/Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityManager.cpp">
+      <Filter>Source Files\System/Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="RendererSystem.cpp">
+      <Filter>Source Files\System/Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionSystem.cpp">
+      <Filter>Source Files\System/Managers</Filter>
     </ClCompile>
     <ClCompile Include="PlayerInputSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SpatialHashGrid.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\System/Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Atlas.h">
       <Filter>Header Files\Graphics Headers</Filter>
     </ClInclude>
@@ -143,9 +140,6 @@
     <ClInclude Include="LevelLoader.h">
       <Filter>Header Files\Game Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EntityID.h">
       <Filter>Header Files\Entity Headers</Filter>
     </ClInclude>
@@ -155,23 +149,44 @@
     <ClInclude Include="Components.h">
       <Filter>Header Files\Game Headers</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponSystem.h">
+    <ClInclude Include="Animation.h">
       <Filter>Header Files\Game Headers</Filter>
     </ClInclude>
-    <ClInclude Include="WeaponRegistry.h">
-      <Filter>Header Files\Game Headers</Filter>
+    <ClInclude Include="AnimationSystem.h">
+      <Filter>Header Files\System/Managers</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsSystem.h">
-      <Filter>Header Files\Game Headers</Filter>
+      <Filter>Header Files\System/Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponSystem.h">
+      <Filter>Header Files\System/Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationRegistry.h">
+      <Filter>Header Files\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="WeaponRegistry.h">
+      <Filter>Header Files\Registry</Filter>
     </ClInclude>
     <ClInclude Include="ActionSystem.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\System/Managers</Filter>
     </ClInclude>
     <ClInclude Include="PlayerInputSystem.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Game Headers</Filter>
     </ClInclude>
-    <ClInclude Include="SpatialHashGrid.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Window.h">
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AABB.h">
+      <Filter>Header Files\Graphics Headers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -181,9 +196,11 @@
     <None Include="assets\shaders\basic.vert">
       <Filter>assets\shaders</Filter>
     </None>
-    <None Include=".github\copilot-instructions.md" />
     <None Include="assets\levels\final.ldtk">
       <Filter>assets\levels</Filter>
+    </None>
+    <None Include=".github\copilot-instructions.md">
+      <Filter>Source Files\Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

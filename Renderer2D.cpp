@@ -1,9 +1,9 @@
-#include "Renderer2D.h"
 #include <algorithm>
 #include <iostream>
 #include <array>
 #include <cstddef>
 #include "glm/gtc/matrix_transform.hpp"
+#include "Renderer2D.h"
 #include "Shader.h"
 #include "SubTexture2D.h"
 #include "Atlas.h"

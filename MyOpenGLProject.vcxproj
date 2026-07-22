@@ -155,7 +155,6 @@
     <ClCompile Include="PlayerInputSystem.cpp" />
     <ClCompile Include="RendererSystem.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SpatialHashGrid.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Renderer2D.cpp" />
@@ -168,7 +167,11 @@
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AABB.h" />
     <ClInclude Include="ActionSystem.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="AnimationRegistry.h" />
+    <ClInclude Include="AnimationSystem.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Atlas.h" />
     <ClInclude Include="Camera2D.h" />
@@ -184,7 +187,6 @@
     <ClInclude Include="RendererSystem.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Shader.h" />
-    <ClInclude Include="SpatialHashGrid.h" />
     <ClInclude Include="SubTexture2D.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="WeaponRegistry.h" />

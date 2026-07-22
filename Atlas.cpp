@@ -37,8 +37,7 @@ int Atlas::addSpriteFromTexture(const std::string& name, const std::string& text
 
 	Texture* texturePtr = texture.get();
 	m_Textures.push_back(std::move(texture));
-	SubTexture2D subTex = SubTexture2D::CreateFromPixels(
-		*texturePtr, { x, y }, { x + width, y + height });
+	SubTexture2D subTex = SubTexture2D::CreateFromPixels(*texturePtr, { x, y }, { x + width, y + height });
 
 	m_SpriteList.push_back(std::move(subTex));
 	int id = static_cast<int>(m_SpriteList.size() - 1);

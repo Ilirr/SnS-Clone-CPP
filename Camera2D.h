@@ -30,6 +30,6 @@ private:
 	glm::vec2 m_prevPosition;
 	const float m_viewportWidth = 320.0f;
 	const float m_viewportHeight = 180.0f;
-	float m_maxCameraX;
-	float m_maxCameraY;
+	float m_maxCameraX = 0;
+	float m_maxCameraY = 0;
 };
