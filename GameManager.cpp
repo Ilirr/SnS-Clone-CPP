@@ -30,15 +30,19 @@ void GameManager::handleInput(const InputManager& input, Renderer2D& renderer)
 
 	if (input.wasPressed(GLFW_KEY_F3))
 	{
-		std::cerr << "Pressed f3!" << std::endl;
-
-		m_physicsMgr.renderDebugOverlay(renderer);
+		std::cerr << "Toggled debug overlay!" << std::endl;
+		m_showDebugOverlay = !m_showDebugOverlay; // Flip it on/off
 	}
 
 }
 void GameManager::render(Renderer2D& renderer, Atlas& atlas, double alpha)
 { 
 	m_rendererMgr.renderScene(m_scene, renderer, atlas, alpha);
+
+	if (m_showDebugOverlay)
+	{
+		m_physicsMgr.renderDebugOverlay(renderer);
+	}
 
 }
 void GameManager::update(double dt)

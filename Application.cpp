@@ -66,7 +66,6 @@ void Application::run()
 		m_input->update();
 		m_game->handleInput(*m_input, *renderer);
 
-
 		while (accumulator >= dt)
 		{
 			m_game->update(dt);
@@ -82,7 +81,6 @@ void Application::run()
 			renderer->begin(alpha);
 			m_game->render(*renderer, *m_atlas, alpha);
 			renderer->end();
-
 		}
 		window->swapBuffers();
 

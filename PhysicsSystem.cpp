@@ -181,7 +181,7 @@ AABB PhysicsSystem::getAABB(EntityID entity) const
 
 void PhysicsSystem::renderDebugOverlay(Renderer2D& renderer) const
 {
-	if (!m_scene)
+	if (!m_scene )
 	{
 		return;
 	}
@@ -196,5 +196,25 @@ void PhysicsSystem::renderDebugOverlay(Renderer2D& renderer) const
 
 		const AABB bounds = computeAABB(*transform, *collider);
 		renderer.drawRectOutline(bounds.min, bounds.max - bounds.min, 1.0f, collider->isSolid ? glm::vec4(0.0f, 1.0f, 0.0f, 1.0f) : glm::vec4(1.0f, 0.75f, 0.0f, 1.0f));
+	}
+
+	if (m_world)
+	{
+
+		const int width = m_world->width();
+		const int height = m_world->height();
+
+		for (int y = 0; y < height; ++y)
+		{
+			for (int x = 0; x < width; ++x)
+			{
+				if (m_world->isSolid(x, y))
+				{
+					AABB box = m_world->tileAABB(x, y);
+					// Draw ground boxes in blue so you can tell them apart!
+					renderer.drawRectOutline(box.min, box.max - box.min, 1.0f, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
+				}
+			}
+		}
 	}
 }

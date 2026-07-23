@@ -112,7 +112,7 @@
       <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\System/Managers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

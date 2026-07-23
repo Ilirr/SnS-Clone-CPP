@@ -147,26 +147,28 @@ void Renderer2D::end()
 
 void Renderer2D::flush()
 {
-    if (m_IndexCount == 0) return;
     if (!m_QuadBufferBase) return;
 
-    // compute size of vertex data to upload
-    size_t vertexCount = static_cast<size_t>(m_QuadBufferPtr - m_QuadBufferBase);
-    GLsizeiptr size = static_cast<GLsizeiptr>(vertexCount * sizeof(QuadVertex));
+    if (m_IndexCount > 0)
+    {
+        // compute size of vertex data to upload
+        size_t vertexCount = static_cast<size_t>(m_QuadBufferPtr - m_QuadBufferBase);
+        GLsizeiptr size = static_cast<GLsizeiptr>(vertexCount * sizeof(QuadVertex));
 
-    glBindVertexArray(m_VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-    // upload only the used portion
-    glBufferSubData(GL_ARRAY_BUFFER, 0, size, m_QuadBufferBase);
+        glBindVertexArray(m_VAO);
+        glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
+        // upload only the used portion
+        glBufferSubData(GL_ARRAY_BUFFER, 0, size, m_QuadBufferBase);
 
-    // draw the accumulated indices
-    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_IndexCount), GL_UNSIGNED_INT, nullptr);
+        // draw the accumulated indices
+        glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_IndexCount), GL_UNSIGNED_INT, nullptr);
+    }
 
     // reset for next batch
     m_IndexCount = 0;
     m_QuadBufferPtr = m_QuadBufferBase;
-     m_TextureSlotIndex = 1;
-     m_TextureSlots[0] = m_WhiteTexture;
+    m_TextureSlotIndex = 1;
+    m_TextureSlots[0] = m_WhiteTexture;
 }
 
 float Renderer2D::getTextureIndex(const Texture& texture)
