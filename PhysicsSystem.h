@@ -21,5 +21,5 @@ private:
     void syncDynamics();
 
     Scene* m_scene = nullptr;
-    CollisionWorld* m_world = nullptr;   // NOT owned — the game / level owns it
+    CollisionWorld* m_world = nullptr;
 };

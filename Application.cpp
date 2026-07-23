@@ -36,19 +36,11 @@ void Application::initGraphics()
 	m_atlas->addSpriteFromTexture("hero", "assets/levels/Hero.gif", 40.0f, 40.0f, 20.0f, 38.0f);
 	renderer->setCamera(&m_game->getCamera());
 	
-	if (window && window->isValid())
+	window->setResizeCallback([this](int w, int h)
 	{
-		window->setResizeCallback([this](int w, int h) {
-			if (renderer)
-			{
-				renderer->onResize(w, h);
-			}
-			});
-		if (renderer)
-		{
-			renderer->onResize(window->getWidth(), window->getHeight());
-		}
-	}
+		renderer->onResize(w, h);
+	});
+	renderer->onResize(window->getWidth(), window->getHeight());
 }
 void Application::run()
 {
@@ -72,7 +64,9 @@ void Application::run()
 		window->pollEvents();
 		window->processInput();
 		m_input->update();
-		m_game->handleInput(*m_input);
+		m_game->handleInput(*m_input, *renderer);
+
+
 		while (accumulator >= dt)
 		{
 			m_game->update(dt);
@@ -88,6 +82,7 @@ void Application::run()
 			renderer->begin(alpha);
 			m_game->render(*renderer, *m_atlas, alpha);
 			renderer->end();
+
 		}
 		window->swapBuffers();
 

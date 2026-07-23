@@ -11,7 +11,7 @@ struct TileCell
 struct DynamicEntry
 {
     EntityID id;
-    AABB     aabb;
+    AABB aabb;
 };
 class CollisionWorld
 {

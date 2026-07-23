@@ -93,9 +93,6 @@
     <ClCompile Include="WeaponSystem.cpp">
       <Filter>Source Files\System/Managers</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Source Files\System/Managers</Filter>
-    </ClCompile>
     <ClCompile Include="GameManager.cpp">
       <Filter>Source Files\System/Managers</Filter>
     </ClCompile>
@@ -113,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="CollisionWorld.cpp">
       <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="PhysicsSystem.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

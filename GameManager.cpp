@@ -5,15 +5,15 @@
 #include "Texture.h"
 #include <GLFW/glfw3.h>
 #include <algorithm>
-
+#include <iostream>
+#include <chrono>
 GameManager::GameManager(){}
 void GameManager::init(Atlas& atlas)
 {
 	LevelLoader loader;
-	CollisionWorld world;
 	m_weaponRegistry.init(atlas);
 
-	const glm::vec2 levelSize = loader.loadLevel("assets/levels/final.ldtk", m_scene, atlas, m_weaponRegistry, world, 16.0f);
+	const glm::vec2 levelSize = loader.loadLevel("assets/levels/final.ldtk", m_scene, atlas, m_weaponRegistry, m_collisionWorld, 16.0f);
 	const glm::vec2 validLevelSize = (levelSize.x > 0.0f && levelSize.y > 0.0f) ? levelSize : glm::vec2(0.0f);
 	float maxCameraX = std::max(0.0f, validLevelSize.x - m_camera.getViewportWidth());
 	float maxCameraY = std::max(0.0f, validLevelSize.y - m_camera.getViewportHeight());
@@ -21,24 +21,32 @@ void GameManager::init(Atlas& atlas)
 	m_camera.setMaxCameraX(maxCameraX);
 	m_camera.setMaxCameraY(maxCameraY);
 
-	m_physicsMgr.onAttach(&m_scene, &world);
+	m_physicsMgr.onAttach(&m_scene, &m_collisionWorld);
 
 }
-void GameManager::handleInput(const InputManager& input)
+void GameManager::handleInput(const InputManager& input, Renderer2D& renderer)
 {
 	m_playerInputSystem.update(m_scene, input);
+
+	if (input.wasPressed(GLFW_KEY_F3))
+	{
+		std::cerr << "Pressed f3!" << std::endl;
+
+		m_physicsMgr.renderDebugOverlay(renderer);
+	}
+
 }
 void GameManager::render(Renderer2D& renderer, Atlas& atlas, double alpha)
 { 
 	m_rendererMgr.renderScene(m_scene, renderer, atlas, alpha);
+
 }
 void GameManager::update(double dt)
 {
 	m_camera.setPrevPosition(m_camera.getPosition());
 	m_actionMgr.update(m_scene, static_cast<float>(dt));
+	m_weaponMgr.update(m_scene, static_cast<float>(dt));
 	m_physicsMgr.updateAll(dt);
-	m_weaponMgr.update(m_scene, static_cast<float>(dt)); 
-
 	const EntityID p = m_scene.getPlayerEntity();
 	auto p_transform = m_scene.getTransform(p);
 

@@ -25,4 +25,5 @@ void PlayerInputSystem::update(Scene& scene, const InputManager& input) const
 	{
 		intent->attack = true;
 	}
+
 }

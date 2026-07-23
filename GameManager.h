@@ -18,13 +18,14 @@ public:
 	GameManager();
 	void init(Atlas& atlas);
 	void update(double dt);
-	void handleInput(const InputManager& input);
+	void handleInput(const InputManager& input, Renderer2D& renderer);
 	void render(Renderer2D& renderer, Atlas& atlas, double alpha);
 
 	Camera2D& getCamera() { return m_camera; }
 
 
 private:
+	CollisionWorld m_collisionWorld;
 	PhysicsSystem m_physicsMgr;
 	RendererSystem m_rendererMgr;
 	WeaponSystem m_weaponMgr;
