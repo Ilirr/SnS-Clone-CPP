@@ -7,15 +7,6 @@
 
 struct EntityID;
 
-class SceneListener
-{
-public:
-	virtual ~SceneListener() = default;
-	virtual void onAttach(class Scene* scene) = 0;
-	virtual void onDetach() = 0;
-	virtual void onEntityCreated(EntityID id) = 0;
-	virtual void onEntityDestroyed(EntityID id) = 0;
-};
 
 class Scene
 {
@@ -26,16 +17,10 @@ public:
 
 	void destroyEntity(EntityID entity);
 
-	void addListener(SceneListener* l);
-
-	void removeListener(SceneListener* l);
-
-	// Remove all entities and notify listeners (used for level reload)
 	void clear();
 
 	void setPlayerEntity(EntityID entity) { m_playerEntity = entity; }
 
-	// non-const accessors
 	TransformComponent* getTransform(EntityID entity) { return m_entityMgr.getTransform(entity); }
 	RigidbodyComponent* getRigidbody(EntityID entity) { return m_entityMgr.getRigidbody(entity); }
 	TagComponent* getTag(EntityID entity) { return m_entityMgr.getTag(entity); }
@@ -46,7 +31,6 @@ public:
 	EntityManager& getEntityManager() { return m_entityMgr; }
 	EntityID getPlayerEntity() const { return m_playerEntity; }
 
-	// const accessors
 	const TransformComponent* getTransform(EntityID entity) const { return m_entityMgr.getTransform(entity); }
 	const RigidbodyComponent* getRigidbody(EntityID entity) const { return m_entityMgr.getRigidbody(entity); }
 	const TagComponent* getTag(EntityID entity) const { return m_entityMgr.getTag(entity); }
@@ -63,7 +47,5 @@ private:
 
 	EntityManager m_entityMgr;
 	EntityID m_playerEntity;
-
-	std::vector<SceneListener*> m_listeners;
 
 };

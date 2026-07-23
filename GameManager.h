@@ -7,6 +7,8 @@
 #include "WeaponRegistry.h"
 #include "ActionSystem.h"
 #include "PlayerInputSystem.h"
+
+
 class InputManager;
 class Renderer2D;
 class Atlas;
@@ -31,6 +33,4 @@ private:
 	ActionSystem m_actionMgr;
 	PlayerInputSystem m_playerInputSystem;
 	Camera2D m_camera;
-	bool m_showSpatialGrid = false;
-
 };

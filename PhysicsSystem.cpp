@@ -1,165 +1,154 @@
 #include "PhysicsSystem.h"
+#include "Scene.h"
+#include "Components.h"
 #include "Renderer2D.h"
-#include <algorithm>
+#include <cmath>
 
-PhysicsSystem::PhysicsSystem()
+// ── lifecycle ──────────────────────────────────────────────────────────────
+
+void PhysicsSystem::onAttach(Scene* scene, CollisionWorld* world)
 {
-
-}
-
-AABB PhysicsSystem::getAABB(EntityID entity) const
-{
-	const TransformComponent* transform = m_scene->getTransform(entity);
-	const ColliderComponent* collider = m_scene->getCollider(entity);
-	if (!transform || !collider)
-	{
-		return {};
-	}
-
-	const glm::vec2 min = transform->position + collider->offset;
-	return { min, min + collider->size };
-}
-
-void PhysicsSystem::resolveCandidates(
-	EntityID entity,
-	const std::vector<EntityID>& candidates)
-{
-	TransformComponent* transform = m_scene->getTransform(entity);
-	ColliderComponent* collider = m_scene->getCollider(entity);
-	RigidbodyComponent* body = m_scene->getRigidbody(entity);
-	if (!transform || !collider || !body)
-	{
-		return;
-	}
-
-	for (EntityID other : candidates)
-	{
-		if (other == entity || !m_scene->getEntityManager().isEntityAlive(other))
-		{
-			continue;
-		}
-
-		const TransformComponent* otherTransform = m_scene->getTransform(other);
-		const ColliderComponent* otherCollider = m_scene->getCollider(other);
-		if (!otherTransform || !otherCollider || !otherCollider->isSolid)
-		{
-			continue;
-		}
-
-		if ((collider->owner.isValid() && collider->owner == other) || (otherCollider->owner.isValid() && otherCollider->owner == entity) || !checkAABB(entity, other))
-		{
-			continue;
-		}
-
-		const glm::vec2 aMin = transform->position + collider->offset;
-		const glm::vec2 aMax = aMin + collider->size;
-		const glm::vec2 bMin = otherTransform->position + otherCollider->offset;
-		const glm::vec2 bMax = bMin + otherCollider->size;
-		const float xOverlap = std::min(aMax.x, bMax.x) - std::max(aMin.x, bMin.x);
-		const float yOverlap = std::min(aMax.y, bMax.y) - std::max(aMin.y, bMin.y);
-
-		if (xOverlap < yOverlap)
-		{
-			const float direction = (aMin.x < bMin.x) ? -1.0f : 1.0f;
-			transform->position.x += direction * xOverlap;
-			body->velocity.x = 0.0f;
-		}
-		else
-		{
-			const float direction = (aMin.y < bMin.y) ? -1.0f : 1.0f;
-			transform->position.y += direction * yOverlap;
-			body->velocity.y = 0.0f;
-			if (direction < 0.0f)
-			{
-				body->isGrounded = true;
-			}
-		}
-	}
-}
-
-bool PhysicsSystem::checkAABB(EntityID entityA, EntityID entityB)
-{
-	const TransformComponent* tA = m_scene->getTransform(entityA);
-	const ColliderComponent* cA = m_scene->getCollider(entityA);
-	const TransformComponent* tB = m_scene->getTransform(entityB);
-	const ColliderComponent* cB = m_scene->getCollider(entityB);
-
-	if (!tA || !cA || !tB || !cB) return false;
-
-	// Compute world-space AABB for A
-	glm::vec2 aMin = tA->position + cA->offset;
-	glm::vec2 aMax = aMin + cA->size;
-
-	// Compute world-space AABB for B
-	glm::vec2 bMin = tB->position + cB->offset;
-	glm::vec2 bMax = bMin + cB->size;
-
-	// Check overlap on both axes (allow touching edges as collision)
-	bool overlapX = (aMin.x <= bMax.x) && (aMax.x >= bMin.x);
-	bool overlapY = (aMin.y <= bMax.y) && (aMax.y >= bMin.y);
-	return overlapX && overlapY;
-}
-void PhysicsSystem::updateEntity(EntityID entity, double dt)
-{
-	if (!m_scene)
-	{
-		return;
-	}
-
-	TransformComponent* transform = m_scene->getTransform(entity);
-	ColliderComponent* collider = m_scene->getCollider(entity);
-	RigidbodyComponent* body = m_scene->getRigidbody(entity);
-	if (!transform || !collider || !body)
-	{
-		return;
-	}
-
-	const glm::vec2 gravity(0.0f, 981.0f);
-	body->velocity += gravity * body->gravityScale * static_cast<float>(dt);
-	transform->position += body->velocity * static_cast<float>(dt);
-
-	resolveCandidates(entity, m_staticCandidates);
-
-	resolveCandidates(entity, m_dynamicCandidates);
-
-}
-void PhysicsSystem::updateAll(double dt)
-{
-	if (!m_scene) return;
-	for (EntityID entity : m_scene->getActiveEntities())
-	{
-		RigidbodyComponent* body = m_scene->getRigidbody(entity);
-		TransformComponent* transform = m_scene->getTransform(entity);
-		if (!body || !transform || !m_scene->getCollider(entity))
-		{
-			continue;
-		}
-
-		body->isGrounded = false;
-		transform->prevPosition = transform->position;
-		updateEntity(entity, dt);
-	}
-}
-
-void PhysicsSystem::renderDebugOverlay(Renderer2D& renderer) const
-{
-	
-}
-void PhysicsSystem::onEntityCreated(EntityID id)
-{
-
-}
-void PhysicsSystem::onEntityDestroyed(EntityID id)
-{
-
-}
-void PhysicsSystem::onAttach(Scene* scene)
-{
-	m_scene = scene;
+    m_scene = scene;
+    m_world = world;
 }
 
 void PhysicsSystem::onDetach()
 {
+    m_scene = nullptr;
+    m_world = nullptr;
+}
 
-	m_scene = nullptr;
+AABB PhysicsSystem::getAABB(EntityID id) const
+{
+    const auto* t = m_scene->getTransform(id);
+    const auto* c = m_scene->getCollider(id);
+    if (!t || !c) return {};
+
+    const glm::vec2 lo = t->position + c->offset;
+    return { lo, lo + c->size };
+}
+
+void PhysicsSystem::syncDynamics()
+{
+    if (!m_scene || !m_world) return;
+
+    m_world->clearDynamics();
+
+    for (EntityID id : m_scene->getActiveEntities())
+    {
+        if (m_scene->getCollider(id) && m_scene->getRigidbody(id))
+            m_world->addDynamic(id, getAABB(id));
+    }
+}
+
+void PhysicsSystem::moveAndResolve(EntityID id, float dt)
+{
+    auto* tr = m_scene->getTransform(id);
+    auto* co = m_scene->getCollider(id);
+    auto* rb = m_scene->getRigidbody(id);
+    if (!tr || !co || !rb) return;
+
+    const float tile = m_world->tileSize();
+
+    rb->velocity.y += 981.0f * rb->gravityScale * dt;
+
+    tr->position.x += rb->velocity.x * dt;
+
+    {
+        const glm::vec2 lo = tr->position + co->offset;
+        const glm::vec2 hi = lo + co->size;
+
+        const int x0 = static_cast<int>(std::floor(lo.x / tile));
+        const int x1 = static_cast<int>(std::floor(hi.x / tile));
+        const int y0 = static_cast<int>(std::floor(lo.y / tile));
+        const int y1 = static_cast<int>(std::floor(hi.y / tile));
+
+        for (int ty = y0; ty <= y1; ++ty)
+            for (int tx = x0; tx <= x1; ++tx)
+            {
+                if (!m_world->isSolid(tx, ty)) continue;
+
+                const AABB tb = m_world->tileAABB(tx, ty);
+
+                if (hi.x <= tb.min.x || lo.x >= tb.max.x) continue;
+                if (hi.y <= tb.min.y || lo.y >= tb.max.y) continue;
+
+                if (rb->velocity.x > 0.0f)
+                    tr->position.x = tb.min.x - co->offset.x - co->size.x;
+                else if (rb->velocity.x < 0.0f)
+                    tr->position.x = tb.max.x - co->offset.x;
+
+                rb->velocity.x = 0.0f;
+            }
+    }
+
+    tr->position.y += rb->velocity.y * dt;
+
+    {
+        const glm::vec2 lo = tr->position + co->offset;
+        const glm::vec2 hi = lo + co->size;
+
+        const int x0 = static_cast<int>(std::floor(lo.x / tile));
+        const int x1 = static_cast<int>(std::floor(hi.x / tile));
+        const int y0 = static_cast<int>(std::floor(lo.y / tile));
+        const int y1 = static_cast<int>(std::floor(hi.y / tile));
+
+        for (int ty = y0; ty <= y1; ++ty)
+            for (int tx = x0; tx <= x1; ++tx)
+            {
+                if (!m_world->isSolid(tx, ty)) continue;
+
+                const AABB tb = m_world->tileAABB(tx, ty);
+
+                if (hi.x <= tb.min.x || lo.x >= tb.max.x) continue;
+                if (hi.y <= tb.min.y || lo.y >= tb.max.y) continue;
+
+                if (rb->velocity.y > 0.0f)          // falling → land
+                {
+                    tr->position.y = tb.min.y - co->offset.y - co->size.y;
+                    rb->isGrounded = true;
+                }
+                else if (rb->velocity.y < 0.0f)     // jumping → bonk
+                {
+                    tr->position.y = tb.max.y - co->offset.y;
+                }
+
+                rb->velocity.y = 0.0f;
+            }
+    }
+}
+
+void PhysicsSystem::updateAll(double dt)
+{
+    if (!m_scene || !m_world) return;
+
+    for (EntityID id : m_scene->getActiveEntities())
+    {
+        auto* rb = m_scene->getRigidbody(id);
+        auto* tr = m_scene->getTransform(id);
+        auto* co = m_scene->getCollider(id);
+        if (!rb || !tr || !co) continue;
+
+        rb->isGrounded = false;
+        tr->prevPosition = tr->position;
+
+        moveAndResolve(id, static_cast<float>(dt));
+    }
+    syncDynamics();
+}
+void PhysicsSystem::renderDebugOverlay(Renderer2D& renderer) const
+{
+    if (!m_world) return;
+
+    const glm::vec4 tileColor(0.0f, 1.0f, 0.0f, 0.3f);
+
+    for (int ty = 0; ty < m_world->height(); ++ty)
+    {
+        for (int tx = 0; tx < m_world->width(); ++tx)
+        {
+            if (!m_world->isSolid(tx, ty)) continue;
+            const AABB b = m_world->tileAABB(tx, ty);
+            renderer.drawRectOutline(b.min, b.max - b.min, 1.0f, tileColor);
+        }
+    }
 }

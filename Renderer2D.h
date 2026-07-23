@@ -26,8 +26,10 @@ public:
 	void drawRectOutline(const glm::vec2& position, const glm::vec2& size, float thickness, const glm::vec4& color);
 	void flush();
 private:
+
 	void init();
 	float getTextureIndex(const Texture& texture);
+
 	struct QuadVertex
 	{
 		glm::vec2 position;
@@ -37,25 +39,24 @@ private:
 	};
 	std::unique_ptr<Shader> shader;
 	std::unique_ptr<Texture> texture;
+
 	GLuint m_VAO = 0;
 	GLuint m_VBO = 0;
 	GLuint m_EBO = 0;
+	GLuint m_WhiteTexture = 0;
 
-	GLuint m_WhiteTexture = 0; // A 1x1 white texture for untextured quads
-
+	const Camera2D* m_Camera = nullptr;
 	static const size_t MaxQuads = 10000;
 	static const size_t MaxVertices = MaxQuads * 4;
 	static const size_t MaxIndices = MaxQuads * 6;
-	uint32_t m_IndexCount = 0;
-	QuadVertex* m_QuadBufferBase = nullptr;
-	QuadVertex* m_QuadBufferPtr = nullptr;
 	static constexpr uint32_t MaxTextureSlots = 16;
-	std::array<GLuint, MaxTextureSlots> m_TextureSlots{};
+
+	uint32_t m_IndexCount = 0;
 	uint32_t m_TextureSlotIndex = 1;
 
-	// Camera support: either an external camera pointer or a default internal one
-	const Camera2D* m_Camera = nullptr;
+	QuadVertex* m_QuadBufferBase = nullptr;
+	QuadVertex* m_QuadBufferPtr = nullptr;
+	std::array<GLuint, MaxTextureSlots> m_TextureSlots{};
+
 	Camera2D m_DefaultCamera;
-
-
 };

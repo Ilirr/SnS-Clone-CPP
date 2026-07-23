@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 #include <string>
 #include "EntityID.h"
-
+#include "Animation.h"
 struct TransformComponent
 {
     glm::vec2 position = { 0.0f, 0.0f };
@@ -18,13 +18,11 @@ struct SpriteComponent
     bool flipX = false;
 
 };
-
 struct ColliderComponent
 {
     glm::vec2 size = { 0.0f, 0.0f };
     glm::vec2 offset = { 0.0f, 0.0f };
     bool isSolid = true;
-    // Optional owner entity: when set, collisions against the owner can be ignored by the physics system
     EntityID owner = EntityID();
 };
 struct RigidbodyComponent
@@ -76,4 +74,16 @@ struct LivingComponent
 	int health = 100;
 	int maxHealth = 100;
 	bool isInvincible = false;
+};
+struct AnimatorComponent
+{
+    AnimState currentState = AnimState::Idle;
+    AnimState requestedState = AnimState::Idle;
+    std::unordered_map<AnimState, const Animation*> animations;
+
+    int   currentFrameIndex = 0;
+    float timer = 0.0f;
+    bool  isFinished = false;
+
+    bool locked = false;
 };

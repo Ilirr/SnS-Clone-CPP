@@ -1,33 +1,25 @@
 #pragma once
-#include "Components.h"
-#include "EntityID.h"
-#include "Scene.h"
-#include "AABB.h"
-#include <vector>
+#include "CollisionWorld.h"
 
-class PhysicsSystem : public SceneListener
+class Scene;
+class Renderer2D;
+struct EntityID;
+
+class PhysicsSystem
 {
 public:
-	PhysicsSystem();
+    void onAttach(Scene* scene, CollisionWorld* world);
+    void onDetach();
 
-	void updateEntity(EntityID entity, double dt);
-	bool checkAABB(EntityID tA, EntityID tB);
+    void updateAll(double dt);
+    void renderDebugOverlay(Renderer2D& renderer) const;
 
-	void onAttach(Scene* scene) override;
-	void onDetach() override;
-
-	void onEntityCreated(EntityID id) override;
-	void onEntityDestroyed(EntityID id) override;
-
-	void updateAll(double dt);
-	void renderDebugOverlay(class Renderer2D& renderer) const;
+    AABB getAABB(EntityID id) const;
 
 private:
-	AABB getAABB(EntityID entity) const;
-	void resolveCandidates(EntityID entity, const std::vector<EntityID>& candidates);
+    void moveAndResolve(EntityID id, float dt);
+    void syncDynamics();
 
-	Scene* m_scene = nullptr;
-
-	std::vector<EntityID> m_staticCandidates;
-	std::vector<EntityID> m_dynamicCandidates;
+    Scene* m_scene = nullptr;
+    CollisionWorld* m_world = nullptr;   // NOT owned — the game / level owns it
 };

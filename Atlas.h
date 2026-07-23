@@ -24,7 +24,7 @@ public:
 private:
 	std::vector<std::unique_ptr<Texture>> m_Textures;
 
-	std::vector<SubTexture2D> m_SpriteList; // stable list of sprites for ID-based access
+	std::vector<SubTexture2D> m_SpriteList;
 
-	std::unordered_map<std::string, int> m_SpriteNameToID; // map from sprite name to index in m_SpriteList
+	std::unordered_map<std::string, int> m_SpriteNameToID; 
 };
