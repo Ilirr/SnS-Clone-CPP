@@ -1,7 +1,7 @@
 #pragma once
 
-#include "EntityManager.h"
-#include "Components.h"
+#include "../System/EntityManager.h"
+#include "../Registry/Components.h"
 #include <vector>
 #include <optional>
 

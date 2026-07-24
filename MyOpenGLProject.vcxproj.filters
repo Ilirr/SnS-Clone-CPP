@@ -21,20 +21,11 @@
     <Filter Include="assets\levels">
       <UniqueIdentifier>{e2145153-9061-4b76-bd1f-04cf6243a078}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Game Headers">
-      <UniqueIdentifier>{a45a3009-e002-4ee4-abb0-aedc29baeea8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Graphics Headers">
-      <UniqueIdentifier>{f5b785d0-d786-48ed-95fd-9bb9857a2d70}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Game">
       <UniqueIdentifier>{ec4e6db1-2c69-414a-8ddb-e7ca7a920204}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Graphics">
       <UniqueIdentifier>{520bd200-bd8c-4a75-9ca4-81865e1f90e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Entity Headers">
-      <UniqueIdentifier>{4fd6b973-62e2-4766-a81b-e6e6ed5470bf}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
@@ -43,157 +34,86 @@
     <Filter Include="Header Files\Registry">
       <UniqueIdentifier>{3cac31a9-1c25-462c-a53b-d13ea4f94559}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\System/Managers">
+    <Filter Include="Header Files\System">
       <UniqueIdentifier>{f0a56561-74e0-4ca9-a801-806e3a8e80dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\System/Managers">
+    <Filter Include="Source Files\Registry">
+      <UniqueIdentifier>{bc7dbd12-3615-4ec9-9479-e03026b96e49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\System">
       <UniqueIdentifier>{75f8b3d7-0b0e-43ec-9bb4-89c52945e191}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{f5b785d0-d786-48ed-95fd-9bb9857a2d70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{a45a3009-e002-4ee4-abb0-aedc29baeea8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Atlas.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer2D.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="SubTexture2D.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="LevelLoader.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="WeaponRegistry.cpp">
-      <Filter>Source Files\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\glad.c">
       <Filter>Source Files\Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="WeaponSystem.cpp">
-      <Filter>Source Files\System/Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="GameManager.cpp">
-      <Filter>Source Files\System/Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="EntityManager.cpp">
-      <Filter>Source Files\System/Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="RendererSystem.cpp">
-      <Filter>Source Files\System/Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="ActionSystem.cpp">
-      <Filter>Source Files\System/Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerInputSystem.cpp">
-      <Filter>Source Files\System/Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="CollisionWorld.cpp">
+    <ClCompile Include="src\Game\Source Files\Game\Application.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
-    <ClCompile Include="PhysicsSystem.cpp">
-      <Filter>Source Files\System/Managers</Filter>
+    <ClCompile Include="src\Game\Source Files\Game\CollisionWorld.cpp">
+      <Filter>Source Files\Game</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Atlas.h">
-      <Filter>Header Files\Graphics Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera2D.h">
-      <Filter>Header Files\Graphics Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer2D.h">
-      <Filter>Header Files\Graphics Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="RendererSystem.h">
-      <Filter>Header Files\Graphics Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\Graphics Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="SubTexture2D.h">
-      <Filter>Header Files\Graphics Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files\Graphics Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Header Files\Game Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelLoader.h">
-      <Filter>Header Files\Game Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityID.h">
-      <Filter>Header Files\Entity Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="EntityManager.h">
-      <Filter>Header Files\Entity Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Components.h">
-      <Filter>Header Files\Game Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Header Files\Game Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationSystem.h">
-      <Filter>Header Files\System/Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsSystem.h">
-      <Filter>Header Files\System/Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponSystem.h">
-      <Filter>Header Files\System/Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationRegistry.h">
-      <Filter>Header Files\Registry</Filter>
-    </ClInclude>
-    <ClInclude Include="WeaponRegistry.h">
-      <Filter>Header Files\Registry</Filter>
-    </ClInclude>
-    <ClInclude Include="ActionSystem.h">
-      <Filter>Header Files\System/Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerInputSystem.h">
-      <Filter>Header Files\Game Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files\Game Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Application.h">
-      <Filter>Header Files\Game Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Header Files\Game Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.h">
-      <Filter>Header Files\Game Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="AABB.h">
-      <Filter>Header Files\Graphics Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="CollisionWorld.h">
-      <Filter>Header Files\Game Headers</Filter>
-    </ClInclude>
+    <ClCompile Include="src\Game\Source Files\Game\Input.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\Game\LevelLoader.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\Game\Scene.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\Game\Window.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\Graphics\Atlas.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\Graphics\Renderer2D.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\Graphics\Shader.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\Graphics\SubTexture2D.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\Graphics\Texture.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\Registry\WeaponRegistry.cpp">
+      <Filter>Source Files\Registry</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\System\ActionSystem.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\System\EntityManager.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\System\GameManager.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\System\PhysicsSystem.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\System\PlayerInputSystem.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\System\RendererSystem.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Source Files\System\WeaponSystem.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\shaders\basic.frag">
@@ -216,5 +136,85 @@
     <Image Include="assets\levels\Free.png">
       <Filter>assets\levels</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Game\Header Files\Game\Animation.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Game\Application.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Game\CollisionWorld.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Game\Input.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Game\LevelLoader.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Game\Scene.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Game\Window.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Graphics\Atlas.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Graphics\Camera2D.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Graphics\Renderer2D.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Graphics\Shader.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Graphics\SubTexture2D.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Graphics\Texture.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Registry\AABB.h">
+      <Filter>Header Files\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Registry\AnimationRegistry.h">
+      <Filter>Header Files\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Registry\Components.h">
+      <Filter>Header Files\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Registry\EntityID.h">
+      <Filter>Header Files\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\Registry\WeaponRegistry.h">
+      <Filter>Header Files\Registry</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\System\ActionSystem.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\System\AnimationSystem.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\System\EntityManager.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\System\GameManager.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\System\PhysicsSystem.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\System\PlayerInputSystem.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\System\RendererSystem.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Header Files\System\WeaponSystem.h">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

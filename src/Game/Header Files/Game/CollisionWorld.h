@@ -1,6 +1,6 @@
 #pragma once
-#include "AABB.h"
-#include "EntityID.h"
+#include "../Registry/AABB.h"
+#include "../Registry/EntityID.h"
 #include <vector>
 
 enum class TileType

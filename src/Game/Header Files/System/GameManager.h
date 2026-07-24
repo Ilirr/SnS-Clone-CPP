@@ -1,10 +1,10 @@
 #pragma once
 #include "PhysicsSystem.h"
 #include "RendererSystem.h"
-#include "Camera2D.h"
-#include "Scene.h"
+#include "../Graphics/Camera2D.h"
+#include "../Game/Scene.h"
 #include "WeaponSystem.h"
-#include "WeaponRegistry.h"
+#include "../Registry/WeaponRegistry.h"
 #include "ActionSystem.h"
 #include "PlayerInputSystem.h"
 

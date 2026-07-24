@@ -3,6 +3,7 @@
 #include <string>
 #include "EntityID.h"
 #include "Animation.h"
+
 struct TransformComponent
 {
     glm::vec2 position = { 0.0f, 0.0f };

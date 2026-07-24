@@ -1,6 +1,6 @@
 #pragma once
-#include "Components.h"
-#include "Scene.h"
+#include "../Registry/Components.h"
+#include "../Game/Scene.h"
 class WeaponSystem
 {
 	public:

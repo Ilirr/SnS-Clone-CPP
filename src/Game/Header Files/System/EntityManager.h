@@ -1,7 +1,7 @@
 #pragma once
 
-#include "EntityID.h"
-#include "Components.h"
+#include "../Registry/EntityID.h"
+#include "../Registry/Components.h"
 #include <vector>
 #include <cassert>
 #include <unordered_map>

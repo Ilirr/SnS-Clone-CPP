@@ -2,7 +2,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-
 class Camera2D {
 public:
 	Camera2D() : m_position(0.0f, 0.0f), m_prevPosition(0.0f, 0.0f) {}

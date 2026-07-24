@@ -1,6 +1,6 @@
 #pragma once
 #include "Components.h"
-#include "Atlas.h"
+#include "../Graphics/Atlas.h"
 #include <unordered_map>
 
 struct WeaponTypeHash

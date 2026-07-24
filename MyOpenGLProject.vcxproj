@@ -111,7 +111,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\OpenGL_Deps\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\OpenGL_Deps\include;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Header Files;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Source Files;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Header Files\Game;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Header Files\System;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Header Files\Registry;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Header Files\Graphics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -132,7 +132,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>C:\OpenGL_Deps\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\OpenGL_Deps\include;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Header Files;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Source Files;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Header Files\Game;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Header Files\System;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Header Files\Registry;C:\Users\Ilir\source\repos\MyOpenGLProject\src\Game\Header Files\Graphics;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -145,55 +145,27 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ActionSystem.cpp" />
-    <ClCompile Include="Atlas.cpp" />
-    <ClCompile Include="CollisionWorld.cpp" />
-    <ClCompile Include="EntityManager.cpp" />
-    <ClCompile Include="GameManager.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="LevelLoader.cpp" />
-    <ClCompile Include="PhysicsSystem.cpp" />
-    <ClCompile Include="PlayerInputSystem.cpp" />
-    <ClCompile Include="RendererSystem.cpp" />
-    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="src\Game\Source Files\Game\Application.cpp" />
+    <ClCompile Include="src\Game\Source Files\Game\CollisionWorld.cpp" />
+    <ClCompile Include="src\Game\Source Files\Game\Input.cpp" />
+    <ClCompile Include="src\Game\Source Files\Game\LevelLoader.cpp" />
+    <ClCompile Include="src\Game\Source Files\Game\Scene.cpp" />
+    <ClCompile Include="src\Game\Source Files\Game\Window.cpp" />
+    <ClCompile Include="src\Game\Source Files\Graphics\Atlas.cpp" />
+    <ClCompile Include="src\Game\Source Files\Graphics\Renderer2D.cpp" />
+    <ClCompile Include="src\Game\Source Files\Graphics\Shader.cpp" />
+    <ClCompile Include="src\Game\Source Files\Graphics\SubTexture2D.cpp" />
+    <ClCompile Include="src\Game\Source Files\Graphics\Texture.cpp" />
+    <ClCompile Include="src\Game\Source Files\Registry\WeaponRegistry.cpp" />
+    <ClCompile Include="src\Game\Source Files\System\ActionSystem.cpp" />
+    <ClCompile Include="src\Game\Source Files\System\EntityManager.cpp" />
+    <ClCompile Include="src\Game\Source Files\System\GameManager.cpp" />
+    <ClCompile Include="src\Game\Source Files\System\PhysicsSystem.cpp" />
+    <ClCompile Include="src\Game\Source Files\System\PlayerInputSystem.cpp" />
+    <ClCompile Include="src\Game\Source Files\System\RendererSystem.cpp" />
+    <ClCompile Include="src\Game\Source Files\System\WeaponSystem.cpp" />
     <ClCompile Include="src\glad.c" />
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="Renderer2D.cpp" />
-    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="SubTexture2D.cpp" />
-    <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="WeaponRegistry.cpp" />
-    <ClCompile Include="WeaponSystem.cpp" />
-    <ClCompile Include="Window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AABB.h" />
-    <ClInclude Include="ActionSystem.h" />
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="AnimationRegistry.h" />
-    <ClInclude Include="AnimationSystem.h" />
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="Atlas.h" />
-    <ClInclude Include="Camera2D.h" />
-    <ClInclude Include="CollisionWorld.h" />
-    <ClInclude Include="Components.h" />
-    <ClInclude Include="EntityID.h" />
-    <ClInclude Include="EntityManager.h" />
-    <ClInclude Include="GameManager.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="LevelLoader.h" />
-    <ClInclude Include="PhysicsSystem.h" />
-    <ClInclude Include="PlayerInputSystem.h" />
-    <ClInclude Include="Renderer2D.h" />
-    <ClInclude Include="RendererSystem.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="SubTexture2D.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="WeaponRegistry.h" />
-    <ClInclude Include="WeaponSystem.h" />
-    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".github\copilot-instructions.md" />
@@ -204,6 +176,34 @@
   <ItemGroup>
     <Image Include="assets\levels\Free.png" />
     <Image Include="assets\textures\hero.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Game\Header Files\Game\Animation.h" />
+    <ClInclude Include="src\Game\Header Files\Game\Application.h" />
+    <ClInclude Include="src\Game\Header Files\Game\CollisionWorld.h" />
+    <ClInclude Include="src\Game\Header Files\Game\Input.h" />
+    <ClInclude Include="src\Game\Header Files\Game\LevelLoader.h" />
+    <ClInclude Include="src\Game\Header Files\Game\Scene.h" />
+    <ClInclude Include="src\Game\Header Files\Game\Window.h" />
+    <ClInclude Include="src\Game\Header Files\Graphics\Atlas.h" />
+    <ClInclude Include="src\Game\Header Files\Graphics\Camera2D.h" />
+    <ClInclude Include="src\Game\Header Files\Graphics\Renderer2D.h" />
+    <ClInclude Include="src\Game\Header Files\Graphics\Shader.h" />
+    <ClInclude Include="src\Game\Header Files\Graphics\SubTexture2D.h" />
+    <ClInclude Include="src\Game\Header Files\Graphics\Texture.h" />
+    <ClInclude Include="src\Game\Header Files\Registry\AABB.h" />
+    <ClInclude Include="src\Game\Header Files\Registry\AnimationRegistry.h" />
+    <ClInclude Include="src\Game\Header Files\Registry\Components.h" />
+    <ClInclude Include="src\Game\Header Files\Registry\EntityID.h" />
+    <ClInclude Include="src\Game\Header Files\Registry\WeaponRegistry.h" />
+    <ClInclude Include="src\Game\Header Files\System\ActionSystem.h" />
+    <ClInclude Include="src\Game\Header Files\System\AnimationSystem.h" />
+    <ClInclude Include="src\Game\Header Files\System\EntityManager.h" />
+    <ClInclude Include="src\Game\Header Files\System\GameManager.h" />
+    <ClInclude Include="src\Game\Header Files\System\PhysicsSystem.h" />
+    <ClInclude Include="src\Game\Header Files\System\PlayerInputSystem.h" />
+    <ClInclude Include="src\Game\Header Files\System\RendererSystem.h" />
+    <ClInclude Include="src\Game\Header Files\System\WeaponSystem.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
