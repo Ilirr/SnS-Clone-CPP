@@ -124,9 +124,17 @@ namespace
         {
             for (int x = 0; x < width; ++x)
             {
-                if (cells[static_cast<std::size_t>(y * width + x)].get<int>() > 0)
+                if (cells[static_cast<std::size_t>(y * width + x)].get<int>() == 1)
                 {
-                    world.setSolid(x, y, true);
+
+                    world.setTileType(x, y, TileType::Solid);
+                }
+                else if (cells[static_cast<std::size_t>(y * width + x)].get<int>() == 2)
+                {
+                    std::cerr << "Tiletype 2 set!.\n";
+
+                    world.setTileType(x, y, TileType::OneWay);
+
                 }
             }
         }

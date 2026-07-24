@@ -3,9 +3,16 @@
 #include "EntityID.h"
 #include <vector>
 
+enum class TileType
+{
+    Empty = 0,
+    Solid = 1,
+    OneWay = 2
+};
+
 struct TileCell
 {
-    bool solid = false;
+    TileType type = TileType::Empty;
 };
 
 struct DynamicEntry
@@ -13,6 +20,7 @@ struct DynamicEntry
     EntityID id;
     AABB aabb;
 };
+
 class CollisionWorld
 {
 public:
@@ -20,8 +28,8 @@ public:
     void  build(int w, int h, float tileSize);
     void  clear();
 
-    void  setSolid(int tx, int ty, bool solid);
-    bool  isSolid(int tx, int ty) const;
+    void setTileType(int tx, int ty, TileType type);
+    TileType getTileType(int tx, int ty) const;
     AABB  tileAABB(int tx, int ty) const;
 
     bool  overlapsTiles(const AABB& box) const;

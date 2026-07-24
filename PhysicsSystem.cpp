@@ -56,7 +56,7 @@ void PhysicsSystem::updateAll(double dt)
 		RigidbodyComponent* rigidbody = m_scene->getRigidbody(entity);
 		const ColliderComponent* collider = m_scene->getCollider(entity);
 
-		if (!transform || !rigidbody || !collider || !collider->isSolid)
+		if (!transform || !rigidbody || !collider)
 		{
 			continue;
 		}
@@ -91,7 +91,7 @@ void PhysicsSystem::moveAndResolve(EntityID entity, float dt)
 		const int tx = tileIndex(bounds.max.x - BoundaryEpsilon, tileSize);
 		for (int ty = y0; ty <= y1; ++ty)
 		{
-			if (m_world->isSolid(tx, ty))
+			if (m_world->getTileType(tx, ty) == TileType::Solid)
 			{
 				transform->position.x = static_cast<float>(tx) * tileSize - collider->offset.x - collider->size.x;
 				rigidbody->velocity.x = 0.0f;
@@ -104,7 +104,7 @@ void PhysicsSystem::moveAndResolve(EntityID entity, float dt)
 		const int tx = tileIndex(bounds.min.x, tileSize);
 		for (int ty = y0; ty <= y1; ++ty)
 		{
-			if (m_world->isSolid(tx, ty))
+			if (m_world->getTileType(tx, ty) == TileType::Solid)
 			{
 				transform->position.x = static_cast<float>(tx + 1) * tileSize - collider->offset.x;
 				rigidbody->velocity.x = 0.0f;
@@ -124,7 +124,30 @@ void PhysicsSystem::moveAndResolve(EntityID entity, float dt)
 		const int ty = tileIndex(bounds.max.y - BoundaryEpsilon, tileSize);
 		for (int tx = x0; tx <= x1; ++tx)
 		{
-			if (m_world->isSolid(tx, ty))
+
+			TileType tile = m_world->getTileType(tx, ty);
+			bool collide = false;
+
+			if (tile == TileType::Solid)
+			{
+				collide = true;
+			}
+			else if (tile == TileType::OneWay)
+			{
+				// Calculate where the bottom of the player's feet were LAST frame
+				float prevBottom = transform->prevPosition.y + collider->offset.y + collider->size.y;
+
+				// Calculate the exact pixel height of the top of this platform
+				float platformTop = static_cast<float>(ty) * tileSize;
+
+				// We only collide if our feet were above (or exactly on) the platform last frame.
+				// (Adding a tiny epsilon prevents bugs when sliding horizontally along the platform)
+				if (prevBottom <= platformTop + BoundaryEpsilon)
+				{
+					collide = true;
+				}
+			}
+			if (collide)
 			{
 				transform->position.y = static_cast<float>(ty) * tileSize - collider->offset.y - collider->size.y;
 				rigidbody->velocity.y = 0.0f;
@@ -138,7 +161,7 @@ void PhysicsSystem::moveAndResolve(EntityID entity, float dt)
 		const int ty = tileIndex(bounds.min.y, tileSize);
 		for (int tx = x0; tx <= x1; ++tx)
 		{
-			if (m_world->isSolid(tx, ty))
+			if (m_world->getTileType(tx, ty) == TileType::Solid)
 			{
 				transform->position.y = static_cast<float>(ty + 1) * tileSize - collider->offset.y;
 				rigidbody->velocity.y = 0.0f;
@@ -195,12 +218,11 @@ void PhysicsSystem::renderDebugOverlay(Renderer2D& renderer) const
 		}
 
 		const AABB bounds = computeAABB(*transform, *collider);
-		renderer.drawRectOutline(bounds.min, bounds.max - bounds.min, 1.0f, collider->isSolid ? glm::vec4(0.0f, 1.0f, 0.0f, 1.0f) : glm::vec4(1.0f, 0.75f, 0.0f, 1.0f));
+		renderer.drawRectOutline(bounds.min, bounds.max - bounds.min, 1.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
 	}
 
 	if (m_world)
 	{
-
 		const int width = m_world->width();
 		const int height = m_world->height();
 
@@ -208,10 +230,9 @@ void PhysicsSystem::renderDebugOverlay(Renderer2D& renderer) const
 		{
 			for (int x = 0; x < width; ++x)
 			{
-				if (m_world->isSolid(x, y))
+				if (m_world->getTileType(x, y) != TileType::Empty)
 				{
 					AABB box = m_world->tileAABB(x, y);
-					// Draw ground boxes in blue so you can tell them apart!
 					renderer.drawRectOutline(box.min, box.max - box.min, 1.0f, glm::vec4(0.0f, 0.0f, 1.0f, 1.0f));
 				}
 			}

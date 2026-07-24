@@ -20,16 +20,16 @@ void CollisionWorld::clear()
     m_dynamics.clear();
 }
 
-void CollisionWorld::setSolid(int tx, int ty, bool solid)
+void CollisionWorld::setTileType(int tx, int ty, TileType type)
 {
     if (tx < 0 || tx >= m_width || ty < 0 || ty >= m_height) return;
-    m_cells[static_cast<size_t>(ty) * m_width + tx].solid = solid;
+    m_cells[static_cast<size_t>(ty) * m_width + tx].type = type;
 }
 
-bool CollisionWorld::isSolid(int tx, int ty) const
+TileType CollisionWorld::getTileType(int tx, int ty) const
 {
-    if (tx < 0 || tx >= m_width || ty < 0 || ty >= m_height) return false;
-    return m_cells[static_cast<size_t>(ty) * m_width + tx].solid;
+    if (tx < 0 || tx >= m_width || ty < 0 || ty >= m_height) return TileType::Empty;
+    return m_cells[static_cast<size_t>(ty) * m_width + tx].type;
 }
 
 AABB CollisionWorld::tileAABB(int tx, int ty) const
@@ -55,9 +55,15 @@ bool CollisionWorld::overlapsTiles(const AABB& box) const
     int y1 = static_cast<int>(std::floor((box.max.y - eps) / m_tileSize));
 
     for (int ty = y0; ty <= y1; ++ty)
+    {
         for (int tx = x0; tx <= x1; ++tx)
-            if (isSolid(tx, ty)) return true;
-
+        {
+            if (getTileType(tx, ty) == TileType::Solid)
+            {
+                return true;
+            }
+        }
+    }
     return false;
 }
 
